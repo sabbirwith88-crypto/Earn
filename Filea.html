@@ -1,0 +1,4180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Pepe - Login & Referral</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add SDK Script for Rewarded Ads -->
+    <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
+    <!-- Banner Ad Script -->
+    <script>
+        atOptions = { 
+            'key' : 'bd4a4847c8c16bf679cdb4aafac5c389', 
+            'format' : 'iframe', 
+            'height' : 50, 
+            'width' : 320, 
+            'params' : {} 
+        };
+    </script>
+    <script src="https://www.highperformanceformat.com/bd4a4847c8c16bf679cdb4aafac5c389/invoke.js"></script>
+    <!-- Telegram Widget SDK -->
+    <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="earnpepe_ads/1" data-width="100%"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --border: #333333;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --purple: #8a2be2;
+            --purple-dark: #6a0dad;
+            --blue: #2b6de2;
+            --blue-dark: #1a5ad9;
+            --green: #2be27a;
+            --green-dark: #1ad96a;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            background-color: var(--bg-primary);
+            box-shadow: 0 0 20px var(--shadow);
+        }
+        
+        /* Banner Ads Container */
+        .banner-ad-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .banner-ad {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 50px;
+            background-color: #1a1a1a;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .banner-ad-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            padding: 10px;
+        }
+        
+        .banner-ad-placeholder i {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: #555555;
+        }
+        
+        /* Telegram Banner Ads */
+        .telegram-banner-container {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .telegram-banner {
+            background: linear-gradient(135deg, #0088cc, #005f8b);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+            border: 2px solid #0077b5;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .telegram-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 1%);
+            background-size: 20px 20px;
+            opacity: 0.3;
+            animation: telegram-shine 20s linear infinite;
+        }
+        
+        @keyframes telegram-shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .telegram-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .telegram-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .telegram-subtitle {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .telegram-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .telegram-stat {
+            text-align: center;
+        }
+        
+        .telegram-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .telegram-stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        .telegram-btn {
+            background: white;
+            color: #0088cc;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .telegram-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Login/Signup Screens */
+        .auth-screen {
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .auth-container {
+            background-color: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .app-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background-color: #222222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+            border: 2px solid #333333;
+        }
+        
+        .auth-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .auth-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .auth-form {
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #444444;
+        }
+        
+        .referral-input-container {
+            position: relative;
+        }
+        
+        .optional-badge {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        
+        .auth-button {
+            width: 100%;
+            padding: 16px;
+            background-color: #222222;
+            border: 1px solid #333333;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .auth-button:hover {
+            background-color: #333333;
+        }
+        
+        .auth-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .auth-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main App Screens */
+        .header {
+            background-color: var(--bg-secondary);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .app-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .user-profile {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #222222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: white;
+            border: 1px solid #333333;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+        
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        /* Home Section */
+        .balance-card {
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .balance-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .balance-amount {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .pepe-info {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .earn-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .earn-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Telegram Section in Home */
+        .telegram-home-section {
+            background: linear-gradient(135deg, #1a1a1a, #222222);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #333333;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .telegram-home-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .telegram-home-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0088cc, #005f8b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .telegram-home-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .telegram-home-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .telegram-home-feature {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .telegram-home-feature i {
+            font-size: 1.5rem;
+            color: #0088cc;
+            margin-bottom: 10px;
+        }
+        
+        .telegram-home-feature h4 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .telegram-home-feature p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .telegram-home-btn {
+            background: linear-gradient(135deg, #0088cc, #005f8b);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .telegram-home-btn:hover {
+            background: linear-gradient(135deg, #0099dd, #006fa4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
+        }
+        
+        /* Rules Section */
+        .rules-section {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .rules-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        .rules-list {
+            list-style: none;
+        }
+        
+        .rule-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .rule-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .rule-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #222222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            color: #cccccc;
+            border: 1px solid #333333;
+        }
+        
+        .rule-text {
+            flex: 1;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #cccccc;
+        }
+        
+        .rule-highlight {
+            color: white;
+            font-weight: 600;
+        }
+        
+        .rule-pepe {
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Information Section */
+        .info-section {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border);
+        }
+        
+        .info-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .info-card {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .info-card-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        .info-card-content {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        
+        .info-card-content p {
+            margin-bottom: 10px;
+        }
+        
+        .info-card-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .support-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .support-button {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #333333;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #222222;
+            color: white;
+        }
+        
+        .support-button:hover {
+            background-color: #333333;
+        }
+        
+        /* Task Section */
+        .tasks-container {
+            margin-top: 10px;
+        }
+        
+        .task-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .task-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .task-reward {
+            background-color: #222222;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid #333333;
+        }
+        
+        .task-reward.pepe {
+            background-color: var(--purple);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .task-reward.blue {
+            background-color: var(--blue);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .task-reward.green {
+            background-color: var(--green);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .task-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .task-status {
+            font-size: 0.85rem;
+            padding: 8px 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 10px;
+            border: 1px solid #333333;
+        }
+        
+        .task-status.pending {
+            background-color: #1a1a1a;
+            color: #cccccc;
+        }
+        
+        .task-status.completed {
+            background-color: #1a1a1a;
+            color: #cccccc;
+        }
+        
+        .task-status.rejected {
+            background-color: #1a1a1a;
+            color: #cccccc;
+        }
+        
+        .task-status.countdown {
+            background-color: #1a1a1a;
+            color: #cccccc;
+        }
+        
+        .task-status.limited {
+            background-color: #1a1a1a;
+            color: #cccccc;
+        }
+        
+        .task-button {
+            width: 100%;
+            padding: 14px;
+            background-color: #222222;
+            border: 1px solid #333333;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .task-button.pepe {
+            background-color: var(--purple);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .task-button.blue {
+            background-color: var(--blue);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .task-button.green {
+            background-color: var(--green);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .task-button:hover:not(:disabled) {
+            background-color: #333333;
+        }
+        
+        .task-button.pepe:hover:not(:disabled) {
+            background-color: var(--purple-dark);
+        }
+        
+        .task-button.blue:hover:not(:disabled) {
+            background-color: var(--blue-dark);
+        }
+        
+        .task-button.green:hover:not(:disabled) {
+            background-color: var(--green-dark);
+        }
+        
+        .task-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: var(--bg-secondary);
+        }
+        
+        .task-progress {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            text-align: center;
+        }
+        
+        /* Withdraw Section - Binance */
+        .withdraw-method {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .method-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background-color: #222222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+            color: white;
+            border: 1px solid #333333;
+        }
+        
+        .method-title {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .method-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .requirements-list {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .requirement-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .requirement-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            border: 1px solid #333333;
+        }
+        
+        .requirement-icon.pending {
+            color: var(--text-secondary);
+            background-color: #222222;
+        }
+        
+        .requirement-icon.completed {
+            background-color: #222222;
+            color: white;
+        }
+        
+        .requirement-details {
+            flex: 1;
+        }
+        
+        .requirement-title {
+            font-size: 0.95rem;
+            margin-bottom: 3px;
+            color: white;
+        }
+        
+        .requirement-status {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .requirement-status.completed {
+            color: #cccccc;
+        }
+        
+        /* Binance Details Form */
+        .binance-form {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid var(--border);
+            display: none;
+        }
+        
+        .binance-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .binance-warning {
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #cccccc;
+        }
+        
+        .binance-warning i {
+            color: #cccccc;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .form-note {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .next-button {
+            width: 100%;
+            padding: 16px;
+            background-color: #222222;
+            border: 1px solid #333333;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .next-button.active {
+            display: block;
+        }
+        
+        .next-button:hover {
+            background-color: #333333;
+        }
+        
+        .next-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Friends Section - Enhanced */
+        .referral-card {
+            background-color: #111111;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #333333;
+        }
+        
+        .referral-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #333333;
+        }
+        
+        .referral-title {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .referral-description {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            color: #cccccc;
+        }
+        
+        .referral-bonus {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            background-color: #1a1a1a;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            color: white;
+            border: 1px solid #333333;
+        }
+        
+        .referral-code-container {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px dashed #333333;
+        }
+        
+        .referral-code-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        
+        .referral-code {
+            font-family: monospace;
+            font-size: 1.4rem;
+            letter-spacing: 3px;
+            font-weight: bold;
+            color: white;
+            padding: 10px;
+            background: #111111;
+            border-radius: 8px;
+            display: inline-block;
+            min-width: 180px;
+            border: 1px solid #333333;
+        }
+        
+        .referral-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .referral-action-btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #333333;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #222222;
+            color: white;
+        }
+        
+        .referral-action-btn.copy {
+            background-color: var(--purple);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .referral-action-btn.share {
+            background-color: #222222;
+            color: white;
+        }
+        
+        .referral-action-btn:hover {
+            background-color: #333333;
+        }
+        
+        .referral-action-btn.copy:hover {
+            background-color: var(--purple-dark);
+        }
+        
+        .referral-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .referral-stat {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        
+        .referral-stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .referral-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .friend-item {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        
+        .friend-item:hover {
+            background-color: #222222;
+        }
+        
+        .friend-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .friend-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #222222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: white;
+            border: 1px solid #333333;
+        }
+        
+        .friend-details h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .friend-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .friend-earned {
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .zero-friends {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-secondary);
+        }
+        
+        .zero-friends i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+            color: #cccccc;
+        }
+        
+        .zero-friends h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .zero-friends p {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #cccccc;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--bg-secondary);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            border-top: 1px solid var(--border);
+            z-index: 100;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            padding: 8px 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 60px;
+            border-radius: 8px;
+        }
+        
+        .nav-btn i {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .nav-btn.active {
+            color: white;
+            background-color: #222222;
+        }
+        
+        .nav-badge {
+            position: absolute;
+            top: -5px;
+            right: 0;
+            background-color: #333333;
+            color: white;
+            font-size: 0.6rem;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-btn-container {
+            position: relative;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 25px;
+            width: 100%;
+            max-width: 320px;
+            animation: modalFadeIn 0.3s ease;
+            border: 1px solid #333333;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .modal-message {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #333333;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: #222222;
+            color: white;
+        }
+        
+        .modal-btn.primary {
+            background-color: var(--purple);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal-btn.secondary {
+            background-color: #1a1a1a;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        
+        .modal-btn.pepe {
+            background-color: var(--purple);
+            color: white;
+        }
+        
+        .modal-btn.telegram {
+            background-color: #0088cc;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Countdown Timer */
+        .countdown-timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .countdown-text {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Change Password Modal */
+        .change-password-modal .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .change-password-modal .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .change-password-modal .form-input {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        /* User Menu */
+        .user-menu {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 15px;
+            min-width: 200px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px var(--shadow);
+            z-index: 150;
+            display: none;
+        }
+        
+        .user-menu.active {
+            display: block;
+        }
+        
+        .user-info {
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 10px;
+        }
+        
+        .user-email {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            word-break: break-all;
+        }
+        
+        .user-referral {
+            font-size: 0.8rem;
+            color: white;
+            margin-top: 5px;
+        }
+        
+        .menu-item {
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--bg-secondary);
+        }
+        
+        .menu-item.logout {
+            color: #cccccc;
+        }
+        
+        /* Zero state styling */
+        .zero-value {
+            color: var(--text-secondary) !important;
+        }
+        
+        /* Success Message */
+        .success-message {
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .success-message.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Player Back Modal */
+        .player-back-modal .modal-content {
+            max-width: 350px;
+        }
+        
+        .player-back-info {
+            text-align: center;
+            padding: 15px;
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #333333;
+        }
+        
+        .player-back-warning {
+            color: #cccccc;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+        
+        /* Player Detection UI */
+        .player-detected {
+            background-color: #1a1a1a !important;
+            border-color: #333333 !important;
+        }
+        
+        /* Telegram Banner Modal */
+        .telegram-banner-modal .modal-content {
+            max-width: 350px;
+        }
+        
+        .telegram-banner-modal .modal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0088cc;
+        }
+        
+        /* Responsive adjustments for mini app */
+        @media (max-width: 400px) {
+            .app-container {
+                max-width: 100%;
+            }
+            
+            .balance-amount {
+                font-size: 1.8rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            
+            .stat-card {
+                padding: 12px 8px;
+            }
+            
+            .stat-value {
+                font-size: 1.2rem;
+            }
+            
+            .auth-container {
+                padding: 25px 20px;
+            }
+            
+            .support-options {
+                flex-direction: column;
+            }
+            
+            .referral-actions {
+                flex-direction: column;
+            }
+            
+            .referral-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .banner-ad-container {
+                padding: 8px;
+            }
+            
+            .telegram-home-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .telegram-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Banner Ads Container -->
+    <div class="banner-ad-container">
+        <div class="banner-ad">
+            <!-- Banner Ad will be loaded here -->
+            <div class="banner-ad-placeholder" id="bannerAdPlaceholder">
+                <i class="fas fa-ad"></i>
+                <span>Loading ad...</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="app-container">
+        <!-- Login/Signup Screens -->
+        <div id="login-screen" class="auth-screen">
+            <div class="telegram-banner-container">
+                <div class="telegram-banner">
+                    <div class="telegram-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <div class="telegram-title">Join Our Telegram</div>
+                    <div class="telegram-subtitle">
+                        Get latest updates, bonus codes & support from our Telegram channel
+                    </div>
+                    <div class="telegram-stats">
+                        <div class="telegram-stat">
+                            <div class="telegram-stat-value">150</div>
+                            <div class="telegram-stat-label">Pepe/Ad</div>
+                        </div>
+                        <div class="telegram-stat">
+                            <div class="telegram-stat-value">500</div>
+                            <div class="telegram-stat-label">Referral Bonus</div>
+                        </div>
+                        <div class="telegram-stat">
+                            <div class="telegram-stat-value">24/7</div>
+                            <div class="telegram-stat-label">Support</div>
+                        </div>
+                    </div>
+                    <button class="telegram-btn" onclick="window.open('https://t.me/earnpepe_app', '_blank')">
+                        <i class="fab fa-telegram"></i> Join Telegram
+                    </button>
+                </div>
+            </div>
+            
+            <div class="auth-container">
+                <div class="auth-header">
+                    <div class="app-logo">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h1 class="auth-title">Earn Pepe</h1>
+                    <p class="auth-subtitle">Login to your account</p>
+                </div>
+                
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="login-email" class="form-input" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    
+                    <button type="submit" class="auth-button" id="login-button">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+                
+                <div class="auth-switch">
+                    Don't have an account?
+                    <a class="auth-link" id="go-to-signup">Sign Up</a>
+                </div>
+            </div>
+        </div>
+        
+        <div id="signup-screen" class="auth-screen" style="display: none;">
+            <div class="telegram-banner-container">
+                <div class="telegram-banner">
+                    <div class="telegram-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <div class="telegram-title">Telegram Community</div>
+                    <div class="telegram-subtitle">
+                        Join 5000+ members earning Pepe daily. Get free bonus on joining!
+                    </div>
+                    <div class="telegram-stats">
+                        <div class="telegram-stat">
+                            <div class="telegram-stat-value">5000+</div>
+                            <div class="telegram-stat-label">Members</div>
+                        </div>
+                        <div class="telegram-stat">
+                            <div class="telegram-stat-value">$1000+</div>
+                            <div class="telegram-stat-label">Paid Out</div>
+                        </div>
+                        <div class="telegram-stat">
+                            <div class="telegram-stat-value">24/7</div>
+                            <div class="telegram-stat-label">Active</div>
+                        </div>
+                    </div>
+                    <button class="telegram-btn" onclick="window.open('https://t.me/earnpepe_app', '_blank')">
+                        <i class="fab fa-telegram"></i> Join Now
+                    </button>
+                </div>
+            </div>
+            
+            <div class="auth-container">
+                <div class="auth-header">
+                    <div class="app-logo">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h1 class="auth-title">Create Account</h1>
+                    <p class="auth-subtitle">Join and start earning Pepe</p>
+                </div>
+                
+                <form id="signup-form" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="signup-email" class="form-input" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="signup-password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        <input type="password" id="signup-confirm-password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Referral Code (Optional)</label>
+                        <div class="referral-input-container">
+                            <input type="text" id="signup-referral" class="form-input" placeholder="Enter referral code">
+                            <div class="optional-badge">Optional</div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">
+                            Get 500 Pepe bonus if you use a referral code
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="auth-button" id="signup-button">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+                
+                <div class="auth-switch">
+                    Already have an account?
+                    <a class="auth-link" id="go-to-login">Login</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main App (Hidden until login) -->
+        <div id="main-app" style="display: none;">
+            <!-- Header -->
+            <div class="header">
+                <div class="app-title">Earn Pepe</div>
+                <div class="user-profile" id="userProfile">
+                    <span id="userInitial">U</span>
+                </div>
+            </div>
+            
+            <!-- User Menu (Simplified - Only Change Password) -->
+            <div class="user-menu" id="userMenu">
+                <div class="user-info">
+                    <div style="font-weight: 600;" id="menuUserEmail">user@email.com</div>
+                    <div class="user-referral">Referral Code: <span id="menuReferralCode">XXXXXX</span></div>
+                </div>
+                <div class="menu-item" id="changePassword">
+                    <i class="fas fa-key"></i>
+                    <span>Change Password</span>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Home Section -->
+                <div id="home-section" class="content-section active">
+                    <!-- Telegram Banner in Home -->
+                    <div class="telegram-home-section">
+                        <div class="telegram-home-header">
+                            <div class="telegram-home-icon">
+                                <i class="fab fa-telegram"></i>
+                            </div>
+                            <div>
+                                <div class="telegram-home-title">Telegram Community</div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    Join for daily bonuses & support
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="telegram-home-content">
+                            <div class="telegram-home-feature">
+                                <i class="fas fa-gift"></i>
+                                <h4>Daily Bonus</h4>
+                                <p>Get free Pepe daily</p>
+                            </div>
+                            <div class="telegram-home-feature">
+                                <i class="fas fa-headset"></i>
+                                <h4>24/7 Support</h4>
+                                <p>Quick help & guidance</p>
+                            </div>
+                            <div class="telegram-home-feature">
+                                <i class="fas fa-users"></i>
+                                <h4>5000+ Members</h4>
+                                <p>Active community</p>
+                            </div>
+                            <div class="telegram-home-feature">
+                                <i class="fas fa-bolt"></i>
+                                <h4>Updates</h4>
+                                <p>New tasks & features</p>
+                            </div>
+                        </div>
+                        
+                        <button class="telegram-home-btn" onclick="window.open('https://t.me/earnpepe_app', '_blank')">
+                            <i class="fab fa-telegram"></i> Join Telegram Channel
+                        </button>
+                    </div>
+                    
+                    <div class="balance-card">
+                        <div class="balance-label">Your Balance</div>
+                        <div class="balance-amount" id="balanceAmount">0 Pepe</div>
+                        <div class="pepe-info" id="pepeInfo">
+                            <i class="fas fa-info-circle"></i> Start earning Pepe by completing tasks
+                        </div>
+                        <button class="earn-button" id="earnBtn">
+                            <i class="fas fa-headset"></i> Get Support
+                        </button>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="referralsCount">0</div>
+                            <div class="stat-label">Referrals</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalEarned">0</div>
+                            <div class="stat-label">Total Pepe</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="referralBonus">0</div>
+                            <div class="stat-label">Ref. Bonus</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Rules Section -->
+                    <div class="rules-section">
+                        <div class="rules-title">
+                            <i class="fas fa-gavel"></i>
+                            <span>Important Rules</span>
+                        </div>
+                        <ul class="rules-list">
+                            <li class="rule-item">
+                                <div class="rule-icon">
+                                    <i class="fas fa-ban"></i>
+                                </div>
+                                <div class="rule-text">
+                                    <span class="rule-highlight">No Cheating</span> - Using any automated tools or unfair methods will result in permanent ban.
+                                </div>
+                            </li>
+                            <li class="rule-item">
+                                <div class="rule-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="rule-text">
+                                    <span class="rule-highlight">Report Bad Ads</span> - If you see any 18+ or inappropriate ads, please report to us immediately.
+                                </div>
+                            </li>
+                            <li class="rule-item">
+                                <div class="rule-icon">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                                <div class="rule-text">
+                                    <span class="rule-highlight">Age Requirement</span> - You must be at least 18 years old to use this app and withdraw.
+                                </div>
+                            </li>
+                            <li class="rule-item">
+                                <div class="rule-icon">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="rule-text">
+                                    <span class="rule-highlight">Withdrawal</span> - Minimum withdrawal: <span class="rule-pepe">1,000,000 Pepe</span>. Withdraw to Binance only.
+                                </div>
+                            </li>
+                            <li class="rule-item">
+                                <div class="rule-icon">
+                                    <i class="fas fa-gem"></i>
+                                </div>
+                                <div class="rule-text">
+                                    <span class="rule-pepe">Pepe Rewards!</span> - Each ad gives <span class="rule-pepe">150 Pepe</span>. Work hard to reach 1M Pepe!
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Task Section -->
+                <div id="task-section" class="content-section">
+                    <div class="section-title" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                        <h2 style="font-size: 1.3rem; color: white;">Daily Tasks (8 Tasks Available)</h2>
+                        <div id="taskLimitInfo" style="font-size: 0.9rem; color: white;">500 attempts left</div>
+                    </div>
+                    
+                    <div class="tasks-container" id="tasksContainer">
+                        <!-- Tasks will be added dynamically here -->
+                    </div>
+                    
+                    <div class="task-card" style="text-align: center; padding: 25px;">
+                        <i class="fas fa-sync-alt" style="font-size: 2rem; color: #cccccc; margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px; color: white;">Daily Task Limit</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 15px;">
+                            You can complete this task 500 times per day. The limit resets every 24 hours.
+                        </p>
+                        <div id="resetTimer" style="font-size: 0.85rem; color: #cccccc; margin-top: 10px;">
+                            Next reset in: <span id="resetTime">24:00:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Withdraw Section - Binance Only -->
+                <div id="withdraw-section" class="content-section">
+                    <div class="section-title" style="margin-bottom: 20px;">
+                        <span style="color: white;">Withdraw to Binance</span>
+                        <span style="color: #cccccc; font-size: 0.9rem;">Min: 1,000,000 Pepe</span>
+                    </div>
+                    
+                    <div class="balance-card" style="margin-bottom: 25px;">
+                        <div class="balance-label">Available for withdrawal</div>
+                        <div class="balance-amount" id="withdrawBalance">0 Pepe</div>
+                        <div class="pepe-info" style="background-color: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.9);">
+                            <i class="fas fa-exchange-alt"></i> Withdraw Pepe to your Binance wallet
+                        </div>
+                    </div>
+                    
+                    <!-- Binance Method Card -->
+                    <div class="withdraw-method">
+                        <div class="method-icon">
+                            <i class="fab fa-bitcoin"></i>
+                        </div>
+                        <div class="method-title">Binance</div>
+                        <div class="method-subtitle">Withdraw to your Binance wallet</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">
+                            <i class="fas fa-lock"></i> Secure & Fast Transactions
+                        </div>
+                    </div>
+                    
+                    <!-- Requirements List -->
+                    <div class="requirements-list">
+                        <h4 style="margin-bottom: 15px; font-size: 1rem; color: white;">Withdrawal Requirements</h4>
+                        
+                        <div class="requirement-item" id="req1">
+                            <div class="requirement-icon pending">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="requirement-details">
+                                <div class="requirement-title">Minimum Balance: 1,000,000 Pepe</div>
+                                <div class="requirement-status" id="req1Status">Not met</div>
+                            </div>
+                        </div>
+                        
+                        <div class="requirement-item" id="req2">
+                            <div class="requirement-icon pending">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <div class="requirement-details">
+                                <div class="requirement-title">Minimum 3 Referrals</div>
+                                <div class="requirement-status" id="req2Status">Not met</div>
+                            </div>
+                        </div>
+                        
+                        <div class="requirement-item" id="req3">
+                            <div class="requirement-icon pending">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="requirement-details">
+                                <div class="requirement-title">No Cheating / Fair Use</div>
+                                <div class="requirement-status" id="req3Status">Pending verification</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Next Button (Shows when all requirements met) -->
+                    <button class="next-button" id="nextButton" disabled>
+                        <i class="fas fa-arrow-right"></i> Continue to Withdraw
+                    </button>
+                    
+                    <!-- Binance Details Form -->
+                    <div class="binance-form" id="binanceForm">
+                        <div class="binance-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div style="font-size: 0.9rem; margin-top: 5px; color: #cccccc;">
+                                Ensure your Binance details are correct. Withdrawals cannot be reversed.
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Binance Email or UID</label>
+                            <input type="text" id="binanceEmail" class="form-input" placeholder="email@binance.com or UID" required>
+                            <div class="form-note">Your registered Binance email or user ID</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Withdrawal Amount (Pepe)</label>
+                            <input type="number" id="withdrawAmount" class="form-input" placeholder="1000000" min="1000000" step="1000" required>
+                            <div class="form-note">Minimum: 1,000,000 Pepe, Maximum: Your balance</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Binance Pay ID (Optional)</label>
+                            <input type="text" id="binancePayId" class="form-input" placeholder="Binance Pay ID if available">
+                            <div class="form-note">For faster processing</div>
+                        </div>
+                        
+                        <button class="auth-button" id="submitWithdrawBtn" style="background-color: var(--purple); border: 1px solid rgba(255, 255, 255, 0.2);">
+                            <i class="fas fa-paper-plane"></i> Submit Withdrawal Request
+                        </button>
+                    </div>
+                    
+                    <!-- Success Message -->
+                    <div class="success-message" id="successMessage">
+                        <div class="success-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="modal-title" style="color: white;">Withdrawal Submitted!</div>
+                        <div class="modal-message" style="text-align: center; color: #cccccc;">
+                            Your withdrawal request has been submitted successfully. Processing time: 3-7 business days.
+                        </div>
+                        <div style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);">
+                            <i class="fas fa-info-circle"></i> You'll receive a confirmation email
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Friends/Referral Section - Enhanced -->
+                <div id="friends-section" class="content-section">
+                    <div class="referral-card">
+                        <div class="referral-title">Invite Friends & Earn Pepe</div>
+                        <div class="referral-description">
+                            Share your referral code with friends. When they sign up using your code, you both get Pepe bonuses!
+                        </div>
+                        <div class="referral-bonus">
+                            <i class="fas fa-gift"></i> Bonus: 500 Pepe per referral
+                        </div>
+                        
+                        <div class="referral-code-container">
+                            <div class="referral-code-label">Your Referral Code</div>
+                            <div class="referral-code" id="referralCode">LOADING...</div>
+                        </div>
+                        
+                        <div class="referral-actions">
+                            <button class="referral-action-btn copy" id="copyReferralBtn">
+                                <i class="fas fa-copy"></i> Copy Code
+                            </button>
+                            <button class="referral-action-btn share" id="shareReferralBtn">
+                                <i class="fas fa-share-alt"></i> Share Code
+                            </button>
+                        </div>
+                        
+                        <div class="referral-stats">
+                            <div class="referral-stat">
+                                <div class="referral-stat-value" id="totalReferralsCount">0</div>
+                                <div class="referral-stat-label">Total Referrals</div>
+                            </div>
+                            <div class="referral-stat">
+                                <div class="referral-stat-value" id="totalReferralEarnings">0</div>
+                                <div class="referral-stat-label">Pepe Earned</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-title" style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="font-size: 1.1rem; color: white;">Your Referrals</h3>
+                        <span style="color: white; font-size: 0.9rem;" id="totalReferrals">0 referrals</span>
+                    </div>
+                    
+                    <div class="zero-friends" id="zeroReferrals">
+                        <i class="fas fa-user-friends"></i>
+                        <h3>No Referrals Yet</h3>
+                        <p>Share your referral code with friends to start earning Pepe bonuses!</p>
+                        <button class="referral-action-btn share" id="zeroShareReferralBtn" style="margin-top: 25px; max-width: 250px; margin-left: auto; margin-right: auto;">
+                            <i class="fas fa-share-alt"></i> Share Referral Code
+                        </button>
+                    </div>
+                    
+                    <!-- Referrals list (will be shown when referrals are added) -->
+                    <div id="referralsList" style="display: none;">
+                        <!-- Referral items will be added here dynamically -->
+                    </div>
+                </div>
+                
+                <!-- Information Section -->
+                <div id="info-section" class="content-section">
+                    <div class="info-section">
+                        <div class="info-title">
+                            <i class="fas fa-info-circle"></i>
+                            Important Information
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-card-title">
+                                <i class="fas fa-coins"></i>
+                                <span>Pepe System & Withdrawal</span>
+                            </div>
+                            <div class="info-card-content">
+                                <p><strong>Pepe System:</strong> Earn Pepe by completing tasks and referring friends</p>
+                                <p><strong>Minimum Withdrawal:</strong> 1,000,000 Pepe</p>
+                                <p><strong>Task Reward:</strong> 150 Pepe per ad</p>
+                                <p><strong>Withdrawal Method:</strong> Binance Only</p>
+                                <p><strong>Processing Time:</strong> 3-7 business days</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-card-title">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Rules & Guidelines</span>
+                            </div>
+                            <div class="info-card-content">
+                                <p>1. <strong>No Cheating:</strong> Using any automated tools, bots, or unfair methods will result in permanent ban of your account.</p>
+                                <p>2. <strong>Age Requirement:</strong> You must be at least 18 years old to use this app and withdraw.</p>
+                                <p>3. <strong>Fair Use:</strong> Complete tasks honestly. Don't use VPNs or fake information.</p>
+                                <p>4. <strong>Report Issues:</strong> If you see any 18+ or inappropriate ads, please report to us immediately.</p>
+                                <p>5. <strong>One Account:</strong> Only one account per person is allowed.</p>
+                                <p>6. <strong>Pepe Rewards:</strong> Earn 150 Pepe for each ad. Complete about 6,667 ads to reach 1M Pepe for withdrawal!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-card-title">
+                                <i class="fas fa-comments"></i>
+                                <span>Contact & Support</span>
+                            </div>
+                            <div class="info-card-content">
+                                <p>We're here to help you 24/7. If you have any questions, issues, or need support, please contact us:</p>
+                                <p><strong>Telegram Channel:</strong> @earnpepe_app</p>
+                                <p><strong>Telegram Chat Support:</strong> @earnforearnsuportteam</p>
+                                <p><strong>Email Support:</strong> earnforearnsuportteam@gmail.com</p>
+                                <p><strong>Response Time:</strong> Usually within 24 hours</p>
+                                <p><strong>For Technical Issues:</strong> Contact our support team with screenshots</p>
+                                <p><strong>For Payment Issues:</strong> Contact with your withdrawal ID</p>
+                                <p><strong>For Reporting Ads:</strong> Send screenshot of the ad with details</p>
+                            </div>
+                        </div>
+                        
+                        <div class="support-options">
+                            <button class="support-button chat" id="infoChatBtn">
+                                <i class="fab fa-telegram"></i> Telegram Chat
+                            </button>
+                            <button class="support-button email" id="infoEmailBtn">
+                                <i class="fas fa-envelope"></i> Email Support
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Navigation -->
+            <div class="bottom-nav">
+                <div class="nav-btn-container">
+                    <button class="nav-btn active" id="homeNavBtn" data-target="home-section">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </button>
+                </div>
+                
+                <div class="nav-btn-container">
+                    <button class="nav-btn" id="taskNavBtn" data-target="task-section">
+                        <i class="fas fa-tasks"></i>
+                        <span>Tasks</span>
+                    </button>
+                    <div class="nav-badge" id="taskBadge" style="display: none;">0</div>
+                </div>
+                
+                <div class="nav-btn-container">
+                    <button class="nav-btn" id="withdrawNavBtn" data-target="withdraw-section">
+                        <i class="fas fa-wallet"></i>
+                        <span>Cashout</span>
+                    </button>
+                </div>
+                
+                <div class="nav-btn-container">
+                    <button class="nav-btn" id="friendsNavBtn" data-target="friends-section">
+                        <i class="fas fa-user-friends"></i>
+                        <span>Referrals</span>
+                    </button>
+                    <div class="nav-badge" id="referralBadge" style="display: none;">0</div>
+                </div>
+                
+                <div class="nav-btn-container">
+                    <button class="nav-btn" id="infoNavBtn" data-target="info-section">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Information</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modals -->
+        <div class="modal" id="successModal">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <i class="fas fa-check-circle" style="color: #cccccc; margin-right: 10px;"></i>
+                    Success!
+                </div>
+                <div class="modal-message" id="successModalMessage">
+                    Operation completed successfully.
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn primary" id="successOkBtn">OK</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal" id="errorModal">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <i class="fas fa-exclamation-circle" style="color: #cccccc; margin-right: 10px;"></i>
+                    Error
+                </div>
+                <div class="modal-message" id="errorMessage">
+                    An error occurred.
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn primary" id="errorOkBtn">OK</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal" id="referralBonusModal">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <i class="fas fa-gift" style="color: #cccccc; margin-right: 10px;"></i>
+                    Referral Bonus!
+                </div>
+                <div class="modal-message" id="referralBonusMessage">
+                    You received 500 Pepe referral bonus!
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn primary" id="referralBonusOkBtn">Awesome!</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal" id="chatModal">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <i class="fab fa-telegram" style="color: #cccccc; margin-right: 10px;"></i>
+                    Telegram Support
+                </div>
+                <div class="modal-message" id="chatMessage">
+                    Click below to start a chat with our support team on Telegram. We're here to help you 24/7!
+                    <div style="margin-top: 15px; padding: 10px; background-color: #1a1a1a; border-radius: 8px;">
+                        <strong>Telegram Channel:</strong> @earnpepe_app<br>
+                        <strong>Telegram Chat:</strong> @earnforearnsuportteam<br>
+                        <strong>Email:</strong> earnforearnsuportteam@gmail.com
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn telegram" id="startChatBtn">
+                        <i class="fab fa-telegram"></i> Open Telegram
+                    </button>
+                    <button class="modal-btn secondary" id="cancelChatBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Telegram Banner Modal -->
+        <div class="modal telegram-banner-modal" id="telegramBannerModal">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <i class="fab fa-telegram"></i>
+                    Join Our Telegram!
+                </div>
+                <div class="modal-message">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div class="telegram-icon" style="font-size: 3rem; margin-bottom: 15px;">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <div style="font-size: 1.1rem; margin-bottom: 10px; color: white;">
+                            Exclusive Bonuses & Updates!
+                        </div>
+                        <div style="color: var(--text-secondary); margin-bottom: 20px;">
+                            Join our Telegram channel for daily bonus codes, new task alerts, and community support!
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(0, 136, 204, 0.1); padding: 15px; border-radius: 10px; border: 1px solid rgba(0, 136, 204, 0.3);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: var(--text-secondary);">Daily Bonus:</span>
+                            <span style="color: white; font-weight: bold;">+1000 Pepe</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: var(--text-secondary);">Active Members:</span>
+                            <span style="color: white; font-weight: bold;">5000+</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-secondary);">Support:</span>
+                            <span style="color: white; font-weight: bold;">24/7 Available</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn telegram" id="joinTelegramBtn">
+                        <i class="fab fa-telegram"></i> Join Now
+                    </button>
+                    <button class="modal-btn secondary" id="cancelTelegramBtn">Later</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Player Back Detection Modal -->
+        <div class="modal player-back-modal" id="playerBackModal">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <i class="fas fa-redo" style="color: #cccccc; margin-right: 10px;"></i>
+                    Player Back Detected!
+                </div>
+                <div class="player-back-info">
+                    <div class="countdown-timer" id="playerBackTimer">5</div>
+                    <div class="countdown-text">Stay on this page to earn reward</div>
+                </div>
+                <div class="modal-message">
+                    We detected that you returned from the task. Please stay on this page for 5 seconds to complete the task and earn your reward.
+                </div>
+                <div class="player-back-warning">
+                    <i class="fas fa-exclamation-triangle"></i> Do not close or navigate away from this page
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn secondary" id="cancelPlayerBackBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Change Password Modal -->
+        <div class="modal" id="changePasswordModal">
+            <div class="modal-content change-password-modal">
+                <div class="modal-title">
+                    <i class="fas fa-key" style="color: #cccccc; margin-right: 10px;"></i>
+                    Change Password
+                </div>
+                
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label class="form-label">Current Password</label>
+                        <input type="password" id="currentPassword" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">New Password</label>
+                        <input type="password" id="newPassword" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Confirm New Password</label>
+                        <input type="password" id="confirmNewPassword" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="submit" class="modal-btn primary" id="changePasswordSubmitBtn">
+                            <i class="fas fa-save"></i> Change Password
+                        </button>
+                        <button type="button" class="modal-btn secondary" id="cancelChangePasswordBtn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // User Management System
+        class UserManager {
+            constructor() {
+                this.currentUser = null;
+                this.users = JSON.parse(localStorage.getItem('earnPepeUsers')) || [];
+                this.sessions = JSON.parse(localStorage.getItem('earnPepeSessions')) || {};
+                this.referralBonuses = JSON.parse(localStorage.getItem('earnPepeReferralBonuses')) || {};
+                this.withdrawalRequests = JSON.parse(localStorage.getItem('earnPepeWithdrawals')) || [];
+                this.taskCompletions = JSON.parse(localStorage.getItem('earnPepeTaskCompletions')) || {};
+                this.dailyTaskCounts = JSON.parse(localStorage.getItem('earnPepeDailyTaskCounts')) || {};
+                this.lastResetDate = localStorage.getItem('earnPepeLastResetDate') || new Date().toDateString();
+                this.inAppAdsShown = JSON.parse(localStorage.getItem('earnPepeInAppAdsShown')) || {};
+                this.telegramBannerShown = JSON.parse(localStorage.getItem('earnPepeTelegramBannerShown')) || false;
+                
+                // Check if we need to reset daily counts
+                this.checkAndResetDailyCounts();
+            }
+            
+            // Check and reset daily task counts if needed
+            checkAndResetDailyCounts() {
+                const today = new Date().toDateString();
+                
+                if (today !== this.lastResetDate) {
+                    // Reset daily counts
+                    this.dailyTaskCounts = {};
+                    this.inAppAdsShown = {};
+                    this.lastResetDate = today;
+                    this.saveData();
+                }
+            }
+            
+            // Generate unique user ID
+            generateUserId() {
+                return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            }
+            
+            // Generate referral code from email
+            generateReferralCode(email) {
+                const base = email.split('@')[0].toUpperCase();
+                const random = Math.random().toString(36).substr(2, 4).toUpperCase();
+                return (base.length > 4 ? base.substring(0, 4) : base) + random;
+            }
+            
+            // Check if email already exists
+            emailExists(email) {
+                return this.users.some(user => user.email.toLowerCase() === email.toLowerCase());
+            }
+            
+            // Create new user
+            createUser(email, password, referralCode = null) {
+                if (this.emailExists(email)) {
+                    return { success: false, message: 'Email already registered' };
+                }
+                
+                const userId = this.generateUserId();
+                const userReferralCode = this.generateReferralCode(email);
+                
+                const newUser = {
+                    id: userId,
+                    email: email.toLowerCase(),
+                    password: password,
+                    referralCode: userReferralCode,
+                    balance: 0, // In Pepe
+                    totalEarned: 0, // In Pepe
+                    referralBonus: 0, // In Pepe
+                    referrals: [],
+                    referredBy: referralCode || null,
+                    createdAt: new Date().toISOString(),
+                    fairUseVerified: false,
+                    withdrawalHistory: [],
+                    tasksCompleted: [],
+                    telegramJoined: false,
+                    telegramBonusClaimed: false
+                };
+                
+                // Check if referral code is valid and apply bonus
+                if (referralCode) {
+                    const referrer = this.users.find(user => user.referralCode === referralCode);
+                    if (referrer) {
+                        // Add 500 Pepe bonus to referrer
+                        referrer.referralBonus += 500;
+                        referrer.balance += 500;
+                        referrer.totalEarned += 500;
+                        referrer.referrals.push({
+                            email: email.toLowerCase(),
+                            date: new Date().toISOString(),
+                            bonus: 500
+                        });
+                        
+                        // Add 500 Pepe bonus to new user
+                        newUser.balance += 500;
+                        newUser.totalEarned += 500;
+                        
+                        // Track referral bonus
+                        this.referralBonuses[userId] = {
+                            from: referrer.id,
+                            amount: 500,
+                            date: new Date().toISOString()
+                        };
+                        
+                        // Save updates
+                        this.saveData();
+                    }
+                }
+                
+                this.users.push(newUser);
+                this.saveData();
+                
+                return { 
+                    success: true, 
+                    user: newUser,
+                    hasReferralBonus: !!referralCode && !!this.users.find(user => user.referralCode === referralCode)
+                };
+            }
+            
+            // Login user
+            loginUser(email, password) {
+                const user = this.users.find(u => 
+                    u.email.toLowerCase() === email.toLowerCase() && 
+                    u.password === password
+                );
+                
+                if (!user) {
+                    return { success: false, message: 'Invalid email or password' };
+                }
+                
+                this.currentUser = user;
+                
+                // Create session
+                const sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                this.sessions[sessionId] = {
+                    userId: user.id,
+                    createdAt: new Date().toISOString(),
+                    lastActive: new Date().toISOString()
+                };
+                
+                this.saveData();
+                
+                // Store session in localStorage
+                localStorage.setItem('earnPepeCurrentSession', sessionId);
+                
+                return { success: true, user: user, sessionId: sessionId };
+            }
+            
+            // Get current user from session
+            getCurrentUser() {
+                const sessionId = localStorage.getItem('earnPepeCurrentSession');
+                if (!sessionId || !this.sessions[sessionId]) {
+                    return null;
+                }
+                
+                const userId = this.sessions[sessionId].userId;
+                this.currentUser = this.users.find(user => user.id === userId) || null;
+                
+                return this.currentUser;
+            }
+            
+            // Change user password
+            changePassword(userId, currentPassword, newPassword) {
+                const userIndex = this.users.findIndex(user => user.id === userId);
+                if (userIndex === -1) return { success: false, message: 'User not found' };
+                
+                const user = this.users[userIndex];
+                
+                // Verify current password
+                if (user.password !== currentPassword) {
+                    return { success: false, message: 'Current password is incorrect' };
+                }
+                
+                // Update password
+                this.users[userIndex].password = newPassword;
+                this.saveData();
+                
+                if (this.currentUser && this.currentUser.id === userId) {
+                    this.currentUser = this.users[userIndex];
+                }
+                
+                return { success: true, message: 'Password changed successfully' };
+            }
+            
+            // Update user data
+            updateUser(userId, updates) {
+                const userIndex = this.users.findIndex(user => user.id === userId);
+                if (userIndex === -1) return false;
+                
+                this.users[userIndex] = { ...this.users[userIndex], ...updates };
+                this.saveData();
+                
+                if (this.currentUser && this.currentUser.id === userId) {
+                    this.currentUser = this.users[userIndex];
+                }
+                
+                return true;
+            }
+            
+            // Submit withdrawal request
+            submitWithdrawal(userId, amount, binanceDetails) {
+                const userIndex = this.users.findIndex(user => user.id === userId);
+                if (userIndex === -1) return false;
+                
+                const user = this.users[userIndex];
+                
+                // Check if user has enough balance (in Pepe)
+                if (user.balance < amount) {
+                    return { success: false, message: 'Insufficient balance' };
+                }
+                
+                // Check minimum amount (1,000,000 Pepe)
+                if (amount < 1000000) {
+                    return { success: false, message: 'Minimum withdrawal is 1,000,000 Pepe' };
+                }
+                
+                // Generate withdrawal ID
+                const withdrawalId = 'WD' + Date.now() + Math.random().toString(36).substr(2, 6).toUpperCase();
+                
+                const withdrawalRequest = {
+                    id: withdrawalId,
+                    userId: userId,
+                    email: user.email,
+                    amount: amount,
+                    method: 'Binance',
+                    binanceDetails: binanceDetails,
+                    status: 'pending',
+                    submittedAt: new Date().toISOString(),
+                    estimatedCompletion: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days from now
+                };
+                
+                // Add to withdrawal requests
+                this.withdrawalRequests.push(withdrawalRequest);
+                
+                // Add to user's withdrawal history
+                user.withdrawalHistory.push({
+                    id: withdrawalId,
+                    amount: amount,
+                    date: new Date().toISOString(),
+                    status: 'pending'
+                });
+                
+                // Deduct balance (but don't save yet - will be saved when admin approves)
+                // user.balance -= amount;
+                
+                this.saveData();
+                
+                return { 
+                    success: true, 
+                    withdrawalId: withdrawalId,
+                    message: 'Withdrawal request submitted successfully'
+                };
+            }
+            
+            // Complete task and add reward (in Pepe) - Now 150 Pepe per ad
+            completeTask(userId, taskId, reward) {
+                const userIndex = this.users.findIndex(user => user.id === userId);
+                if (userIndex === -1) return false;
+                
+                const user = this.users[userIndex];
+                
+                // Add reward to user balance (in Pepe)
+                user.balance += reward;
+                user.totalEarned += reward;
+                
+                // Track task completion
+                if (!user.tasksCompleted) {
+                    user.tasksCompleted = [];
+                }
+                
+                user.tasksCompleted.push({
+                    taskId: taskId,
+                    completedAt: new Date().toISOString(),
+                    reward: reward
+                });
+                
+                // Update task completions tracking
+                if (!this.taskCompletions[userId]) {
+                    this.taskCompletions[userId] = {};
+                }
+                
+                this.taskCompletions[userId][taskId] = {
+                    lastCompleted: new Date().toISOString(),
+                    count: (this.taskCompletions[userId][taskId]?.count || 0) + 1
+                };
+                
+                // Update daily task count
+                const today = new Date().toDateString();
+                if (!this.dailyTaskCounts[userId]) {
+                    this.dailyTaskCounts[userId] = {};
+                }
+                
+                if (!this.dailyTaskCounts[userId][today]) {
+                    this.dailyTaskCounts[userId][today] = 0;
+                }
+                
+                this.dailyTaskCounts[userId][today] += 1;
+                
+                this.saveData();
+                
+                // Update current user
+                if (this.currentUser && this.currentUser.id === userId) {
+                    this.currentUser = user;
+                }
+                
+                return true;
+            }
+            
+            // Check if task can be completed (cooldown and daily limit)
+            canCompleteTask(userId, taskId) {
+                const today = new Date().toDateString();
+                const dailyCount = this.dailyTaskCounts[userId]?.[today] || 0;
+                
+                // Check daily limit (500 per day)
+                if (dailyCount >= 500) {
+                    return { 
+                        canComplete: false, 
+                        timeRemaining: 0, 
+                        reason: 'daily_limit',
+                        dailyCount: dailyCount 
+                    };
+                }
+                
+                if (!this.taskCompletions[userId] || !this.taskCompletions[userId][taskId]) {
+                    return { 
+                        canComplete: true, 
+                        timeRemaining: 0,
+                        dailyCount: dailyCount 
+                    };
+                }
+                
+                const lastCompletion = new Date(this.taskCompletions[userId][taskId].lastCompleted);
+                const now = new Date();
+                const timeDiff = now - lastCompletion;
+                const cooldownTime = 5 * 1000; // 5 seconds in milliseconds
+                
+                if (timeDiff >= cooldownTime) {
+                    return { 
+                        canComplete: true, 
+                        timeRemaining: 0,
+                        dailyCount: dailyCount 
+                    };
+                } else {
+                    const remaining = Math.ceil((cooldownTime - timeDiff) / 1000);
+                    return { 
+                        canComplete: false, 
+                        timeRemaining: remaining,
+                        reason: 'cooldown',
+                        dailyCount: dailyCount 
+                    };
+                }
+            }
+            
+            // Get daily task count for user
+            getDailyTaskCount(userId) {
+                const today = new Date().toDateString();
+                return this.dailyTaskCounts[userId]?.[today] || 0;
+            }
+            
+            // Get time until next daily reset
+            getTimeUntilReset() {
+                const now = new Date();
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setHours(0, 0, 0, 0);
+                
+                return tomorrow.getTime() - now.getTime();
+            }
+            
+            // Track in-app interstitial ads for task 2
+            canShowTask2Ad(userId) {
+                const today = new Date().toDateString();
+                
+                if (!this.inAppAdsShown[userId]) {
+                    this.inAppAdsShown[userId] = {};
+                }
+                
+                if (!this.inAppAdsShown[userId][today]) {
+                    this.inAppAdsShown[userId][today] = 0;
+                }
+                
+                // Check frequency: 2 ads within 6 minutes (0.1 hours)
+                const adsShownToday = this.inAppAdsShown[userId][today];
+                
+                if (adsShownToday >= 2) {
+                    // Check if 6 minutes have passed since last ad
+                    const lastAdTime = localStorage.getItem(`earnPepeLastTask2Ad_${userId}`);
+                    if (lastAdTime) {
+                        const timeSinceLastAd = Date.now() - parseInt(lastAdTime);
+                        if (timeSinceLastAd < 6 * 60 * 1000) { // 6 minutes in milliseconds
+                            return false;
+                        } else {
+                            // Reset count after 6 minutes
+                            this.inAppAdsShown[userId][today] = 0;
+                        }
+                    }
+                }
+                
+                return true;
+            }
+            
+            // Record task 2 ad shown
+            recordTask2AdShown(userId) {
+                const today = new Date().toDateString();
+                
+                if (!this.inAppAdsShown[userId]) {
+                    this.inAppAdsShown[userId] = {};
+                }
+                
+                if (!this.inAppAdsShown[userId][today]) {
+                    this.inAppAdsShown[userId][today] = 0;
+                }
+                
+                this.inAppAdsShown[userId][today] += 1;
+                localStorage.setItem(`earnPepeLastTask2Ad_${userId}`, Date.now().toString());
+                this.saveData();
+            }
+            
+            // Check if should show telegram banner
+            shouldShowTelegramBanner() {
+                const user = this.getCurrentUser();
+                if (!user) return false;
+                
+                // Show banner if user hasn't joined telegram yet
+                return !user.telegramJoined && !this.telegramBannerShown;
+            }
+            
+            // Mark telegram banner as shown
+            markTelegramBannerShown() {
+                this.telegramBannerShown = true;
+                this.saveData();
+            }
+            
+            // Claim telegram bonus
+            claimTelegramBonus(userId) {
+                const userIndex = this.users.findIndex(user => user.id === userId);
+                if (userIndex === -1) return false;
+                
+                const user = this.users[userIndex];
+                
+                // Add telegram bonus
+                user.telegramJoined = true;
+                user.telegramBonusClaimed = true;
+                user.balance += 1000;
+                user.totalEarned += 1000;
+                
+                this.saveData();
+                
+                return true;
+            }
+            
+            // Save all data to localStorage
+            saveData() {
+                localStorage.setItem('earnPepeUsers', JSON.stringify(this.users));
+                localStorage.setItem('earnPepeSessions', JSON.stringify(this.sessions));
+                localStorage.setItem('earnPepeReferralBonuses', JSON.stringify(this.referralBonuses));
+                localStorage.setItem('earnPepeWithdrawals', JSON.stringify(this.withdrawalRequests));
+                localStorage.setItem('earnPepeTaskCompletions', JSON.stringify(this.taskCompletions));
+                localStorage.setItem('earnPepeDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
+                localStorage.setItem('earnPepeLastResetDate', this.lastResetDate);
+                localStorage.setItem('earnPepeInAppAdsShown', JSON.stringify(this.inAppAdsShown));
+                localStorage.setItem('earnPepeTelegramBannerShown', JSON.stringify(this.telegramBannerShown));
+            }
+            
+            // Get user by referral code
+            getUserByReferralCode(code) {
+                return this.users.find(user => user.referralCode === code);
+            }
+        }
+        
+        // Initialize User Manager
+        const userManager = new UserManager();
+        
+        // Task Management System - Now 150 Pepe per ad!
+        const tasks = [
+            {
+                id: 'task1',
+                title: 'Watch Rewarded Ad & Earn Pepe',
+                description: 'Watch the rewarded ad completely to earn 150 Pepe!',
+                reward: 150, // 150 Pepe per ad (Updated)
+                type: 'rewardedAd', // New type for rewarded ads
+                cooldown: 5, // seconds
+                isPepe: true
+            },
+            {
+                id: 'task2',
+                title: 'In-App Interstitial Ad',
+                description: 'Watch in-app interstitial ad to earn 150 Pepe! Max 2 ads every 6 minutes.',
+                reward: 150,
+                type: 'inAppInterstitial', // New type for in-app interstitial
+                cooldown: 5,
+                isPepe: true
+            },
+            {
+                id: 'task3',
+                title: 'Complete Survey & Earn Pepe',
+                description: 'Complete a short survey to earn 150 Pepe!',
+                reward: 150,
+                link: 'https://otieu.com/4/10496669',
+                cooldown: 5,
+                isPepe: true
+            },
+            {
+                id: 'task4',
+                title: 'Play Game & Earn Pepe',
+                description: 'Play a short game to earn 150 Pepe!',
+                reward: 150,
+                link: 'https://otieu.com/4/10496669',
+                cooldown: 5,
+                isPepe: true
+            },
+            {
+                id: 'task5',
+                title: 'Watch Premium Ad & Earn',
+                description: 'Watch premium ad and return to earn 150 Pepe!',
+                reward: 150,
+                link: 'https://www.effectivegatecpm.com/kyh1xdyk?key=caf65eebf683e3daf9402957e5e3fd0e',
+                cooldown: 5,
+                isPepe: false,
+                isBlue: true
+            },
+            {
+                id: 'task6',
+                title: 'Complete Offer & Earn Pepe',
+                description: 'Complete this offer to earn 150 Pepe!',
+                reward: 150,
+                link: 'https://www.effectivegatecpm.com/kyh1xdyk?key=caf65eebf683e3daf9402957e5e3fd0e',
+                cooldown: 5,
+                isPepe: false,
+                isBlue: true
+            },
+            {
+                id: 'task7',
+                title: 'Install App & Earn Pepe',
+                description: 'Install an app to earn 150 Pepe!',
+                reward: 150,
+                link: 'https://www.effectivegatecpm.com/kyh1xdyk?key=caf65eebf683e3daf9402957e5e3fd0e',
+                cooldown: 5,
+                isPepe: false,
+                isBlue: true
+            },
+            {
+                id: 'task8',
+                title: 'Sign Up & Earn Pepe',
+                description: 'Sign up for a service to earn 150 Pepe!',
+                reward: 150,
+                link: 'https://www.effectivegatecpm.com/kyh1xdyk?key=caf65eebf683e3daf9402957e5e3fd0e',
+                cooldown: 5,
+                isPepe: false,
+                isBlue: true
+            },
+            {
+                id: 'task9',
+                title: 'Join Telegram Channel',
+                description: 'Join our Telegram channel and get 1000 Pepe bonus!',
+                reward: 1000,
+                link: 'https://t.me/earnpepe_app',
+                cooldown: 60,
+                isPepe: false,
+                isGreen: true
+            }
+        ];
+        
+        // DOM Elements
+        const loginScreen = document.getElementById('login-screen');
+        const signupScreen = document.getElementById('signup-screen');
+        const mainApp = document.getElementById('main-app');
+        const goToSignup = document.getElementById('go-to-signup');
+        const goToLogin = document.getElementById('go-to-login');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const loginEmail = document.getElementById('login-email');
+        const loginPassword = document.getElementById('login-password');
+        const signupEmail = document.getElementById('signup-email');
+        const signupPassword = document.getElementById('signup-password');
+        const signupConfirmPassword = document.getElementById('signup-confirm-password');
+        const signupReferral = document.getElementById('signup-referral');
+        
+        // App Elements
+        const userProfile = document.getElementById('userProfile');
+        const userMenu = document.getElementById('userMenu');
+        const userInitial = document.getElementById('userInitial');
+        const menuUserEmail = document.getElementById('menuUserEmail');
+        const menuReferralCode = document.getElementById('menuReferralCode');
+        const balanceAmount = document.getElementById('balanceAmount');
+        const referralsCount = document.getElementById('referralsCount');
+        const totalEarned = document.getElementById('totalEarned');
+        const referralBonus = document.getElementById('referralBonus');
+        const withdrawBalance = document.getElementById('withdrawBalance');
+        const referralCode = document.getElementById('referralCode');
+        const totalReferrals = document.getElementById('totalReferrals');
+        const totalReferralsCount = document.getElementById('totalReferralsCount');
+        const totalReferralEarnings = document.getElementById('totalReferralEarnings');
+        const zeroReferrals = document.getElementById('zeroReferrals');
+        const referralsList = document.getElementById('referralsList');
+        const copyReferralBtn = document.getElementById('copyReferralBtn');
+        const shareReferralBtn = document.getElementById('shareReferralBtn');
+        const zeroShareReferralBtn = document.getElementById('zeroShareReferralBtn');
+        const tasksContainer = document.getElementById('tasksContainer');
+        const taskLimitInfo = document.getElementById('taskLimitInfo');
+        const resetTime = document.getElementById('resetTime');
+        const pepeInfo = document.getElementById('pepeInfo');
+        
+        // Withdrawal Elements
+        const nextButton = document.getElementById('nextButton');
+        const binanceForm = document.getElementById('binanceForm');
+        const binanceEmail = document.getElementById('binanceEmail');
+        const withdrawAmount = document.getElementById('withdrawAmount');
+        const binancePayId = document.getElementById('binancePayId');
+        const submitWithdrawBtn = document.getElementById('submitWithdrawBtn');
+        const successMessage = document.getElementById('successMessage');
+        
+        // Requirement Status Elements
+        const req1Status = document.getElementById('req1Status');
+        const req2Status = document.getElementById('req2Status');
+        const req3Status = document.getElementById('req3Status');
+        const req1Icon = document.querySelector('#req1 .requirement-icon');
+        const req2Icon = document.querySelector('#req2 .requirement-icon');
+        const req3Icon = document.querySelector('#req3 .requirement-icon');
+        
+        // Navigation Buttons
+        const homeNavBtn = document.getElementById('homeNavBtn');
+        const taskNavBtn = document.getElementById('taskNavBtn');
+        const withdrawNavBtn = document.getElementById('withdrawNavBtn');
+        const friendsNavBtn = document.getElementById('friendsNavBtn');
+        const infoNavBtn = document.getElementById('infoNavBtn');
+        
+        // Content Sections
+        const homeSection = document.getElementById('home-section');
+        const taskSection = document.getElementById('task-section');
+        const withdrawSection = document.getElementById('withdraw-section');
+        const friendsSection = document.getElementById('friends-section');
+        const infoSection = document.getElementById('info-section');
+        
+        // Banner Ads Elements
+        const bannerAdContainer = document.querySelector('.banner-ad-container');
+        const bannerAdPlaceholder = document.getElementById('bannerAdPlaceholder');
+        
+        // Modals
+        const successModal = document.getElementById('successModal');
+        const errorModal = document.getElementById('errorModal');
+        const referralBonusModal = document.getElementById('referralBonusModal');
+        const chatModal = document.getElementById('chatModal');
+        const playerBackModal = document.getElementById('playerBackModal');
+        const changePasswordModal = document.getElementById('changePasswordModal');
+        const telegramBannerModal = document.getElementById('telegramBannerModal');
+        const successModalMessage = document.getElementById('successModalMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const referralBonusMessage = document.getElementById('referralBonusMessage');
+        const playerBackTimer = document.getElementById('playerBackTimer');
+        const successOkBtn = document.getElementById('successOkBtn');
+        const errorOkBtn = document.getElementById('errorOkBtn');
+        const referralBonusOkBtn = document.getElementById('referralBonusOkBtn');
+        const startChatBtn = document.getElementById('startChatBtn');
+        const cancelChatBtn = document.getElementById('cancelChatBtn');
+        const cancelPlayerBackBtn = document.getElementById('cancelPlayerBackBtn');
+        const joinTelegramBtn = document.getElementById('joinTelegramBtn');
+        const cancelTelegramBtn = document.getElementById('cancelTelegramBtn');
+        
+        // Change Password Modal Elements
+        const changePasswordBtn = document.getElementById('changePassword');
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        const currentPassword = document.getElementById('currentPassword');
+        const newPassword = document.getElementById('newPassword');
+        const confirmNewPassword = document.getElementById('confirmNewPassword');
+        const changePasswordSubmitBtn = document.getElementById('changePasswordSubmitBtn');
+        const cancelChangePasswordBtn = document.getElementById('cancelChangePasswordBtn');
+        
+        // Information Section Buttons
+        const infoChatBtn = document.getElementById('infoChatBtn');
+        const infoEmailBtn = document.getElementById('infoEmailBtn');
+        
+        // Player back detection variables
+        let playerBackInterval = null;
+        let currentPlayerBackTask = null;
+        let playerBackSeconds = 5;
+        let taskTab = null;
+        let isPlayerBackCountdown = false;
+        let taskStarted = false;
+        let lastFocusedTime = null;
+        let taskCheckInterval = null;
+        
+        // Telegram banner show timer
+        let telegramBannerTimer = null;
+        
+        // Banner Ad Management
+        function initializeBannerAds() {
+            // Banner ad script is already loaded in head
+            // We'll check if it loaded properly
+            setTimeout(() => {
+                const iframes = document.querySelectorAll('iframe');
+                let hasBannerAd = false;
+                
+                iframes.forEach(iframe => {
+                    if (iframe.parentElement.classList.contains('banner-ad')) {
+                        hasBannerAd = true;
+                        // Hide placeholder when ad loads
+                        bannerAdPlaceholder.style.display = 'none';
+                    }
+                });
+                
+                // If no ad loaded after 3 seconds, show a static ad or hide
+                if (!hasBannerAd) {
+                    setTimeout(() => {
+                        // Create a fallback static ad
+                        createFallbackAd();
+                    }, 3000);
+                }
+            }, 1000);
+        }
+        
+        function createFallbackAd() {
+            bannerAdPlaceholder.innerHTML = `
+                <div style="text-align: center; padding: 10px;">
+                    <div style="font-size: 0.9rem; color: #cccccc; margin-bottom: 5px;">
+                        <i class="fas fa-ad"></i> Ad Space
+                    </div>
+                    <div style="font-size: 0.7rem; color: #888888;">
+                        Support the app by completing tasks
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Check if user is already logged in
+        function checkLoginStatus() {
+            const user = userManager.getCurrentUser();
+            if (user) {
+                showMainApp(user);
+            } else {
+                showLoginScreen();
+            }
+        }
+        
+        // Show login screen
+        function showLoginScreen() {
+            loginScreen.style.display = 'flex';
+            signupScreen.style.display = 'none';
+            mainApp.style.display = 'none';
+            
+            // Show banner ads on login/signup screens
+            bannerAdContainer.style.display = 'flex';
+            
+            // Clear form fields
+            loginEmail.value = '';
+            loginPassword.value = '';
+        }
+        
+        // Show signup screen
+        function showSignupScreen() {
+            loginScreen.style.display = 'none';
+            signupScreen.style.display = 'flex';
+            mainApp.style.display = 'none';
+            
+            // Show banner ads on login/signup screens
+            bannerAdContainer.style.display = 'flex';
+            
+            // Clear form fields
+            signupEmail.value = '';
+            signupPassword.value = '';
+            signupConfirmPassword.value = '';
+            signupReferral.value = '';
+        }
+        
+        // Show main app
+        function showMainApp(user) {
+            loginScreen.style.display = 'none';
+            signupScreen.style.display = 'none';
+            mainApp.style.display = 'block';
+            
+            // Show banner ads in main app
+            bannerAdContainer.style.display = 'flex';
+            
+            // Update user info
+            updateUserInfo(user);
+            
+            // Initialize navigation
+            initNavigation();
+            
+            // Load tasks
+            loadTasks();
+            
+            // Start reset timer
+            startResetTimer();
+            
+            // Check withdrawal requirements
+            checkWithdrawalRequirements(user);
+            
+            // Check if should show telegram banner
+            if (userManager.shouldShowTelegramBanner()) {
+                // Show telegram banner after 3 seconds
+                telegramBannerTimer = setTimeout(() => {
+                    showTelegramBanner();
+                }, 3000);
+            }
+        }
+        
+        // Update user info in the app
+        function updateUserInfo(user) {
+            // Set user initial
+            const initial = user.email.charAt(0).toUpperCase();
+            userInitial.textContent = initial;
+            
+            // Set menu info
+            menuUserEmail.textContent = user.email;
+            menuReferralCode.textContent = user.referralCode;
+            
+            // Update balance and stats (in Pepe)
+            balanceAmount.textContent = `${user.balance.toLocaleString()} Pepe`;
+            referralsCount.textContent = user.referrals.length;
+            totalEarned.textContent = `${user.totalEarned.toLocaleString()} Pepe`;
+            referralBonus.textContent = `${user.referralBonus.toLocaleString()} Pepe`;
+            withdrawBalance.textContent = `${user.balance.toLocaleString()} Pepe`;
+            
+            // Update referral code
+            referralCode.textContent = user.referralCode;
+            
+            // Update referrals count
+            totalReferrals.textContent = `${user.referrals.length} ${user.referrals.length === 1 ? 'referral' : 'referrals'}`;
+            totalReferralsCount.textContent = user.referrals.length;
+            
+            // Calculate total referral earnings
+            const totalRefEarnings = user.referrals.reduce((sum, ref) => sum + ref.bonus, 0);
+            totalReferralEarnings.textContent = totalRefEarnings.toLocaleString();
+            
+            // Update referrals list
+            updateReferralsList(user);
+            
+            // Update withdrawal amount field
+            withdrawAmount.value = user.balance >= 1000000 ? user.balance : 1000000;
+            withdrawAmount.max = user.balance;
+            
+            // Check withdrawal requirements
+            checkWithdrawalRequirements(user);
+        }
+        
+        // Update referrals list
+        function updateReferralsList(user) {
+            if (user.referrals.length > 0) {
+                zeroReferrals.style.display = 'none';
+                referralsList.style.display = 'block';
+                
+                // Clear and rebuild list
+                referralsList.innerHTML = '';
+                
+                user.referrals.forEach((ref, index) => {
+                    const referralItem = document.createElement('div');
+                    referralItem.className = 'friend-item';
+                    referralItem.innerHTML = `
+                        <div class="friend-info">
+                            <div class="friend-avatar">${ref.email.charAt(0).toUpperCase()}</div>
+                            <div class="friend-details">
+                                <h4>${ref.email}</h4>
+                                <div class="friend-date">${new Date(ref.date).toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                        <div class="friend-earned">+${ref.bonus.toLocaleString()} Pepe</div>
+                    `;
+                    referralsList.appendChild(referralItem);
+                });
+            } else {
+                zeroReferrals.style.display = 'block';
+                referralsList.style.display = 'none';
+            }
+        }
+        
+        // Start reset timer
+        function startResetTimer() {
+            function updateTimer() {
+                const timeUntilReset = userManager.getTimeUntilReset();
+                const hours = Math.floor((timeUntilReset % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
+                
+                resetTime.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+        
+        // Load tasks into the task section
+        function loadTasks() {
+            tasksContainer.innerHTML = '';
+            
+            tasks.forEach(task => {
+                const taskCard = document.createElement('div');
+                taskCard.className = 'task-card';
+                taskCard.id = `task-${task.id}`;
+                
+                // Determine reward class
+                let rewardClass = '';
+                if (task.isPepe) {
+                    rewardClass = 'pepe';
+                } else if (task.isBlue) {
+                    rewardClass = 'blue';
+                } else if (task.isGreen) {
+                    rewardClass = 'green';
+                }
+                
+                // Determine button class
+                let buttonClass = '';
+                if (task.isPepe) {
+                    buttonClass = 'pepe';
+                } else if (task.isBlue) {
+                    buttonClass = 'blue';
+                } else if (task.isGreen) {
+                    buttonClass = 'green';
+                }
+                
+                taskCard.innerHTML = `
+                    <div class="task-header">
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-reward ${rewardClass}">${task.reward.toLocaleString()} Pepe</div>
+                    </div>
+                    <div class="task-description">${task.description}</div>
+                    <button class="task-button ${buttonClass}" id="start-task-${task.id}">
+                        <i class="fas fa-play-circle"></i> Start Task
+                    </button>
+                    <div class="task-status pending" id="task-status-${task.id}" style="display: none;">
+                        <i class="fas fa-clock"></i> Ready to complete
+                    </div>
+                    <div class="task-progress" id="task-progress-${task.id}">
+                        Today: 0/500
+                    </div>
+                `;
+                
+                tasksContainer.appendChild(taskCard);
+                
+                // Add event listener to task button
+                const taskButton = document.getElementById(`start-task-${task.id}`);
+                taskButton.addEventListener('click', () => startTask(task));
+            });
+            
+            // Update task statuses
+            updateTaskStatuses();
+        }
+        
+        // Update task statuses based on cooldown and daily limit
+        function updateTaskStatuses() {
+            const user = userManager.getCurrentUser();
+            if (!user) return;
+            
+            const dailyCount = userManager.getDailyTaskCount(user.id);
+            const attemptsLeft = 500 - dailyCount;
+            
+            // Update task limit info
+            taskLimitInfo.textContent = `${attemptsLeft} attempts left`;
+            
+            tasks.forEach(task => {
+                const statusElement = document.getElementById(`task-status-${task.id}`);
+                const buttonElement = document.getElementById(`start-task-${task.id}`);
+                const progressElement = document.getElementById(`task-progress-${task.id}`);
+                
+                // Update progress
+                progressElement.textContent = `Today: ${dailyCount}/500`;
+                
+                // Special handling for telegram task
+                if (task.id === 'task9') {
+                    if (user.telegramBonusClaimed) {
+                        statusElement.style.display = 'block';
+                        statusElement.className = 'task-status completed';
+                        statusElement.innerHTML = `<i class="fas fa-check-circle"></i> Bonus claimed!`;
+                        buttonElement.disabled = true;
+                        buttonElement.innerHTML = '<i class="fas fa-check"></i> Completed';
+                    } else {
+                        statusElement.style.display = 'none';
+                        buttonElement.disabled = false;
+                        buttonElement.innerHTML = '<i class="fab fa-telegram"></i> Join Telegram';
+                    }
+                    return;
+                }
+                
+                const canComplete = userManager.canCompleteTask(user.id, task.id);
+                
+                if (canComplete.reason === 'daily_limit') {
+                    // Daily limit reached
+                    statusElement.style.display = 'block';
+                    statusElement.className = 'task-status limited';
+                    statusElement.innerHTML = `<i class="fas fa-ban"></i> Daily limit reached (500/500)`;
+                    buttonElement.disabled = true;
+                    
+                    // Determine button text based on task type
+                    if (task.isPepe) {
+                        buttonElement.innerHTML = '<i class="fas fa-ban"></i> Limit Reached';
+                    } else if (task.isBlue) {
+                        buttonElement.innerHTML = '<i class="fas fa-ban"></i> Daily Limit';
+                    } else {
+                        buttonElement.innerHTML = '<i class="fas fa-ban"></i> Limit Reached';
+                    }
+                } else if (canComplete.reason === 'cooldown') {
+                    // Cooldown active
+                    statusElement.style.display = 'block';
+                    statusElement.className = 'task-status countdown';
+                    statusElement.innerHTML = `<i class="fas fa-clock"></i> Available in ${canComplete.timeRemaining} seconds`;
+                    buttonElement.disabled = true;
+                    
+                    // Determine button text based on task type
+                    if (task.isPepe) {
+                        buttonElement.innerHTML = '<i class="fas fa-clock"></i> On Cooldown';
+                    } else if (task.isBlue) {
+                        buttonElement.innerHTML = '<i class="fas fa-hourglass-half"></i> Waiting';
+                    } else {
+                        buttonElement.innerHTML = '<i class="fas fa-clock"></i> On Cooldown';
+                    }
+                } else {
+                    // Task can be completed
+                    statusElement.style.display = 'none';
+                    buttonElement.disabled = false;
+                    buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                }
+            });
+        }
+        
+        // Start a task
+        function startTask(task) {
+            const user = userManager.getCurrentUser();
+            if (!user) return;
+            
+            // Special handling for telegram task
+            if (task.id === 'task9') {
+                if (user.telegramBonusClaimed) {
+                    showModal(errorModal, 'You have already claimed the Telegram bonus!');
+                    return;
+                }
+                
+                // Open telegram link
+                window.open(task.link, '_blank');
+                
+                // Ask user if they joined
+                setTimeout(() => {
+                    const joined = confirm("Did you join our Telegram channel? Click OK to claim your 1000 Pepe bonus!");
+                    if (joined) {
+                        userManager.claimTelegramBonus(user.id);
+                        updateUserInfo(userManager.getCurrentUser());
+                        updateTaskStatuses();
+                        showModal(successModal, 'Congratulations! You claimed 1000 Pepe bonus for joining our Telegram channel!');
+                    }
+                }, 1000);
+                
+                return;
+            }
+            
+            // Check if task can be completed
+            const canComplete = userManager.canCompleteTask(user.id, task.id);
+            
+            if (canComplete.reason === 'daily_limit') {
+                showModal(errorModal, 'Daily task limit reached! You can complete this task 500 times per day. Try again tomorrow.');
+                return;
+            }
+            
+            if (canComplete.reason === 'cooldown') {
+                showModal(errorModal, `Please wait ${canComplete.timeRemaining} seconds before starting this task again.`);
+                return;
+            }
+            
+            // Special handling for task 2 (in-app interstitial)
+            if (task.id === 'task2') {
+                // Check if user can show more task 2 ads
+                if (!userManager.canShowTask2Ad(user.id)) {
+                    showModal(errorModal, 'You can only watch 2 in-app interstitial ads every 6 minutes. Please wait and try again.');
+                    return;
+                }
+                
+                // Disable the button immediately
+                const buttonElement = document.getElementById(`start-task-${task.id}`);
+                buttonElement.disabled = true;
+                buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                
+                // For task 2, we'll trigger the in-app ad manually
+                if (typeof show_10541383 !== 'undefined') {
+                    try {
+                        // Configure in-app interstitial ad
+                        show_10541383({
+                            type: 'inApp',
+                            inAppSettings: {
+                                frequency: 2,
+                                capping: 0.1, // 0.1 hours = 6 minutes
+                                interval: 30, // 30 seconds interval
+                                timeout: 5, // 5 seconds delay
+                                everyPage: false
+                            }
+                        }).then(() => {
+                            // Ad was shown successfully
+                            userManager.recordTask2AdShown(user.id);
+                            
+                            // Complete the task and give reward
+                            completeTask(task, buttonElement);
+                            
+                            // Show success message
+                            showModal(successModal, 'You have watched an in-app interstitial ad! 150 Pepe has been added to your balance.');
+                        }).catch(error => {
+                            // Ad failed to load
+                            buttonElement.disabled = false;
+                            buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                            showModal(errorModal, 'Failed to load in-app ad. Please try again.');
+                        });
+                    } catch (error) {
+                        buttonElement.disabled = false;
+                        buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                        showModal(errorModal, 'Error showing in-app ad. Please try again.');
+                    }
+                } else {
+                    buttonElement.disabled = false;
+                    buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                    showModal(errorModal, 'Ad system not available. Please try again later.');
+                }
+                return;
+            }
+            
+            // Disable the button immediately
+            const buttonElement = document.getElementById(`start-task-${task.id}`);
+            buttonElement.disabled = true;
+            buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            buttonElement.parentElement.classList.add('player-detected');
+            
+            // Check if this is a rewarded ad task
+            if (task.type === 'rewardedAd') {
+                // Show rewarded interstitial ad
+                if (typeof show_10541383 !== 'undefined') {
+                    show_10541383().then(() => {
+                        // User watched the ad completely
+                        completeTask(task, buttonElement);
+                        
+                        // Show success message
+                        showModal(successModal, 'You have watched an ad! 150 Pepe has been added to your balance.');
+                    }).catch(error => {
+                        // Ad failed to load or user didn't watch
+                        buttonElement.disabled = false;
+                        buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                        buttonElement.parentElement.classList.remove('player-detected');
+                        
+                        showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.');
+                    });
+                } else {
+                    // SDK not loaded, use fallback
+                    buttonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Starting...';
+                    setTimeout(() => {
+                        completeTask(task, buttonElement);
+                    }, 1000);
+                }
+            } else {
+                // Regular task - open link in new tab
+                buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening...';
+                
+                // Open task link in new tab
+                taskTab = window.open(task.link, '_blank');
+                
+                if (!taskTab) {
+                    showModal(errorModal, 'Please allow pop-ups to start the task.');
+                    buttonElement.disabled = false;
+                    buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                    buttonElement.parentElement.classList.remove('player-detected');
+                    return;
+                }
+                
+                // Store current task info
+                currentPlayerBackTask = task;
+                taskStarted = true;
+                lastFocusedTime = Date.now();
+                
+                // Update button text based on task type
+                if (task.isPepe) {
+                    buttonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Return to this page after watching';
+                } else if (task.isBlue) {
+                    buttonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Return to this page after completing';
+                } else {
+                    buttonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Return to this page after visiting';
+                }
+                
+                // Start checking for user return
+                taskCheckInterval = setInterval(() => {
+                    checkForPlayerBack(task, buttonElement);
+                }, 1000);
+                
+                // Inform user
+                showModal(successModal, `Task page opened! Please complete the task and then return back to this window to earn ${task.reward.toLocaleString()} Pepe.`);
+            }
+        }
+        
+        // Check if user has returned from task page
+        function checkForPlayerBack(task, buttonElement) {
+            // Check if the task tab is closed
+            if (taskTab && taskTab.closed) {
+                // User has closed the task tab - check if they're back
+                if (document.hasFocus()) {
+                    // User is back on our page
+                    clearInterval(taskCheckInterval);
+                    startPlayerBackCountdown(task, buttonElement);
+                }
+            } else {
+                // Task tab is still open, check focus
+                if (document.hasFocus() && taskStarted) {
+                    // User has switched back to our page
+                    clearInterval(taskCheckInterval);
+                    startPlayerBackCountdown(task, buttonElement);
+                }
+            }
+        }
+        
+        // Start countdown when player returns
+        function startPlayerBackCountdown(task, buttonElement) {
+            playerBackSeconds = 5;
+            isPlayerBackCountdown = true;
+            
+            // Update button
+            buttonElement.innerHTML = '<i class="fas fa-clock"></i> Please wait 5 seconds...';
+            
+            // Show player back modal
+            showModal(playerBackModal);
+            playerBackTimer.textContent = playerBackSeconds;
+            
+            // Start countdown
+            playerBackInterval = setInterval(() => {
+                playerBackSeconds--;
+                playerBackTimer.textContent = playerBackSeconds;
+                
+                if (playerBackSeconds <= 0) {
+                    clearInterval(playerBackInterval);
+                    hideModal(playerBackModal);
+                    completeTask(task, buttonElement);
+                    isPlayerBackCountdown = false;
+                    currentPlayerBackTask = null;
+                    taskStarted = false;
+                }
+            }, 1000);
+        }
+        
+        // Complete a task
+        function completeTask(task, buttonElement) {
+            const user = userManager.getCurrentUser();
+            if (!user) return;
+            
+            // Complete task and add reward (150 Pepe)
+            const success = userManager.completeTask(user.id, task.id, task.reward);
+            
+            if (success) {
+                // Update user info
+                updateUserInfo(userManager.getCurrentUser());
+                
+                // Update task statuses
+                updateTaskStatuses();
+                
+                // Reset button based on task type
+                if (buttonElement) {
+                    buttonElement.disabled = true;
+                    if (task.isPepe) {
+                        buttonElement.innerHTML = '<i class="fas fa-check"></i> Completed';
+                    } else if (task.isBlue) {
+                        buttonElement.innerHTML = '<i class="fas fa-check-circle"></i> Done';
+                    } else if (task.isGreen) {
+                        buttonElement.innerHTML = '<i class="fas fa-check-circle"></i> Bonus Claimed';
+                    } else {
+                        buttonElement.innerHTML = '<i class="fas fa-check"></i> Completed';
+                    }
+                    buttonElement.parentElement.classList.remove('player-detected');
+                }
+                
+                // Start cooldown timer
+                const statusElement = document.getElementById(`task-status-${task.id}`);
+                if (statusElement) {
+                    statusElement.style.display = 'block';
+                    statusElement.className = 'task-status countdown';
+                    statusElement.innerHTML = `<i class="fas fa-clock"></i> Available in ${task.cooldown} seconds`;
+                    
+                    // Start cooldown countdown
+                    let cooldown = task.cooldown;
+                    const cooldownInterval = setInterval(() => {
+                        cooldown--;
+                        
+                        if (cooldown <= 0) {
+                            clearInterval(cooldownInterval);
+                            statusElement.style.display = 'none';
+                            if (buttonElement) {
+                                buttonElement.disabled = false;
+                                buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                            }
+                        } else {
+                            statusElement.innerHTML = `<i class="fas fa-clock"></i> Available in ${cooldown} seconds`;
+                        }
+                    }, 1000);
+                }
+            }
+        }
+        
+        // Check withdrawal requirements
+        function checkWithdrawalRequirements(user) {
+            let allRequirementsMet = true;
+            
+            // Requirement 1: Minimum balance 1,000,000 Pepe
+            if (user.balance >= 1000000) {
+                req1Status.textContent = 'Met';
+                req1Status.className = 'requirement-status completed';
+                req1Icon.innerHTML = '<i class="fas fa-check"></i>';
+                req1Icon.className = 'requirement-icon completed';
+            } else {
+                req1Status.textContent = `Need ${(1000000 - user.balance).toLocaleString()} more Pepe`;
+                req1Status.className = 'requirement-status';
+                req1Icon.innerHTML = '<i class="fas fa-coins"></i>';
+                req1Icon.className = 'requirement-icon pending';
+                allRequirementsMet = false;
+            }
+            
+            // Requirement 2: Minimum 3 referrals
+            if (user.referrals.length >= 3) {
+                req2Status.textContent = 'Met';
+                req2Status.className = 'requirement-status completed';
+                req2Icon.innerHTML = '<i class="fas fa-check"></i>';
+                req2Icon.className = 'requirement-icon completed';
+            } else {
+                req2Status.textContent = `Need ${3 - user.referrals.length} more referrals`;
+                req2Status.className = 'requirement-status';
+                req2Icon.innerHTML = '<i class="fas fa-user-friends"></i>';
+                req2Icon.className = 'requirement-icon pending';
+                allRequirementsMet = false;
+            }
+            
+            // Requirement 3: No cheating / Fair use verification
+            // For demo, we'll auto-verify if user has at least 1 referral and some balance
+            if (user.referrals.length >= 1 && user.balance > 0) {
+                req3Status.textContent = 'Verified';
+                req3Status.className = 'requirement-status completed';
+                req3Icon.innerHTML = '<i class="fas fa-check"></i>';
+                req3Icon.className = 'requirement-icon completed';
+            } else {
+                req3Status.textContent = 'Pending verification';
+                req3Status.className = 'requirement-status';
+                req3Icon.innerHTML = '<i class="fas fa-shield-alt"></i>';
+                req3Icon.className = 'requirement-icon pending';
+                allRequirementsMet = false;
+            }
+            
+            // Show/hide next button based on requirements
+            if (allRequirementsMet) {
+                nextButton.disabled = false;
+                nextButton.classList.add('active');
+            } else {
+                nextButton.disabled = true;
+                nextButton.classList.remove('active');
+            }
+            
+            return allRequirementsMet;
+        }
+        
+        // Show telegram banner
+        function showTelegramBanner() {
+            userManager.markTelegramBannerShown();
+            showModal(telegramBannerModal);
+        }
+        
+        // Initialize navigation system
+        function initNavigation() {
+            // Get all navigation buttons
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            // Function to switch between sections
+            function switchSection(targetId) {
+                // Hide all sections
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show target section
+                document.getElementById(targetId).classList.add('active');
+                
+                // Update active button
+                navButtons.forEach(button => {
+                    button.classList.remove('active');
+                });
+                
+                // Find and activate the clicked button
+                const activeButton = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
+                if (activeButton) {
+                    activeButton.classList.add('active');
+                }
+                
+                // Hide binance form and success message when switching away from withdraw section
+                if (targetId !== 'withdraw-section') {
+                    binanceForm.classList.remove('active');
+                    successMessage.classList.remove('active');
+                    nextButton.classList.remove('active');
+                } else {
+                    // When switching to withdraw section, check requirements
+                    const user = userManager.getCurrentUser();
+                    if (user) {
+                        checkWithdrawalRequirements(user);
+                    }
+                }
+                
+                // Update task statuses when switching to task section
+                if (targetId === 'task-section') {
+                    updateTaskStatuses();
+                }
+            }
+            
+            // Add click event to all navigation buttons
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    switchSection(targetId);
+                });
+            });
+            
+            // Initialize with Home section active
+            switchSection('home-section');
+        }
+        
+        // Show modal
+        function showModal(modal, message = '') {
+            if (message) {
+                const messageElement = modal.querySelector('.modal-message');
+                if (messageElement) {
+                    messageElement.innerHTML = message;
+                }
+            }
+            modal.classList.add('active');
+        }
+        
+        // Hide modal
+        function hideModal(modal) {
+            modal.classList.remove('active');
+        }
+        
+        // Cancel player back countdown
+        function cancelPlayerBackCountdown() {
+            if (playerBackInterval) {
+                clearInterval(playerBackInterval);
+            }
+            
+            if (taskCheckInterval) {
+                clearInterval(taskCheckInterval);
+            }
+            
+            hideModal(playerBackModal);
+            
+            // Reset task button
+            if (currentPlayerBackTask) {
+                const buttonElement = document.getElementById(`start-task-${currentPlayerBackTask.id}`);
+                if (buttonElement) {
+                    buttonElement.disabled = false;
+                    buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                    buttonElement.parentElement.classList.remove('player-detected');
+                }
+            }
+            
+            isPlayerBackCountdown = false;
+            currentPlayerBackTask = null;
+            taskStarted = false;
+        }
+        
+        // Initialize the app
+        function initApp() {
+            // Initialize banner ads
+            initializeBannerAds();
+            
+            // Check login status
+            checkLoginStatus();
+            
+            // Event Listeners
+            goToSignup.addEventListener('click', showSignupScreen);
+            goToLogin.addEventListener('click', showLoginScreen);
+            
+            // Login form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = loginEmail.value.trim();
+                const password = loginPassword.value;
+                
+                if (!email || !password) {
+                    showModal(errorModal, 'Please fill in all fields');
+                    return;
+                }
+                
+                const result = userManager.loginUser(email, password);
+                
+                if (result.success) {
+                    showMainApp(result.user);
+                } else {
+                    showModal(errorModal, result.message);
+                }
+            });
+            
+            // Signup form submission
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = signupEmail.value.trim();
+                const password = signupPassword.value;
+                const confirmPassword = signupConfirmPassword.value;
+                const referral = signupReferral.value.trim().toUpperCase();
+                
+                if (!email || !password || !confirmPassword) {
+                    showModal(errorModal, 'Please fill in all required fields');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    showModal(errorModal, 'Passwords do not match');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    showModal(errorModal, 'Password must be at least 6 characters');
+                    return;
+                }
+                
+                // Check if referral code is valid if provided
+                if (referral && !userManager.getUserByReferralCode(referral)) {
+                    showModal(errorModal, 'Invalid referral code');
+                    return;
+                }
+                
+                const result = userManager.createUser(email, password, referral || null);
+                
+                if (result.success) {
+                    // Auto login after signup
+                    const loginResult = userManager.loginUser(email, password);
+                    
+                    if (loginResult.success) {
+                        showMainApp(loginResult.user);
+                        
+                        // Show referral bonus modal if applicable
+                        if (result.hasReferralBonus) {
+                            setTimeout(() => {
+                                showModal(referralBonusModal, 'Congratulations! You received 500 Pepe referral bonus for signing up with a referral code.');
+                            }, 500);
+                        } else {
+                            showModal(successModal, 'Account created successfully! Welcome to Earn Pepe.');
+                        }
+                    }
+                } else {
+                    showModal(errorModal, result.message);
+                }
+            });
+            
+            // User profile menu
+            userProfile.addEventListener('click', function() {
+                userMenu.classList.toggle('active');
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userProfile.contains(e.target) && !userMenu.contains(e.target)) {
+                    userMenu.classList.remove('active');
+                }
+            });
+            
+            // Change Password button
+            changePasswordBtn.addEventListener('click', function() {
+                hideModal(userMenu);
+                showModal(changePasswordModal);
+            });
+            
+            // Change Password form submission
+            changePasswordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const user = userManager.getCurrentUser();
+                if (!user) return;
+                
+                const currentPass = currentPassword.value;
+                const newPass = newPassword.value;
+                const confirmPass = confirmNewPassword.value;
+                
+                if (!currentPass || !newPass || !confirmPass) {
+                    showModal(errorModal, 'Please fill in all fields');
+                    return;
+                }
+                
+                if (newPass !== confirmPass) {
+                    showModal(errorModal, 'New passwords do not match');
+                    return;
+                }
+                
+                if (newPass.length < 6) {
+                    showModal(errorModal, 'New password must be at least 6 characters');
+                    return;
+                }
+                
+                const result = userManager.changePassword(user.id, currentPass, newPass);
+                
+                if (result.success) {
+                    hideModal(changePasswordModal);
+                    showModal(successModal, 'Password changed successfully!');
+                    
+                    // Clear form fields
+                    currentPassword.value = '';
+                    newPassword.value = '';
+                    confirmNewPassword.value = '';
+                } else {
+                    showModal(errorModal, result.message);
+                }
+            });
+            
+            // Cancel Change Password
+            cancelChangePasswordBtn.addEventListener('click', function() {
+                hideModal(changePasswordModal);
+                
+                // Clear form fields
+                currentPassword.value = '';
+                newPassword.value = '';
+                confirmNewPassword.value = '';
+            });
+            
+            // Copy referral code
+            copyReferralBtn.addEventListener('click', function() {
+                navigator.clipboard.writeText(referralCode.textContent).then(() => {
+                    showModal(successModal, 'Referral code copied to clipboard! Share it with your friends.');
+                });
+            });
+            
+            // Share referral code buttons
+            shareReferralBtn.addEventListener('click', function() {
+                navigator.clipboard.writeText(referralCode.textContent).then(() => {
+                    showModal(successModal, 'Referral code copied! Share it with your friends.');
+                });
+            });
+            
+            zeroShareReferralBtn.addEventListener('click', function() {
+                navigator.clipboard.writeText(referralCode.textContent).then(() => {
+                    showModal(successModal, 'Referral code copied! Share it with your friends.');
+                });
+            });
+            
+            // Cancel player back countdown
+            cancelPlayerBackBtn.addEventListener('click', cancelPlayerBackCountdown);
+            
+            // Chat button
+            const chatBtn = document.getElementById('earnBtn');
+            chatBtn.addEventListener('click', function() {
+                showModal(chatModal);
+            });
+            
+            // Info section chat button
+            infoChatBtn.addEventListener('click', function() {
+                // Open Telegram link
+                window.open('https://t.me/earnforearnsuportteam', '_blank');
+            });
+            
+            // Info section email button
+            infoEmailBtn.addEventListener('click', function() {
+                const email = 'earnforearnsuportteam@gmail.com';
+                navigator.clipboard.writeText(email).then(() => {
+                    showModal(successModal, 'Support email copied to clipboard!');
+                });
+            });
+            
+            // Start chat button
+            startChatBtn.addEventListener('click', function() {
+                // Open Telegram link
+                window.open('https://t.me/earnforearnsuportteam', '_blank');
+                hideModal(chatModal);
+            });
+            
+            // Join telegram button
+            joinTelegramBtn.addEventListener('click', function() {
+                // Open Telegram link
+                window.open('https://t.me/earnpepe_app', '_blank');
+                hideModal(telegramBannerModal);
+                
+                // Ask user to claim bonus
+                setTimeout(() => {
+                    const user = userManager.getCurrentUser();
+                    if (user && !user.telegramBonusClaimed) {
+                        const joined = confirm("Did you join our Telegram channel? Click OK to claim your 1000 Pepe bonus!");
+                        if (joined) {
+                            userManager.claimTelegramBonus(user.id);
+                            updateUserInfo(userManager.getCurrentUser());
+                            updateTaskStatuses();
+                            showModal(successModal, 'Congratulations! You claimed 1000 Pepe bonus for joining our Telegram channel!');
+                        }
+                    }
+                }, 1000);
+            });
+            
+            // Cancel telegram banner
+            cancelTelegramBtn.addEventListener('click', function() {
+                hideModal(telegramBannerModal);
+            });
+            
+            // Next button (when all requirements met)
+            nextButton.addEventListener('click', function() {
+                // Show binance form
+                binanceForm.classList.add('active');
+                this.style.display = 'none';
+            });
+            
+            // Submit withdrawal button
+            submitWithdrawBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const user = userManager.getCurrentUser();
+                if (!user) return;
+                
+                const email = binanceEmail.value.trim();
+                const amount = parseInt(withdrawAmount.value);
+                const payId = binancePayId.value.trim();
+                
+                if (!email) {
+                    showModal(errorModal, 'Please enter your Binance email or UID');
+                    return;
+                }
+                
+                if (!amount || amount < 1000000) {
+                    showModal(errorModal, 'Minimum withdrawal amount is 1,000,000 Pepe');
+                    return;
+                }
+                
+                if (amount > user.balance) {
+                    showModal(errorModal, 'Insufficient balance');
+                    return;
+                }
+                
+                // Submit withdrawal request
+                const binanceDetails = {
+                    email: email,
+                    payId: payId,
+                    submittedAt: new Date().toISOString()
+                };
+                
+                const result = userManager.submitWithdrawal(user.id, amount, binanceDetails);
+                
+                if (result.success) {
+                    // Hide binance form and show success message
+                    binanceForm.classList.remove('active');
+                    successMessage.classList.add('active');
+                    
+                    // Update user balance (for demo purposes, in real app admin would approve first)
+                    userManager.updateUser(user.id, {
+                        balance: user.balance - amount
+                    });
+                    
+                    // Update UI
+                    updateUserInfo(userManager.getCurrentUser());
+                    
+                    // Show success message
+                    showModal(successModal, `Withdrawal request submitted! You will receive ${amount.toLocaleString()} Pepe to your Binance account.`);
+                } else {
+                    showModal(errorModal, result.message);
+                }
+            });
+            
+            // Modal close buttons
+            successOkBtn.addEventListener('click', () => hideModal(successModal));
+            errorOkBtn.addEventListener('click', () => hideModal(errorModal));
+            referralBonusOkBtn.addEventListener('click', () => hideModal(referralBonusModal));
+            
+            // Close modals on background click
+            [successModal, errorModal, referralBonusModal, chatModal, playerBackModal, changePasswordModal, telegramBannerModal].forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        hideModal(this);
+                    }
+                });
+            });
+        }
+        
+        // Initialize the app when page loads
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
