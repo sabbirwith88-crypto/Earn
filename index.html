@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Add SDK Script for Rewarded Ads -->
     <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -27,6 +33,8 @@
             --purple-dark: #6a0dad;
             --blue: #2b6de2;
             --blue-dark: #1a5ad9;
+            --success: #4CAF50;
+            --error: #f44336;
         }
         
         body {
@@ -49,6 +57,183 @@
             box-shadow: 0 0 20px var(--shadow);
         }
         
+        /* Loading Screen with Progress Bar */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--bg-primary);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .loading-screen.hidden {
+            display: none;
+        }
+        
+        .loading-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(138, 43, 226, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(138, 43, 226, 0); }
+        }
+        
+        .loading-logo i {
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .loading-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--purple), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .loading-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .progress-container {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .progress-percent {
+            font-weight: 600;
+            color: var(--purple);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: var(--bg-secondary);
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--purple), var(--blue));
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .loading-steps {
+            margin-top: 25px;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .loading-step {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+        
+        .loading-step.active {
+            opacity: 1;
+            color: var(--text-primary);
+        }
+        
+        .loading-step.completed {
+            opacity: 0.8;
+            color: var(--purple);
+        }
+        
+        .step-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .loading-version {
+            position: absolute;
+            bottom: 20px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        /* Loading Spinner for operations */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .loading-spinner.active {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--bg-secondary);
+            border-top: 5px solid var(--purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-top: 20px;
+            color: var(--text-secondary);
+        }
+        
         /* Login/Signup Screens */
         .auth-screen {
             padding: 30px 20px;
@@ -56,8 +241,15 @@
             flex-direction: column;
             justify-content: center;
             min-height: 100vh;
+            animation: fadeIn 0.5s ease;
         }
         
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Rest of the CSS remains the same as before... */
         .auth-container {
             background-color: var(--bg-card);
             border-radius: 20px;
@@ -226,11 +418,6 @@
         .content-section {
             display: none;
             animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .content-section.active {
@@ -1295,10 +1482,31 @@
             margin-top: 15px;
         }
         
-        /* Player Detection UI */
-        .player-detected {
-            background-color: #1a1a1a !important;
-            border-color: #333333 !important;
+        /* 12 Second Timer Warning Modal */
+        .timer-modal .modal-content {
+            max-width: 350px;
+        }
+        
+        .timer-info {
+            text-align: center;
+            padding: 20px;
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #333333;
+        }
+        
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin: 20px 0;
+        }
+        
+        .timer-text {
+            color: #cccccc;
+            font-size: 0.9rem;
+            margin-top: 10px;
         }
         
         /* Responsive adjustments for mini app */
@@ -1343,9 +1551,59 @@
     </style>
 </head>
 <body>
+    <!-- Loading Screen with Progress Bar -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">
+            <i class="fas fa-wallet"></i>
+        </div>
+        <h1 class="loading-title">Earn Pepe</h1>
+        <p class="loading-subtitle">Loading your experience...</p>
+        
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Initializing</span>
+                <span class="progress-percent" id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        
+        <div class="loading-steps">
+            <div class="loading-step" id="step1">
+                <div class="step-icon"><i class="fas fa-cog"></i></div>
+                <span>Initializing system...</span>
+            </div>
+            <div class="loading-step" id="step2">
+                <div class="step-icon"><i class="fas fa-fire"></i></div>
+                <span>Connecting to Firebase...</span>
+            </div>
+            <div class="loading-step" id="step3">
+                <div class="step-icon"><i class="fas fa-user"></i></div>
+                <span>Checking authentication...</span>
+            </div>
+            <div class="loading-step" id="step4">
+                <div class="step-icon"><i class="fas fa-coins"></i></div>
+                <span>Loading user data...</span>
+            </div>
+            <div class="loading-step" id="step5">
+                <div class="step-icon"><i class="fas fa-check"></i></div>
+                <span>Ready to earn Pepe!</span>
+            </div>
+        </div>
+        
+        <div class="loading-version">Version 1.0.0</div>
+    </div>
+    
+    <!-- Loading Spinner for operations -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">Processing...</div>
+    </div>
+    
     <div class="app-container">
         <!-- Login/Signup Screens -->
-        <div id="login-screen" class="auth-screen">
+        <div id="login-screen" class="auth-screen" style="display: none;">
             <div class="auth-container">
                 <div class="auth-header">
                     <div class="app-logo">
@@ -1447,6 +1705,10 @@
                     <i class="fas fa-key"></i>
                     <span>Change Password</span>
                 </div>
+                <div class="menu-item logout" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </div>
             </div>
             
             <!-- Main Content -->
@@ -1533,7 +1795,7 @@
                 <!-- Task Section -->
                 <div id="task-section" class="content-section">
                     <div class="section-title" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
-                        <h2 style="font-size: 1.3rem; color: white;">Daily Tasks (8 Tasks Available)</h2>
+                        <h2 style="font-size: 1.3rem; color: white;">Daily Tasks (4 Tasks Available)</h2>
                         <div id="taskLimitInfo" style="font-size: 0.9rem; color: white;">500 attempts left</div>
                     </div>
                     
@@ -1545,7 +1807,7 @@
                         <i class="fas fa-sync-alt" style="font-size: 2rem; color: #cccccc; margin-bottom: 15px;"></i>
                         <h3 style="margin-bottom: 10px; color: white;">Daily Task Limit</h3>
                         <p style="color: var(--text-secondary); margin-bottom: 15px;">
-                            You can complete this task 500 times per day. The limit resets every 24 hours.
+                            You can complete each task 125 times per day. Total 500 attempts per day. The limit resets every 24 hours.
                         </p>
                         <div id="resetTimer" style="font-size: 0.85rem; color: #cccccc; margin-top: 10px;">
                             Next reset in: <span id="resetTime">24:00:00</span>
@@ -1741,6 +2003,7 @@
                                 <p><strong>Pepe System:</strong> Earn Pepe by completing tasks and referring friends</p>
                                 <p><strong>Minimum Withdrawal:</strong> 1,000,000 Pepe</p>
                                 <p><strong>Task Reward:</strong> 150 Pepe per ad</p>
+                                <p><strong>Daily Task Limits:</strong> Each task 125 times/day, Total 500 attempts/day</p>
                                 <p><strong>Withdrawal Method:</strong> Binance Only</p>
                                 <p><strong>Processing Time:</strong> 3-7 business days</p>
                             </div>
@@ -1755,7 +2018,7 @@
                                 <p>1. <strong>No Cheating:</strong> Using any automated tools, bots, or unfair methods will result in permanent ban of your account.</p>
                                 <p>2. <strong>Age Requirement:</strong> You must be at least 18 years old to use this app and withdraw.</p>
                                 <p>3. <strong>Fair Use:</strong> Complete tasks honestly. Don't use VPNs or fake information.</p>
-                                <p>4. <strong>Report Issues:</strong> If you see any 18+ or inappropriate ads, please report to us immediately.</p>
+                                <p>4. <strong>Task Limits:</strong> Each task can be completed 125 times per day. Total daily limit is 500 attempts across all 4 tasks.</p>
                                 <p>5. <strong>One Account:</strong> Only one account per person is allowed.</p>
                                 <p>6. <strong>Pepe Rewards:</strong> Earn 150 Pepe for each ad. Complete about 6,667 ads to reach 1M Pepe for withdrawal!</p>
                             </div>
@@ -1898,25 +2161,24 @@
             </div>
         </div>
         
-        <!-- Player Back Detection Modal -->
-        <div class="modal player-back-modal" id="playerBackModal">
+        <!-- 12 Second Timer Warning Modal -->
+        <div class="modal timer-modal" id="timerWarningModal">
             <div class="modal-content">
                 <div class="modal-title">
-                    <i class="fas fa-redo" style="color: #cccccc; margin-right: 10px;"></i>
-                    Player Back Detected!
-                </div>
-                <div class="player-back-info">
-                    <div class="countdown-timer" id="playerBackTimer">5</div>
-                    <div class="countdown-text">Stay on this page to earn reward</div>
+                    <i class="fas fa-clock" style="color: #cccccc; margin-right: 10px;"></i>
+                    Important Notice!
                 </div>
                 <div class="modal-message">
-                    We detected that you returned from the task. Please stay on this page for 5 seconds to complete the task and earn your reward.
-                </div>
-                <div class="player-back-warning">
-                    <i class="fas fa-exclamation-triangle"></i> Do not close or navigate away from this page
+                    <div class="timer-info">
+                        <div class="timer-display" id="warningTimerDisplay">12</div>
+                        <div class="timer-text">Stay on the next page for 12 seconds to earn your reward</div>
+                    </div>
+                    <p><strong>⚠️ Warning:</strong> You must stay on the task page for <strong>12 seconds</strong>. If you return before 12 seconds, you will <strong>NOT</strong> receive any Pepe reward.</p>
+                    <p>After 12 seconds, you will automatically return to this app and receive <strong>150 Pepe</strong>.</p>
                 </div>
                 <div class="modal-actions">
-                    <button class="modal-btn secondary" id="cancelPlayerBackBtn">Cancel</button>
+                    <button class="modal-btn primary" id="timerOkBtn">OK, I Understand</button>
+                    <button class="modal-btn secondary" id="timerCancelBtn">Cancel</button>
                 </div>
             </div>
         </div>
@@ -1957,18 +2219,143 @@
     </div>
     
     <script>
-        // User Management System
-        class UserManager {
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCAlQL5txzjUagN9A5L0Idki9sjAezOczk",
+            authDomain: "earn-for-earn.firebaseapp.com",
+            databaseURL: "https://earn-for-earn-default-rtdb.firebaseio.com",
+            projectId: "earn-for-earn",
+            storageBucket: "earn-for-earn.firebasestorage.app",
+            messagingSenderId: "730217056305",
+            appId: "1:730217056305:web:d1ab3c775b1ed097742d10",
+            measurementId: "G-N8PP006EGK"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        // Loading Progress Management
+        class LoadingManager {
+            constructor() {
+                this.progress = 0;
+                this.totalSteps = 5;
+                this.currentStep = 0;
+                this.loadingScreen = document.getElementById('loadingScreen');
+                this.progressFill = document.getElementById('progressFill');
+                this.progressPercent = document.getElementById('progressPercent');
+                this.steps = [
+                    document.getElementById('step1'),
+                    document.getElementById('step2'),
+                    document.getElementById('step3'),
+                    document.getElementById('step4'),
+                    document.getElementById('step5')
+                ];
+            }
+            
+            // Update progress bar
+            updateProgress(percent) {
+                this.progress = Math.min(Math.max(percent, 0), 100);
+                this.progressFill.style.width = `${this.progress}%`;
+                this.progressPercent.textContent = `${Math.round(this.progress)}%`;
+            }
+            
+            // Animate progress from current to target
+            animateProgress(targetPercent, duration = 500) {
+                return new Promise((resolve) => {
+                    const start = this.progress;
+                    const end = targetPercent;
+                    const startTime = performance.now();
+                    
+                    const animate = (currentTime) => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        
+                        // Easing function for smooth animation
+                        const ease = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+                        
+                        this.updateProgress(start + (end - start) * ease(progress));
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            this.updateProgress(end);
+                            resolve();
+                        }
+                    };
+                    
+                    requestAnimationFrame(animate);
+                });
+            }
+            
+            // Complete a step
+            completeStep(stepIndex) {
+                if (stepIndex < this.totalSteps) {
+                    this.currentStep = stepIndex + 1;
+                    this.steps[stepIndex].classList.remove('active');
+                    this.steps[stepIndex].classList.add('completed');
+                    this.steps[stepIndex].querySelector('.step-icon').innerHTML = '<i class="fas fa-check"></i>';
+                    
+                    if (stepIndex + 1 < this.totalSteps) {
+                        this.steps[stepIndex + 1].classList.add('active');
+                    }
+                    
+                    // Calculate progress based on completed steps
+                    const stepProgress = ((stepIndex + 1) / this.totalSteps) * 100;
+                    return this.animateProgress(stepProgress, 300);
+                }
+                return Promise.resolve();
+            }
+            
+            // Show loading screen
+            show() {
+                this.loadingScreen.classList.remove('hidden');
+                this.reset();
+            }
+            
+            // Hide loading screen
+            hide() {
+                // Complete final step and hide
+                this.animateProgress(100, 300).then(() => {
+                    setTimeout(() => {
+                        this.loadingScreen.classList.add('hidden');
+                    }, 500);
+                });
+            }
+            
+            // Reset loading screen
+            reset() {
+                this.progress = 0;
+                this.currentStep = 0;
+                this.updateProgress(0);
+                
+                // Reset all steps
+                this.steps.forEach((step, index) => {
+                    step.classList.remove('active', 'completed');
+                    step.querySelector('.step-icon').innerHTML = index === 0 ? 
+                        '<i class="fas fa-cog"></i>' : 
+                        step.querySelector('.step-icon').innerHTML;
+                });
+                
+                // Activate first step
+                if (this.steps[0]) {
+                    this.steps[0].classList.add('active');
+                }
+            }
+        }
+
+        // Initialize Loading Manager
+        const loadingManager = new LoadingManager();
+
+        // Firebase User Management System
+        class FirebaseUserManager {
             constructor() {
                 this.currentUser = null;
-                this.users = JSON.parse(localStorage.getItem('earnPepeUsers')) || [];
-                this.sessions = JSON.parse(localStorage.getItem('earnPepeSessions')) || {};
-                this.referralBonuses = JSON.parse(localStorage.getItem('earnPepeReferralBonuses')) || {};
-                this.withdrawalRequests = JSON.parse(localStorage.getItem('earnPepeWithdrawals')) || [];
-                this.taskCompletions = JSON.parse(localStorage.getItem('earnPepeTaskCompletions')) || {};
-                this.dailyTaskCounts = JSON.parse(localStorage.getItem('earnPepeDailyTaskCounts')) || {};
+                this.userData = null;
+                this.taskCompletions = {};
+                this.dailyTaskCounts = {};
                 this.lastResetDate = localStorage.getItem('earnPepeLastResetDate') || new Date().toDateString();
-                this.inAppAdsShown = JSON.parse(localStorage.getItem('earnPepeInAppAdsShown')) || {};
                 
                 // Check if we need to reset daily counts
                 this.checkAndResetDailyCounts();
@@ -1979,17 +2366,10 @@
                 const today = new Date().toDateString();
                 
                 if (today !== this.lastResetDate) {
-                    // Reset daily counts
+                    // Reset daily counts in localStorage
                     this.dailyTaskCounts = {};
-                    this.inAppAdsShown = {};
-                    this.lastResetDate = today;
-                    this.saveData();
+                    localStorage.setItem('earnPepeLastResetDate', today);
                 }
-            }
-            
-            // Generate unique user ID
-            generateUserId() {
-                return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             }
             
             // Generate referral code from email
@@ -1999,277 +2379,386 @@
                 return (base.length > 4 ? base.substring(0, 4) : base) + random;
             }
             
-            // Check if email already exists
-            emailExists(email) {
-                return this.users.some(user => user.email.toLowerCase() === email.toLowerCase());
+            // Create new user in Firebase
+            async createUser(email, password, referralCode = null) {
+                try {
+                    // Create user in Firebase Auth
+                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                    const user = userCredential.user;
+                    
+                    // Generate referral code
+                    const userReferralCode = this.generateReferralCode(email);
+                    
+                    // Prepare initial user data
+                    const userData = {
+                        email: email.toLowerCase(),
+                        referralCode: userReferralCode,
+                        balance: 0, // In Pepe
+                        totalEarned: 0, // In Pepe
+                        referralBonus: 0, // In Pepe
+                        referrals: [],
+                        referredBy: referralCode || null,
+                        createdAt: new Date().toISOString(),
+                        fairUseVerified: false,
+                        withdrawalHistory: [],
+                        tasksCompleted: [],
+                        lastActive: new Date().toISOString()
+                    };
+                    
+                    // Save user data to Realtime Database
+                    await database.ref('users/' + user.uid).set(userData);
+                    
+                    // Check if referral code is valid and apply bonus
+                    if (referralCode) {
+                        await this.applyReferralBonus(user.uid, referralCode, email);
+                    }
+                    
+                    return { 
+                        success: true, 
+                        user: user,
+                        userData: userData,
+                        hasReferralBonus: !!referralCode
+                    };
+                } catch (error) {
+                    return { success: false, message: error.message };
+                }
             }
             
-            // Create new user
-            createUser(email, password, referralCode = null) {
-                if (this.emailExists(email)) {
-                    return { success: false, message: 'Email already registered' };
-                }
-                
-                const userId = this.generateUserId();
-                const userReferralCode = this.generateReferralCode(email);
-                
-                const newUser = {
-                    id: userId,
-                    email: email.toLowerCase(),
-                    password: password,
-                    referralCode: userReferralCode,
-                    balance: 0, // In Pepe
-                    totalEarned: 0, // In Pepe
-                    referralBonus: 0, // In Pepe
-                    referrals: [],
-                    referredBy: referralCode || null,
-                    createdAt: new Date().toISOString(),
-                    fairUseVerified: false,
-                    withdrawalHistory: [],
-                    tasksCompleted: []
-                };
-                
-                // Check if referral code is valid and apply bonus
-                if (referralCode) {
-                    const referrer = this.users.find(user => user.referralCode === referralCode);
-                    if (referrer) {
+            // Apply referral bonus
+            async applyReferralBonus(userId, referralCode, userEmail) {
+                try {
+                    // Find user with this referral code
+                    const usersRef = database.ref('users');
+                    const snapshot = await usersRef.orderByChild('referralCode').equalTo(referralCode).once('value');
+                    
+                    if (snapshot.exists()) {
+                        const referrerData = snapshot.val();
+                        const referrerId = Object.keys(referrerData)[0];
+                        const referrer = referrerData[referrerId];
+                        
                         // Add 500 Pepe bonus to referrer
-                        referrer.referralBonus += 500;
-                        referrer.balance += 500;
-                        referrer.totalEarned += 500;
-                        referrer.referrals.push({
-                            email: email.toLowerCase(),
+                        const referrerUpdates = {
+                            referralBonus: referrer.referralBonus + 500,
+                            balance: referrer.balance + 500,
+                            totalEarned: referrer.totalEarned + 500
+                        };
+                        
+                        // Add referral to referrer's list
+                        const newReferral = {
+                            email: userEmail.toLowerCase(),
                             date: new Date().toISOString(),
                             bonus: 500
+                        };
+                        
+                        // Get current referrals or create empty array
+                        const referrals = referrer.referrals || [];
+                        referrals.push(newReferral);
+                        
+                        // Update referrer's data
+                        await database.ref('users/' + referrerId).update({
+                            ...referrerUpdates,
+                            referrals: referrals
                         });
                         
                         // Add 500 Pepe bonus to new user
-                        newUser.balance += 500;
-                        newUser.totalEarned += 500;
+                        await database.ref('users/' + userId).update({
+                            balance: 500,
+                            totalEarned: 500
+                        });
                         
-                        // Track referral bonus
-                        this.referralBonuses[userId] = {
-                            from: referrer.id,
+                        // Save referral bonus in database
+                        await database.ref('referralBonuses/' + userId).set({
+                            from: referrerId,
                             amount: 500,
                             date: new Date().toISOString()
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error applying referral bonus:', error);
+                }
+            }
+            
+            // Login user with Firebase - with timeout
+            async loginUser(email, password) {
+                try {
+                    // Add timeout to prevent hanging
+                    const loginPromise = auth.signInWithEmailAndPassword(email, password);
+                    const timeoutPromise = new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Login timeout')), 15000)
+                    );
+                    
+                    const userCredential = await Promise.race([loginPromise, timeoutPromise]);
+                    const user = userCredential.user;
+                    
+                    // Get user data from database with timeout
+                    const dataPromise = this.getUserData(user.uid);
+                    const dataTimeoutPromise = new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Data load timeout')), 10000)
+                    );
+                    
+                    const userData = await Promise.race([dataPromise, dataTimeoutPromise]);
+                    
+                    if (!userData) {
+                        // If no user data exists, create it
+                        const userReferralCode = this.generateReferralCode(email);
+                        const newUserData = {
+                            email: email.toLowerCase(),
+                            referralCode: userReferralCode,
+                            balance: 0,
+                            totalEarned: 0,
+                            referralBonus: 0,
+                            referrals: [],
+                            referredBy: null,
+                            createdAt: new Date().toISOString(),
+                            fairUseVerified: false,
+                            withdrawalHistory: [],
+                            tasksCompleted: [],
+                            lastActive: new Date().toISOString()
                         };
                         
-                        // Save updates
-                        this.saveData();
+                        await database.ref('users/' + user.uid).set(newUserData);
+                        this.userData = newUserData;
+                    } else {
+                        this.userData = userData;
+                        
+                        // Update last active time
+                        await database.ref('users/' + user.uid).update({
+                            lastActive: new Date().toISOString()
+                        });
                     }
+                    
+                    this.currentUser = user;
+                    
+                    return { 
+                        success: true, 
+                        user: user,
+                        userData: this.userData
+                    };
+                } catch (error) {
+                    console.error('Login error:', error);
+                    return { success: false, message: error.message || 'Login failed. Please check your connection.' };
                 }
-                
-                this.users.push(newUser);
-                this.saveData();
-                
-                return { 
-                    success: true, 
-                    user: newUser,
-                    hasReferralBonus: !!referralCode && !!this.users.find(user => user.referralCode === referralCode)
-                };
             }
             
-            // Login user
-            loginUser(email, password) {
-                const user = this.users.find(u => 
-                    u.email.toLowerCase() === email.toLowerCase() && 
-                    u.password === password
-                );
-                
-                if (!user) {
-                    return { success: false, message: 'Invalid email or password' };
-                }
-                
-                this.currentUser = user;
-                
-                // Create session
-                const sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                this.sessions[sessionId] = {
-                    userId: user.id,
-                    createdAt: new Date().toISOString(),
-                    lastActive: new Date().toISOString()
-                };
-                
-                this.saveData();
-                
-                // Store session in localStorage
-                localStorage.setItem('earnPepeCurrentSession', sessionId);
-                
-                return { success: true, user: user, sessionId: sessionId };
-            }
-            
-            // Get current user from session
-            getCurrentUser() {
-                const sessionId = localStorage.getItem('earnPepeCurrentSession');
-                if (!sessionId || !this.sessions[sessionId]) {
+            // Get user data from database
+            async getUserData(userId) {
+                try {
+                    const snapshot = await database.ref('users/' + userId).once('value');
+                    return snapshot.val();
+                } catch (error) {
+                    console.error('Error getting user data:', error);
                     return null;
                 }
-                
-                const userId = this.sessions[sessionId].userId;
-                this.currentUser = this.users.find(user => user.id === userId) || null;
-                
-                return this.currentUser;
             }
             
             // Change user password
-            changePassword(userId, currentPassword, newPassword) {
-                const userIndex = this.users.findIndex(user => user.id === userId);
-                if (userIndex === -1) return { success: false, message: 'User not found' };
-                
-                const user = this.users[userIndex];
-                
-                // Verify current password
-                if (user.password !== currentPassword) {
-                    return { success: false, message: 'Current password is incorrect' };
+            async changePassword(userId, currentPassword, newPassword) {
+                try {
+                    const user = auth.currentUser;
+                    
+                    if (!user) {
+                        return { success: false, message: 'No user logged in' };
+                    }
+                    
+                    // Re-authenticate user before changing password
+                    const credential = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
+                    await user.reauthenticateWithCredential(credential);
+                    
+                    // Update password
+                    await user.updatePassword(newPassword);
+                    
+                    return { success: true, message: 'Password changed successfully' };
+                } catch (error) {
+                    return { success: false, message: error.message };
                 }
-                
-                // Update password
-                this.users[userIndex].password = newPassword;
-                this.saveData();
-                
-                if (this.currentUser && this.currentUser.id === userId) {
-                    this.currentUser = this.users[userIndex];
-                }
-                
-                return { success: true, message: 'Password changed successfully' };
             }
             
-            // Update user data
-            updateUser(userId, updates) {
-                const userIndex = this.users.findIndex(user => user.id === userId);
-                if (userIndex === -1) return false;
-                
-                this.users[userIndex] = { ...this.users[userIndex], ...updates };
-                this.saveData();
-                
-                if (this.currentUser && this.currentUser.id === userId) {
-                    this.currentUser = this.users[userIndex];
+            // Update user data in Firebase
+            async updateUser(userId, updates) {
+                try {
+                    await database.ref('users/' + userId).update(updates);
+                    
+                    // Update local user data
+                    if (this.userData) {
+                        this.userData = { ...this.userData, ...updates };
+                    }
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Error updating user:', error);
+                    return false;
                 }
-                
-                return true;
             }
             
             // Submit withdrawal request
-            submitWithdrawal(userId, amount, binanceDetails) {
-                const userIndex = this.users.findIndex(user => user.id === userId);
-                if (userIndex === -1) return false;
-                
-                const user = this.users[userIndex];
-                
-                // Check if user has enough balance (in Pepe)
-                if (user.balance < amount) {
-                    return { success: false, message: 'Insufficient balance' };
+            async submitWithdrawal(userId, amount, binanceDetails) {
+                try {
+                    const userData = await this.getUserData(userId);
+                    
+                    if (!userData) {
+                        return { success: false, message: 'User not found' };
+                    }
+                    
+                    // Check if user has enough balance (in Pepe)
+                    if (userData.balance < amount) {
+                        return { success: false, message: 'Insufficient balance' };
+                    }
+                    
+                    // Check minimum amount (1,000,000 Pepe)
+                    if (amount < 1000000) {
+                        return { success: false, message: 'Minimum withdrawal is 1,000,000 Pepe' };
+                    }
+                    
+                    // Generate withdrawal ID
+                    const withdrawalId = 'WD' + Date.now() + Math.random().toString(36).substr(2, 6).toUpperCase();
+                    
+                    const withdrawalRequest = {
+                        id: withdrawalId,
+                        userId: userId,
+                        email: userData.email,
+                        amount: amount,
+                        method: 'Binance',
+                        binanceDetails: binanceDetails,
+                        status: 'pending',
+                        submittedAt: new Date().toISOString(),
+                        estimatedCompletion: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days from now
+                    };
+                    
+                    // Save withdrawal request
+                    await database.ref('withdrawals/' + withdrawalId).set(withdrawalRequest);
+                    
+                    // Update user balance
+                    await database.ref('users/' + userId).update({
+                        balance: userData.balance - amount
+                    });
+                    
+                    // Add to user's withdrawal history
+                    const withdrawalHistory = userData.withdrawalHistory || [];
+                    withdrawalHistory.push({
+                        id: withdrawalId,
+                        amount: amount,
+                        date: new Date().toISOString(),
+                        status: 'pending'
+                    });
+                    
+                    await database.ref('users/' + userId).update({
+                        withdrawalHistory: withdrawalHistory
+                    });
+                    
+                    // Update local user data
+                    this.userData.balance -= amount;
+                    if (!this.userData.withdrawalHistory) {
+                        this.userData.withdrawalHistory = [];
+                    }
+                    this.userData.withdrawalHistory.push({
+                        id: withdrawalId,
+                        amount: amount,
+                        date: new Date().toISOString(),
+                        status: 'pending'
+                    });
+                    
+                    return { 
+                        success: true, 
+                        withdrawalId: withdrawalId,
+                        message: 'Withdrawal request submitted successfully'
+                    };
+                } catch (error) {
+                    console.error('Error submitting withdrawal:', error);
+                    return { success: false, message: error.message };
                 }
-                
-                // Check minimum amount (1,000,000 Pepe)
-                if (amount < 1000000) {
-                    return { success: false, message: 'Minimum withdrawal is 1,000,000 Pepe' };
-                }
-                
-                // Generate withdrawal ID
-                const withdrawalId = 'WD' + Date.now() + Math.random().toString(36).substr(2, 6).toUpperCase();
-                
-                const withdrawalRequest = {
-                    id: withdrawalId,
-                    userId: userId,
-                    email: user.email,
-                    amount: amount,
-                    method: 'Binance',
-                    binanceDetails: binanceDetails,
-                    status: 'pending',
-                    submittedAt: new Date().toISOString(),
-                    estimatedCompletion: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days from now
-                };
-                
-                // Add to withdrawal requests
-                this.withdrawalRequests.push(withdrawalRequest);
-                
-                // Add to user's withdrawal history
-                user.withdrawalHistory.push({
-                    id: withdrawalId,
-                    amount: amount,
-                    date: new Date().toISOString(),
-                    status: 'pending'
-                });
-                
-                // Deduct balance (but don't save yet - will be saved when admin approves)
-                // user.balance -= amount;
-                
-                this.saveData();
-                
-                return { 
-                    success: true, 
-                    withdrawalId: withdrawalId,
-                    message: 'Withdrawal request submitted successfully'
-                };
             }
             
-            // Complete task and add reward (in Pepe) - Now 150 Pepe per ad
-            completeTask(userId, taskId, reward) {
-                const userIndex = this.users.findIndex(user => user.id === userId);
-                if (userIndex === -1) return false;
-                
-                const user = this.users[userIndex];
-                
-                // Add reward to user balance (in Pepe)
-                user.balance += reward;
-                user.totalEarned += reward;
-                
-                // Track task completion
-                if (!user.tasksCompleted) {
-                    user.tasksCompleted = [];
+            // Complete task and add reward (in Pepe) - 150 Pepe per ad
+            async completeTask(userId, taskId, reward) {
+                try {
+                    const userData = await this.getUserData(userId);
+                    
+                    if (!userData) return false;
+                    
+                    // Add reward to user balance (in Pepe)
+                    const updates = {
+                        balance: userData.balance + reward,
+                        totalEarned: userData.totalEarned + reward
+                    };
+                    
+                    // Track task completion
+                    const tasksCompleted = userData.tasksCompleted || [];
+                    tasksCompleted.push({
+                        taskId: taskId,
+                        completedAt: new Date().toISOString(),
+                        reward: reward
+                    });
+                    
+                    updates.tasksCompleted = tasksCompleted;
+                    
+                    // Update user data
+                    await database.ref('users/' + userId).update(updates);
+                    
+                    // Update local user data
+                    this.userData = { ...this.userData, ...updates };
+                    
+                    // Update task completions tracking in localStorage
+                    if (!this.taskCompletions[userId]) {
+                        this.taskCompletions[userId] = {};
+                    }
+                    
+                    this.taskCompletions[userId][taskId] = {
+                        lastCompleted: new Date().toISOString(),
+                        count: (this.taskCompletions[userId][taskId]?.count || 0) + 1
+                    };
+                    
+                    // Update daily task count for specific task
+                    const today = new Date().toDateString();
+                    if (!this.dailyTaskCounts[userId]) {
+                        this.dailyTaskCounts[userId] = {};
+                    }
+                    
+                    if (!this.dailyTaskCounts[userId][today]) {
+                        this.dailyTaskCounts[userId][today] = {};
+                    }
+                    
+                    if (!this.dailyTaskCounts[userId][today][taskId]) {
+                        this.dailyTaskCounts[userId][today][taskId] = 0;
+                    }
+                    
+                    this.dailyTaskCounts[userId][today][taskId] += 1;
+                    
+                    // Save to localStorage
+                    localStorage.setItem('earnPepeTaskCompletions', JSON.stringify(this.taskCompletions));
+                    localStorage.setItem('earnPepeDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Error completing task:', error);
+                    return false;
                 }
-                
-                user.tasksCompleted.push({
-                    taskId: taskId,
-                    completedAt: new Date().toISOString(),
-                    reward: reward
-                });
-                
-                // Update task completions tracking
-                if (!this.taskCompletions[userId]) {
-                    this.taskCompletions[userId] = {};
-                }
-                
-                this.taskCompletions[userId][taskId] = {
-                    lastCompleted: new Date().toISOString(),
-                    count: (this.taskCompletions[userId][taskId]?.count || 0) + 1
-                };
-                
-                // Update daily task count
-                const today = new Date().toDateString();
-                if (!this.dailyTaskCounts[userId]) {
-                    this.dailyTaskCounts[userId] = {};
-                }
-                
-                if (!this.dailyTaskCounts[userId][today]) {
-                    this.dailyTaskCounts[userId][today] = 0;
-                }
-                
-                this.dailyTaskCounts[userId][today] += 1;
-                
-                this.saveData();
-                
-                // Update current user
-                if (this.currentUser && this.currentUser.id === userId) {
-                    this.currentUser = user;
-                }
-                
-                return true;
             }
             
             // Check if task can be completed (cooldown and daily limit)
             canCompleteTask(userId, taskId) {
                 const today = new Date().toDateString();
-                const dailyCount = this.dailyTaskCounts[userId]?.[today] || 0;
+                const taskDailyCount = this.dailyTaskCounts[userId]?.[today]?.[taskId] || 0;
                 
-                // Check daily limit (500 per day)
-                if (dailyCount >= 500) {
+                // Check individual task daily limit (125 per day)
+                if (taskDailyCount >= 125) {
                     return { 
                         canComplete: false, 
                         timeRemaining: 0, 
-                        reason: 'daily_limit',
-                        dailyCount: dailyCount 
+                        reason: 'task_daily_limit',
+                        taskDailyCount: taskDailyCount,
+                        dailyTotalCount: this.getDailyTotalCount(userId, today)
+                    };
+                }
+                
+                // Check total daily limit (500 per day)
+                const dailyTotalCount = this.getDailyTotalCount(userId, today);
+                if (dailyTotalCount >= 500) {
+                    return { 
+                        canComplete: false, 
+                        timeRemaining: 0, 
+                        reason: 'total_daily_limit',
+                        taskDailyCount: taskDailyCount,
+                        dailyTotalCount: dailyTotalCount
                     };
                 }
                 
@@ -2277,20 +2766,22 @@
                     return { 
                         canComplete: true, 
                         timeRemaining: 0,
-                        dailyCount: dailyCount 
+                        taskDailyCount: taskDailyCount,
+                        dailyTotalCount: dailyTotalCount
                     };
                 }
                 
                 const lastCompletion = new Date(this.taskCompletions[userId][taskId].lastCompleted);
                 const now = new Date();
                 const timeDiff = now - lastCompletion;
-                const cooldownTime = 5 * 1000; // 5 seconds in milliseconds
+                const cooldownTime = 60 * 1000; // 1 MINUTE (60 seconds) in milliseconds
                 
                 if (timeDiff >= cooldownTime) {
                     return { 
                         canComplete: true, 
                         timeRemaining: 0,
-                        dailyCount: dailyCount 
+                        taskDailyCount: taskDailyCount,
+                        dailyTotalCount: dailyTotalCount
                     };
                 } else {
                     const remaining = Math.ceil((cooldownTime - timeDiff) / 1000);
@@ -2298,15 +2789,29 @@
                         canComplete: false, 
                         timeRemaining: remaining,
                         reason: 'cooldown',
-                        dailyCount: dailyCount 
+                        taskDailyCount: taskDailyCount,
+                        dailyTotalCount: dailyTotalCount
                     };
                 }
             }
             
-            // Get daily task count for user
-            getDailyTaskCount(userId) {
+            // Get total daily count across all tasks
+            getDailyTotalCount(userId, date) {
+                const today = date || new Date().toDateString();
+                const taskCounts = this.dailyTaskCounts[userId]?.[today] || {};
+                
+                let total = 0;
+                for (const taskId in taskCounts) {
+                    total += taskCounts[taskId];
+                }
+                
+                return total;
+            }
+            
+            // Get daily task count for specific task
+            getTaskDailyCount(userId, taskId) {
                 const today = new Date().toDateString();
-                return this.dailyTaskCounts[userId]?.[today] || 0;
+                return this.dailyTaskCounts[userId]?.[today]?.[taskId] || 0;
             }
             
             // Get time until next daily reset
@@ -2319,157 +2824,86 @@
                 return tomorrow.getTime() - now.getTime();
             }
             
-            // Track in-app interstitial ads for task 2
-            canShowTask2Ad(userId) {
-                const today = new Date().toDateString();
-                
-                if (!this.inAppAdsShown[userId]) {
-                    this.inAppAdsShown[userId] = {};
-                }
-                
-                if (!this.inAppAdsShown[userId][today]) {
-                    this.inAppAdsShown[userId][today] = 0;
-                }
-                
-                // Check frequency: 2 ads within 6 minutes (0.1 hours)
-                const adsShownToday = this.inAppAdsShown[userId][today];
-                
-                if (adsShownToday >= 2) {
-                    // Check if 6 minutes have passed since last ad
-                    const lastAdTime = localStorage.getItem(`earnPepeLastTask2Ad_${userId}`);
-                    if (lastAdTime) {
-                        const timeSinceLastAd = Date.now() - parseInt(lastAdTime);
-                        if (timeSinceLastAd < 6 * 60 * 1000) { // 6 minutes in milliseconds
-                            return false;
-                        } else {
-                            // Reset count after 6 minutes
-                            this.inAppAdsShown[userId][today] = 0;
-                        }
-                    }
-                }
-                
-                return true;
-            }
-            
-            // Record task 2 ad shown
-            recordTask2AdShown(userId) {
-                const today = new Date().toDateString();
-                
-                if (!this.inAppAdsShown[userId]) {
-                    this.inAppAdsShown[userId] = {};
-                }
-                
-                if (!this.inAppAdsShown[userId][today]) {
-                    this.inAppAdsShown[userId][today] = 0;
-                }
-                
-                this.inAppAdsShown[userId][today] += 1;
-                localStorage.setItem(`earnPepeLastTask2Ad_${userId}`, Date.now().toString());
-                this.saveData();
-            }
-            
-            // Save all data to localStorage
-            saveData() {
-                localStorage.setItem('earnPepeUsers', JSON.stringify(this.users));
-                localStorage.setItem('earnPepeSessions', JSON.stringify(this.sessions));
-                localStorage.setItem('earnPepeReferralBonuses', JSON.stringify(this.referralBonuses));
-                localStorage.setItem('earnPepeWithdrawals', JSON.stringify(this.withdrawalRequests));
-                localStorage.setItem('earnPepeTaskCompletions', JSON.stringify(this.taskCompletions));
-                localStorage.setItem('earnPepeDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
-                localStorage.setItem('earnPepeLastResetDate', this.lastResetDate);
-                localStorage.setItem('earnPepeInAppAdsShown', JSON.stringify(this.inAppAdsShown));
-            }
-            
             // Get user by referral code
-            getUserByReferralCode(code) {
-                return this.users.find(user => user.referralCode === code);
+            async getUserByReferralCode(code) {
+                try {
+                    const snapshot = await database.ref('users').orderByChild('referralCode').equalTo(code).once('value');
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        const userId = Object.keys(data)[0];
+                        return { id: userId, ...data[userId] };
+                    }
+                    return null;
+                } catch (error) {
+                    console.error('Error getting user by referral code:', error);
+                    return null;
+                }
+            }
+            
+            // Logout user
+            async logout() {
+                try {
+                    await auth.signOut();
+                    this.currentUser = null;
+                    this.userData = null;
+                    return true;
+                } catch (error) {
+                    console.error('Error logging out:', error);
+                    return false;
+                }
             }
         }
+
+        // Initialize Firebase User Manager
+        const userManager = new FirebaseUserManager();
         
-        // Initialize User Manager
-        const userManager = new UserManager();
-        
-        // Task Management System - Now 150 Pepe per ad!
+        // Task Management System - 150 Pepe per ad!
         const tasks = [
             {
                 id: 'task1',
                 title: 'Watch Rewarded Ad & Earn Pepe',
-                description: 'Watch the rewarded ad completely to earn 150 Pepe!',
-                reward: 150, // 150 Pepe per ad (Updated)
-                type: 'rewardedAd', // New type for rewarded ads
-                cooldown: 5, // seconds
+                description: 'Watch the rewarded ad completely to earn 150 Pepe! Daily limit: 125 times',
+                reward: 150,
+                type: 'rewardedAd',
+                cooldown: 60, // 60 seconds (1 MINUTE)
+                dailyLimit: 125,
                 isPepe: true
             },
             {
                 id: 'task2',
                 title: 'In-App Interstitial Ad',
-                description: 'Watch in-app interstitial ad to earn 150 Pepe! Max 2 ads every 6 minutes.',
+                description: 'Watch in-app interstitial ad to earn 150 Pepe! Daily limit: 125 times, Max 2 ads every 6 minutes.',
                 reward: 150,
-                type: 'inAppInterstitial', // New type for in-app interstitial
-                cooldown: 5,
+                type: 'inAppInterstitial',
+                cooldown: 60,
+                dailyLimit: 125,
                 isPepe: true
             },
             {
                 id: 'task3',
-                title: 'Complete Survey & Earn Pepe',
-                description: 'Complete a short survey to earn 150 Pepe!',
+                title: 'Watch Rewarded Popup Ad & Earn Pepe',
+                description: 'Watch a rewarded popup ad for 12 seconds to earn 150 Pepe! Daily limit: 125 times',
                 reward: 150,
-                link: 'https://otieu.com/4/10496669',
-                cooldown: 5,
+                type: 'rewardedPopupWithTimer',
+                cooldown: 60,
+                dailyLimit: 125,
                 isPepe: true
             },
             {
                 id: 'task4',
-                title: 'Play Game & Earn Pepe',
-                description: 'Play a short game to earn 150 Pepe!',
+                title: '12 second & Earn Pepe',
+                description: 'Stay 12 second to earn 150 Pepe! Daily limit: 125 times',
                 reward: 150,
-                link: 'https://otieu.com/4/10496669',
-                cooldown: 5,
+                link: 'https://www.effectivegatecpm.com/jcnnadrx80?key=6caea0a5c8cebb4a74b04609684f708f',
+                cooldown: 60,
+                dailyLimit: 125,
                 isPepe: true
-            },
-            {
-                id: 'task5',
-                title: 'Watch Premium Ad & Earn',
-                description: 'Watch premium ad and return to earn 150 Pepe!',
-                reward: 150,
-                link: 'https://www.effectivegatecpm.com/kyh1xdyk?key=caf65eebf683e3daf9402957e5e3fd0e',
-                cooldown: 5,
-                isPepe: false,
-                isBlue: true
-            },
-            {
-                id: 'task6',
-                title: 'Complete Offer & Earn Pepe',
-                description: 'Complete this offer to earn 150 Pepe!',
-                reward: 150,
-                link: 'https://www.effectivegatecpm.com/kyh1xdyk?key=caf65eebf683e3daf9402957e5e3fd0e',
-                cooldown: 5,
-                isPepe: false,
-                isBlue: true
-            },
-            {
-                id: 'task7',
-                title: 'Install App & Earn Pepe',
-                description: 'Install an app to earn 150 Pepe!',
-                reward: 150,
-                link: 'https://www.effectivegatecpm.com/kyh1xdyk?key=caf65eebf683e3daf9402957e5e3fd0e',
-                cooldown: 5,
-                isPepe: false,
-                isBlue: true
-            },
-            {
-                id: 'task8',
-                title: 'Sign Up & Earn Pepe',
-                description: 'Sign up for a service to earn 150 Pepe!',
-                reward: 150,
-                link: 'https://www.effectivegatecpm.com/kyh1xdyk?key=caf65eebf683e3daf9402957e5e3fd0e',
-                cooldown: 5,
-                isPepe: false,
-                isBlue: true
             }
         ];
         
         // DOM Elements
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const loadingText = document.getElementById('loadingText');
         const loginScreen = document.getElementById('login-screen');
         const signupScreen = document.getElementById('signup-screen');
         const mainApp = document.getElementById('main-app');
@@ -2508,6 +2942,7 @@
         const taskLimitInfo = document.getElementById('taskLimitInfo');
         const resetTime = document.getElementById('resetTime');
         const pepeInfo = document.getElementById('pepeInfo');
+        const logoutBtn = document.getElementById('logoutBtn');
         
         // Withdrawal Elements
         const nextButton = document.getElementById('nextButton');
@@ -2545,18 +2980,19 @@
         const errorModal = document.getElementById('errorModal');
         const referralBonusModal = document.getElementById('referralBonusModal');
         const chatModal = document.getElementById('chatModal');
-        const playerBackModal = document.getElementById('playerBackModal');
+        const timerWarningModal = document.getElementById('timerWarningModal');
         const changePasswordModal = document.getElementById('changePasswordModal');
         const successModalMessage = document.getElementById('successModalMessage');
         const errorMessage = document.getElementById('errorMessage');
         const referralBonusMessage = document.getElementById('referralBonusMessage');
-        const playerBackTimer = document.getElementById('playerBackTimer');
+        const warningTimerDisplay = document.getElementById('warningTimerDisplay');
         const successOkBtn = document.getElementById('successOkBtn');
         const errorOkBtn = document.getElementById('errorOkBtn');
         const referralBonusOkBtn = document.getElementById('referralBonusOkBtn');
+        const timerOkBtn = document.getElementById('timerOkBtn');
+        const timerCancelBtn = document.getElementById('timerCancelBtn');
         const startChatBtn = document.getElementById('startChatBtn');
         const cancelChatBtn = document.getElementById('cancelChatBtn');
-        const cancelPlayerBackBtn = document.getElementById('cancelPlayerBackBtn');
         
         // Change Password Modal Elements
         const changePasswordBtn = document.getElementById('changePassword');
@@ -2571,150 +3007,329 @@
         const infoChatBtn = document.getElementById('infoChatBtn');
         const infoEmailBtn = document.getElementById('infoEmailBtn');
         
-        // Player back detection variables
-        let playerBackInterval = null;
-        let currentPlayerBackTask = null;
-        let playerBackSeconds = 5;
+        // Task timer variables
         let taskTab = null;
-        let isPlayerBackCountdown = false;
-        let taskStarted = false;
-        let lastFocusedTime = null;
-        let taskCheckInterval = null;
+        let currentTask = null;
+        let taskButtonElement = null;
+        let taskTimerInterval = null;
+        let taskSecondsRemaining = 12;
+        let taskStartedTime = null;
+        let taskCompleted = false;
+        let popupAdWindow = null;
         
-        // Check if user is already logged in
-        function checkLoginStatus() {
-            const user = userManager.getCurrentUser();
-            if (user) {
-                showMainApp(user);
-            } else {
-                showLoginScreen();
+        // Show loading spinner for operations
+        function showLoading(message = 'Loading...') {
+            loadingText.textContent = message;
+            loadingSpinner.classList.add('active');
+        }
+        
+        // Hide loading spinner
+        function hideLoading() {
+            loadingSpinner.classList.remove('active');
+        }
+        
+        // Initialize app with loading progress
+        async function initializeApp() {
+            loadingManager.show();
+            
+            // Step 1: Initializing system (10%)
+            await loadingManager.animateProgress(10);
+            await loadingManager.completeStep(0);
+            
+            // Step 2: Connecting to Firebase (30%)
+            await loadingManager.animateProgress(30);
+            await loadingManager.completeStep(1);
+            
+            // Firebase connection with timeout and error handling
+            try {
+                // Step 3: Checking authentication (50%)
+                await loadingManager.animateProgress(50);
+                await loadingManager.completeStep(2);
+                
+                // Step 4: Loading user data (80%)
+                await loadingManager.animateProgress(80);
+                await loadingManager.completeStep(3);
+                
+                // Check Firebase auth state with timeout
+                await new Promise((resolve, reject) => {
+                    const authTimeout = setTimeout(() => {
+                        console.log("Auth state change timeout - proceeding anyway");
+                        resolve(null);
+                    }, 10000); // 10 seconds timeout
+                    
+                    auth.onAuthStateChanged(async (user) => {
+                        clearTimeout(authTimeout);
+                        try {
+                            if (user) {
+                                // User is logged in, get their data
+                                const userData = await userManager.getUserData(user.uid);
+                                if (userData) {
+                                    userManager.currentUser = user;
+                                    userManager.userData = userData;
+                                    
+                                    // Final step: Ready (100%)
+                                    await loadingManager.animateProgress(100);
+                                    await loadingManager.completeStep(4);
+                                    
+                                    // Hide loading screen after delay
+                                    setTimeout(() => {
+                                        loadingManager.hide();
+                                        setTimeout(() => {
+                                            showMainApp(user, userData);
+                                        }, 300);
+                                    }, 800);
+                                } else {
+                                    // User doesn't have data yet, create it
+                                    const userReferralCode = userManager.generateReferralCode(user.email);
+                                    const newUserData = {
+                                        email: user.email.toLowerCase(),
+                                        referralCode: userReferralCode,
+                                        balance: 0,
+                                        totalEarned: 0,
+                                        referralBonus: 0,
+                                        referrals: [],
+                                        referredBy: null,
+                                        createdAt: new Date().toISOString(),
+                                        fairUseVerified: false,
+                                        withdrawalHistory: [],
+                                        tasksCompleted: [],
+                                        lastActive: new Date().toISOString()
+                                    };
+                                    
+                                    await database.ref('users/' + user.uid).set(newUserData);
+                                    userManager.userData = newUserData;
+                                    
+                                    // Final step: Ready (100%)
+                                    await loadingManager.animateProgress(100);
+                                    await loadingManager.completeStep(4);
+                                    
+                                    // Hide loading screen after delay
+                                    setTimeout(() => {
+                                        loadingManager.hide();
+                                        setTimeout(() => {
+                                            showMainApp(user, newUserData);
+                                        }, 300);
+                                    }, 800);
+                                }
+                            } else {
+                                // No user logged in
+                                // Final step: Ready (100%)
+                                await loadingManager.animateProgress(100);
+                                await loadingManager.completeStep(4);
+                                
+                                // Hide loading screen after delay
+                                setTimeout(() => {
+                                    loadingManager.hide();
+                                    setTimeout(() => {
+                                        showLoginScreen();
+                                    }, 300);
+                                }, 800);
+                            }
+                            resolve();
+                        } catch (error) {
+                            console.error("Error in auth state change:", error);
+                            reject(error);
+                        }
+                    }, (error) => {
+                        clearTimeout(authTimeout);
+                        console.error('Auth state change error:', error);
+                        // Continue anyway to show login screen
+                        resolve();
+                    });
+                });
+                
+            } catch (error) {
+                console.error('Initialization error:', error);
+                
+                // Still show login screen even if Firebase fails
+                await loadingManager.animateProgress(100);
+                await loadingManager.completeStep(4);
+                
+                // Hide loading screen after delay
+                setTimeout(() => {
+                    loadingManager.hide();
+                    setTimeout(() => {
+                        // Try to show login screen
+                        try {
+                            showLoginScreen();
+                            // Show error modal if Firebase completely failed
+                            if (error.message && error.message.includes('Firebase')) {
+                                setTimeout(() => {
+                                    showModal(errorModal, 'Connection issue. You can still use offline features.');
+                                }, 1000);
+                            }
+                        } catch (e) {
+                            // Last resort - show simple message
+                            document.body.innerHTML = `
+                                <div style="padding: 40px; text-align: center; color: white;">
+                                    <h1>Earn Pepe</h1>
+                                    <p>Loading error. Please refresh the page.</p>
+                                    <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: purple; color: white; border: none; border-radius: 10px;">
+                                        Refresh Page
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    }, 300);
+                }, 800);
             }
         }
         
         // Show login screen
         function showLoginScreen() {
-            loginScreen.style.display = 'flex';
-            signupScreen.style.display = 'none';
-            mainApp.style.display = 'none';
-            
-            // Clear form fields
-            loginEmail.value = '';
-            loginPassword.value = '';
+            try {
+                loginScreen.style.display = 'flex';
+                signupScreen.style.display = 'none';
+                mainApp.style.display = 'none';
+                
+                // Clear form fields
+                loginEmail.value = '';
+                loginPassword.value = '';
+            } catch (error) {
+                console.error("Error showing login screen:", error);
+            }
         }
         
         // Show signup screen
         function showSignupScreen() {
-            loginScreen.style.display = 'none';
-            signupScreen.style.display = 'flex';
-            mainApp.style.display = 'none';
-            
-            // Clear form fields
-            signupEmail.value = '';
-            signupPassword.value = '';
-            signupConfirmPassword.value = '';
-            signupReferral.value = '';
+            try {
+                loginScreen.style.display = 'none';
+                signupScreen.style.display = 'flex';
+                mainApp.style.display = 'none';
+                
+                // Clear form fields
+                signupEmail.value = '';
+                signupPassword.value = '';
+                signupConfirmPassword.value = '';
+                signupReferral.value = '';
+            } catch (error) {
+                console.error("Error showing signup screen:", error);
+            }
         }
         
         // Show main app
-        function showMainApp(user) {
-            loginScreen.style.display = 'none';
-            signupScreen.style.display = 'none';
-            mainApp.style.display = 'block';
-            
-            // Update user info
-            updateUserInfo(user);
-            
-            // Initialize navigation
-            initNavigation();
-            
-            // Load tasks
-            loadTasks();
-            
-            // Start reset timer
-            startResetTimer();
-            
-            // Check withdrawal requirements
-            checkWithdrawalRequirements(user);
+        function showMainApp(user, userData) {
+            try {
+                loginScreen.style.display = 'none';
+                signupScreen.style.display = 'none';
+                mainApp.style.display = 'block';
+                
+                // Update user info
+                updateUserInfo(userData);
+                
+                // Initialize navigation
+                initNavigation();
+                
+                // Load tasks
+                loadTasks();
+                
+                // Start reset timer
+                startResetTimer();
+                
+                // Check withdrawal requirements
+                checkWithdrawalRequirements(userData);
+            } catch (error) {
+                console.error("Error showing main app:", error);
+                showLoginScreen();
+            }
         }
         
         // Update user info in the app
-        function updateUserInfo(user) {
-            // Set user initial
-            const initial = user.email.charAt(0).toUpperCase();
-            userInitial.textContent = initial;
+        function updateUserInfo(userData) {
+            if (!userData) return;
             
-            // Set menu info
-            menuUserEmail.textContent = user.email;
-            menuReferralCode.textContent = user.referralCode;
-            
-            // Update balance and stats (in Pepe)
-            balanceAmount.textContent = `${user.balance.toLocaleString()} Pepe`;
-            referralsCount.textContent = user.referrals.length;
-            totalEarned.textContent = `${user.totalEarned.toLocaleString()} Pepe`;
-            referralBonus.textContent = `${user.referralBonus.toLocaleString()} Pepe`;
-            withdrawBalance.textContent = `${user.balance.toLocaleString()} Pepe`;
-            
-            // Update referral code
-            referralCode.textContent = user.referralCode;
-            
-            // Update referrals count
-            totalReferrals.textContent = `${user.referrals.length} ${user.referrals.length === 1 ? 'referral' : 'referrals'}`;
-            totalReferralsCount.textContent = user.referrals.length;
-            
-            // Calculate total referral earnings
-            const totalRefEarnings = user.referrals.reduce((sum, ref) => sum + ref.bonus, 0);
-            totalReferralEarnings.textContent = totalRefEarnings.toLocaleString();
-            
-            // Update referrals list
-            updateReferralsList(user);
-            
-            // Update withdrawal amount field
-            withdrawAmount.value = user.balance >= 1000000 ? user.balance : 1000000;
-            withdrawAmount.max = user.balance;
-            
-            // Check withdrawal requirements
-            checkWithdrawalRequirements(user);
+            try {
+                // Set user initial
+                const initial = userData.email.charAt(0).toUpperCase();
+                userInitial.textContent = initial;
+                
+                // Set menu info
+                menuUserEmail.textContent = userData.email;
+                menuReferralCode.textContent = userData.referralCode || 'N/A';
+                
+                // Update balance and stats (in Pepe)
+                balanceAmount.textContent = `${(userData.balance || 0).toLocaleString()} Pepe`;
+                referralsCount.textContent = (userData.referrals || []).length;
+                totalEarned.textContent = `${(userData.totalEarned || 0).toLocaleString()} Pepe`;
+                referralBonus.textContent = `${(userData.referralBonus || 0).toLocaleString()} Pepe`;
+                withdrawBalance.textContent = `${(userData.balance || 0).toLocaleString()} Pepe`;
+                
+                // Update referral code
+                referralCode.textContent = userData.referralCode || 'N/A';
+                
+                // Update referrals count
+                const refCount = (userData.referrals || []).length;
+                totalReferrals.textContent = `${refCount} ${refCount === 1 ? 'referral' : 'referrals'}`;
+                totalReferralsCount.textContent = refCount;
+                
+                // Calculate total referral earnings
+                const totalRefEarnings = (userData.referrals || []).reduce((sum, ref) => sum + (ref.bonus || 0), 0);
+                totalReferralEarnings.textContent = totalRefEarnings.toLocaleString();
+                
+                // Update referrals list
+                updateReferralsList(userData);
+                
+                // Update withdrawal amount field
+                const balance = userData.balance || 0;
+                withdrawAmount.value = balance >= 1000000 ? balance : 1000000;
+                withdrawAmount.max = balance;
+                
+                // Check withdrawal requirements
+                checkWithdrawalRequirements(userData);
+            } catch (error) {
+                console.error("Error updating user info:", error);
+            }
         }
         
         // Update referrals list
-        function updateReferralsList(user) {
-            if (user.referrals.length > 0) {
-                zeroReferrals.style.display = 'none';
-                referralsList.style.display = 'block';
-                
-                // Clear and rebuild list
-                referralsList.innerHTML = '';
-                
-                user.referrals.forEach((ref, index) => {
-                    const referralItem = document.createElement('div');
-                    referralItem.className = 'friend-item';
-                    referralItem.innerHTML = `
-                        <div class="friend-info">
-                            <div class="friend-avatar">${ref.email.charAt(0).toUpperCase()}</div>
-                            <div class="friend-details">
-                                <h4>${ref.email}</h4>
-                                <div class="friend-date">${new Date(ref.date).toLocaleDateString()}</div>
+        function updateReferralsList(userData) {
+            const referrals = userData.referrals || [];
+            
+            try {
+                if (referrals.length > 0) {
+                    zeroReferrals.style.display = 'none';
+                    referralsList.style.display = 'block';
+                    
+                    // Clear and rebuild list
+                    referralsList.innerHTML = '';
+                    
+                    referrals.forEach((ref, index) => {
+                        const referralItem = document.createElement('div');
+                        referralItem.className = 'friend-item';
+                        referralItem.innerHTML = `
+                            <div class="friend-info">
+                                <div class="friend-avatar">${(ref.email || '').charAt(0).toUpperCase()}</div>
+                                <div class="friend-details">
+                                    <h4>${ref.email || 'Unknown'}</h4>
+                                    <div class="friend-date">${new Date(ref.date || Date.now()).toLocaleDateString()}</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="friend-earned">+${ref.bonus.toLocaleString()} Pepe</div>
-                    `;
-                    referralsList.appendChild(referralItem);
-                });
-            } else {
-                zeroReferrals.style.display = 'block';
-                referralsList.style.display = 'none';
+                            <div class="friend-earned">+${(ref.bonus || 0).toLocaleString()} Pepe</div>
+                        `;
+                        referralsList.appendChild(referralItem);
+                    });
+                } else {
+                    zeroReferrals.style.display = 'block';
+                    referralsList.style.display = 'none';
+                }
+            } catch (error) {
+                console.error("Error updating referrals list:", error);
             }
         }
         
         // Start reset timer
         function startResetTimer() {
             function updateTimer() {
-                const timeUntilReset = userManager.getTimeUntilReset();
-                const hours = Math.floor((timeUntilReset % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
-                
-                resetTime.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                try {
+                    const timeUntilReset = userManager.getTimeUntilReset();
+                    const hours = Math.floor((timeUntilReset % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
+                    
+                    resetTime.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                } catch (error) {
+                    console.error("Error updating timer:", error);
+                }
             }
             
             updateTimer();
@@ -2723,140 +3338,177 @@
         
         // Load tasks into the task section
         function loadTasks() {
-            tasksContainer.innerHTML = '';
-            
-            tasks.forEach(task => {
-                const taskCard = document.createElement('div');
-                taskCard.className = 'task-card';
-                taskCard.id = `task-${task.id}`;
+            try {
+                tasksContainer.innerHTML = '';
                 
-                // Determine reward class
-                let rewardClass = '';
-                if (task.isPepe) {
-                    rewardClass = 'pepe';
-                } else if (task.isBlue) {
-                    rewardClass = 'blue';
-                }
+                tasks.forEach(task => {
+                    const taskCard = document.createElement('div');
+                    taskCard.className = 'task-card';
+                    taskCard.id = `task-${task.id}`;
+                    
+                    // Determine reward class
+                    let rewardClass = '';
+                    if (task.isPepe) {
+                        rewardClass = 'pepe';
+                    }
+                    
+                    // Determine button class
+                    let buttonClass = '';
+                    if (task.isPepe) {
+                        buttonClass = 'pepe';
+                    }
+                    
+                    taskCard.innerHTML = `
+                        <div class="task-header">
+                            <div class="task-title">${task.title}</div>
+                            <div class="task-reward ${rewardClass}">${task.reward.toLocaleString()} Pepe</div>
+                        </div>
+                        <div class="task-description">${task.description}</div>
+                        <button class="task-button ${buttonClass}" id="start-task-${task.id}">
+                            <i class="fas fa-play-circle"></i> Start Task
+                        </button>
+                        <div class="task-status pending" id="task-status-${task.id}" style="display: none;">
+                            <i class="fas fa-clock"></i> Ready to complete
+                        </div>
+                        <div class="task-progress" id="task-progress-${task.id}">
+                            Today: 0/${task.dailyLimit}
+                        </div>
+                    `;
+                    
+                    tasksContainer.appendChild(taskCard);
+                    
+                    // Add event listener to task button
+                    const taskButton = document.getElementById(`start-task-${task.id}`);
+                    taskButton.addEventListener('click', () => startTask(task));
+                });
                 
-                // Determine button class
-                let buttonClass = '';
-                if (task.isPepe) {
-                    buttonClass = 'pepe';
-                } else if (task.isBlue) {
-                    buttonClass = 'blue';
-                }
-                
-                taskCard.innerHTML = `
-                    <div class="task-header">
-                        <div class="task-title">${task.title}</div>
-                        <div class="task-reward ${rewardClass}">${task.reward.toLocaleString()} Pepe</div>
-                    </div>
-                    <div class="task-description">${task.description}</div>
-                    <button class="task-button ${buttonClass}" id="start-task-${task.id}">
-                        <i class="fas fa-play-circle"></i> Start Task
-                    </button>
-                    <div class="task-status pending" id="task-status-${task.id}" style="display: none;">
-                        <i class="fas fa-clock"></i> Ready to complete
-                    </div>
-                    <div class="task-progress" id="task-progress-${task.id}">
-                        Today: 0/500
-                    </div>
-                `;
-                
-                tasksContainer.appendChild(taskCard);
-                
-                // Add event listener to task button
-                const taskButton = document.getElementById(`start-task-${task.id}`);
-                taskButton.addEventListener('click', () => startTask(task));
-            });
-            
-            // Update task statuses
-            updateTaskStatuses();
+                // Update task statuses
+                updateTaskStatuses();
+            } catch (error) {
+                console.error("Error loading tasks:", error);
+            }
         }
         
         // Update task statuses based on cooldown and daily limit
         function updateTaskStatuses() {
-            const user = userManager.getCurrentUser();
+            const user = userManager.currentUser;
             if (!user) return;
             
-            const dailyCount = userManager.getDailyTaskCount(user.id);
-            const attemptsLeft = 500 - dailyCount;
-            
-            // Update task limit info
-            taskLimitInfo.textContent = `${attemptsLeft} attempts left`;
-            
-            tasks.forEach(task => {
-                const statusElement = document.getElementById(`task-status-${task.id}`);
-                const buttonElement = document.getElementById(`start-task-${task.id}`);
-                const progressElement = document.getElementById(`task-progress-${task.id}`);
+            try {
+                const today = new Date().toDateString();
+                const dailyTotalCount = userManager.getDailyTotalCount(user.uid, today);
+                const totalAttemptsLeft = 500 - dailyTotalCount;
                 
-                // Update progress
-                progressElement.textContent = `Today: ${dailyCount}/500`;
+                // Update task limit info
+                taskLimitInfo.textContent = `${totalAttemptsLeft} attempts left`;
                 
-                const canComplete = userManager.canCompleteTask(user.id, task.id);
-                
-                if (canComplete.reason === 'daily_limit') {
-                    // Daily limit reached
-                    statusElement.style.display = 'block';
-                    statusElement.className = 'task-status limited';
-                    statusElement.innerHTML = `<i class="fas fa-ban"></i> Daily limit reached (500/500)`;
-                    buttonElement.disabled = true;
+                tasks.forEach(task => {
+                    const statusElement = document.getElementById(`task-status-${task.id}`);
+                    const buttonElement = document.getElementById(`start-task-${task.id}`);
+                    const progressElement = document.getElementById(`task-progress-${task.id}`);
                     
-                    // Determine button text based on task type
-                    if (task.isPepe) {
-                        buttonElement.innerHTML = '<i class="fas fa-ban"></i> Limit Reached';
-                    } else if (task.isBlue) {
-                        buttonElement.innerHTML = '<i class="fas fa-ban"></i> Daily Limit';
-                    } else {
-                        buttonElement.innerHTML = '<i class="fas fa-ban"></i> Limit Reached';
-                    }
-                } else if (canComplete.reason === 'cooldown') {
-                    // Cooldown active
-                    statusElement.style.display = 'block';
-                    statusElement.className = 'task-status countdown';
-                    statusElement.innerHTML = `<i class="fas fa-clock"></i> Available in ${canComplete.timeRemaining} seconds`;
-                    buttonElement.disabled = true;
+                    // Get task-specific daily count
+                    const taskDailyCount = userManager.getTaskDailyCount(user.uid, task.id);
                     
-                    // Determine button text based on task type
-                    if (task.isPepe) {
+                    // Update progress
+                    progressElement.textContent = `Today: ${taskDailyCount}/${task.dailyLimit}`;
+                    
+                    const canComplete = userManager.canCompleteTask(user.uid, task.id);
+                    
+                    if (canComplete.reason === 'total_daily_limit') {
+                        // Total daily limit reached (500)
+                        statusElement.style.display = 'block';
+                        statusElement.className = 'task-status limited';
+                        statusElement.innerHTML = `<i class="fas fa-ban"></i> Daily total limit reached (500/500)`;
+                        buttonElement.disabled = true;
+                        buttonElement.innerHTML = '<i class="fas fa-ban"></i> Daily Limit Reached';
+                    } else if (canComplete.reason === 'task_daily_limit') {
+                        // Individual task daily limit reached (125)
+                        statusElement.style.display = 'block';
+                        statusElement.className = 'task-status limited';
+                        statusElement.innerHTML = `<i class="fas fa-ban"></i> Task daily limit reached (125/125)`;
+                        buttonElement.disabled = true;
+                        buttonElement.innerHTML = '<i class="fas fa-ban"></i> Task Limit Reached';
+                    } else if (canComplete.reason === 'cooldown') {
+                        // Cooldown active (1 MINUTE)
+                        statusElement.style.display = 'block';
+                        statusElement.className = 'task-status countdown';
+                        statusElement.innerHTML = `<i class="fas fa-clock"></i> Available in ${canComplete.timeRemaining} seconds`;
+                        buttonElement.disabled = true;
                         buttonElement.innerHTML = '<i class="fas fa-clock"></i> On Cooldown';
-                    } else if (task.isBlue) {
-                        buttonElement.innerHTML = '<i class="fas fa-hourglass-half"></i> Waiting';
                     } else {
-                        buttonElement.innerHTML = '<i class="fas fa-clock"></i> On Cooldown';
+                        // Task can be completed
+                        statusElement.style.display = 'none';
+                        buttonElement.disabled = false;
+                        buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
                     }
-                } else {
-                    // Task can be completed
-                    statusElement.style.display = 'none';
-                    buttonElement.disabled = false;
-                    buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                }
-            });
+                });
+            } catch (error) {
+                console.error("Error updating task statuses:", error);
+            }
         }
         
         // Start a task
-        function startTask(task) {
-            const user = userManager.getCurrentUser();
+        async function startTask(task) {
+            const user = userManager.currentUser;
             if (!user) return;
             
-            // Check if task can be completed
-            const canComplete = userManager.canCompleteTask(user.id, task.id);
-            
-            if (canComplete.reason === 'daily_limit') {
-                showModal(errorModal, 'Daily task limit reached! You can complete this task 500 times per day. Try again tomorrow.');
-                return;
-            }
-            
-            if (canComplete.reason === 'cooldown') {
-                showModal(errorModal, `Please wait ${canComplete.timeRemaining} seconds before starting this task again.`);
-                return;
-            }
-            
-            // Special handling for task 2 (in-app interstitial)
-            if (task.id === 'task2') {
-                // Check if user can show more task 2 ads
-                if (!userManager.canShowTask2Ad(user.id)) {
-                    showModal(errorModal, 'You can only watch 2 in-app interstitial ads every 6 minutes. Please wait and try again.');
+            try {
+                // Check if task can be completed
+                const canComplete = userManager.canCompleteTask(user.uid, task.id);
+                
+                if (canComplete.reason === 'total_daily_limit') {
+                    showModal(errorModal, 'Total daily limit reached! You can complete only 500 tasks per day. Try again tomorrow.');
+                    return;
+                }
+                
+                if (canComplete.reason === 'task_daily_limit') {
+                    showModal(errorModal, `Task daily limit reached! You can complete this task only 125 times per day. Try again tomorrow.`);
+                    return;
+                }
+                
+                if (canComplete.reason === 'cooldown') {
+                    showModal(errorModal, `Please wait ${canComplete.timeRemaining} seconds before starting this task again.`);
+                    return;
+                }
+                
+                // Special handling for task 2 (in-app interstitial)
+                if (task.id === 'task2') {
+                    // For task 2, we'll trigger the in-app ad manually
+                    if (typeof show_10541383 !== 'undefined') {
+                        try {
+                            // Configure in-app interstitial ad
+                            show_10541383({
+                                type: 'inApp',
+                                inAppSettings: {
+                                    frequency: 2,
+                                    capping: 0.1, // 0.1 hours = 6 minutes
+                                    interval: 30, // 30 seconds interval
+                                    timeout: 5, // 5 seconds delay
+                                    everyPage: false
+                                }
+                            }).then(async () => {
+                                // Ad was shown successfully
+                                
+                                // Complete the task and give reward
+                                await userManager.completeTask(user.uid, task.id, task.reward);
+                                
+                                // Update UI
+                                updateUserInfo(userManager.userData);
+                                updateTaskStatuses();
+                                
+                                // Show success message
+                                showModal(successModal, 'You have watched an in-app interstitial ad! 150 Pepe has been added to your balance.');
+                            }).catch(error => {
+                                // Ad failed to load
+                                showModal(errorModal, 'Failed to load in-app ad. Please try again.');
+                            });
+                        } catch (error) {
+                            showModal(errorModal, 'Error showing in-app ad. Please try again.');
+                        }
+                    } else {
+                        showModal(errorModal, 'Ad system not available. Please try again later.');
+                    }
                     return;
                 }
                 
@@ -2865,666 +3517,788 @@
                 buttonElement.disabled = true;
                 buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
                 
-                // For task 2, we'll trigger the in-app ad manually
-                if (typeof show_10541383 !== 'undefined') {
-                    try {
-                        // Configure in-app interstitial ad
-                        show_10541383({
-                            type: 'inApp',
-                            inAppSettings: {
-                                frequency: 2,
-                                capping: 0.1, // 0.1 hours = 6 minutes
-                                interval: 30, // 30 seconds interval
-                                timeout: 5, // 5 seconds delay
-                                everyPage: false
-                            }
-                        }).then(() => {
-                            // Ad was shown successfully
-                            userManager.recordTask2AdShown(user.id);
+                // Check if this is a rewarded ad task
+                if (task.type === 'rewardedAd') {
+                    // Show rewarded interstitial ad
+                    if (typeof show_10541383 !== 'undefined') {
+                        show_10541383().then(async () => {
+                            // User watched the ad completely
+                            await userManager.completeTask(user.uid, task.id, task.reward);
                             
-                            // Complete the task and give reward
-                            completeTask(task, buttonElement);
+                            // Update UI
+                            updateUserInfo(userManager.userData);
+                            updateTaskStatuses();
                             
                             // Show success message
-                            showModal(successModal, 'You have watched an in-app interstitial ad! 150 Pepe has been added to your balance.');
+                            showModal(successModal, 'You have watched an ad! 150 Pepe has been added to your balance.');
                         }).catch(error => {
-                            // Ad failed to load
+                            // Ad failed to load or user didn't watch
                             buttonElement.disabled = false;
                             buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                            showModal(errorModal, 'Failed to load in-app ad. Please try again.');
+                            
+                            showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.');
                         });
-                    } catch (error) {
-                        buttonElement.disabled = false;
-                        buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                        showModal(errorModal, 'Error showing in-app ad. Please try again.');
-                    }
-                } else {
-                    buttonElement.disabled = false;
-                    buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                    showModal(errorModal, 'Ad system not available. Please try again later.');
-                }
-                return;
-            }
-            
-            // Disable the button immediately
-            const buttonElement = document.getElementById(`start-task-${task.id}`);
-            buttonElement.disabled = true;
-            buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-            buttonElement.parentElement.classList.add('player-detected');
-            
-            // Check if this is a rewarded ad task
-            if (task.type === 'rewardedAd') {
-                // Show rewarded interstitial ad
-                if (typeof show_10541383 !== 'undefined') {
-                    show_10541383().then(() => {
-                        // User watched the ad completely
-                        completeTask(task, buttonElement);
-                        
-                        // Show success message
-                        alert('You have seen an ad! 150 Pepe has been added to your balance.');
-                    }).catch(error => {
-                        // Ad failed to load or user didn't watch
-                        buttonElement.disabled = false;
-                        buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                        buttonElement.parentElement.classList.remove('player-detected');
-                        
-                        showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.');
-                    });
-                } else {
-                    // SDK not loaded, use fallback
-                    buttonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Starting...';
-                    setTimeout(() => {
-                        completeTask(task, buttonElement);
-                    }, 1000);
-                }
-            } else {
-                // Regular task - open link in new tab
-                buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening...';
-                
-                // Open task link in new tab
-                taskTab = window.open(task.link, '_blank');
-                
-                if (!taskTab) {
-                    showModal(errorModal, 'Please allow pop-ups to start the task.');
-                    buttonElement.disabled = false;
-                    buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                    buttonElement.parentElement.classList.remove('player-detected');
-                    return;
-                }
-                
-                // Store current task info
-                currentPlayerBackTask = task;
-                taskStarted = true;
-                lastFocusedTime = Date.now();
-                
-                // Update button text based on task type
-                if (task.isPepe) {
-                    buttonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Return to this page after watching';
-                } else if (task.isBlue) {
-                    buttonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Return to this page after completing';
-                } else {
-                    buttonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Return to this page after visiting';
-                }
-                
-                // Start checking for user return
-                taskCheckInterval = setInterval(() => {
-                    checkForPlayerBack(task, buttonElement);
-                }, 1000);
-                
-                // Inform user
-                showModal(successModal, `Task page opened! Please complete the task and then return back to this window to earn ${task.reward.toLocaleString()} Pepe.`);
-            }
-        }
-        
-        // Check if user has returned from task page
-        function checkForPlayerBack(task, buttonElement) {
-            // Check if the task tab is closed
-            if (taskTab && taskTab.closed) {
-                // User has closed the task tab - check if they're back
-                if (document.hasFocus()) {
-                    // User is back on our page
-                    clearInterval(taskCheckInterval);
-                    startPlayerBackCountdown(task, buttonElement);
-                }
-            } else {
-                // Task tab is still open, check focus
-                if (document.hasFocus() && taskStarted) {
-                    // User has switched back to our page
-                    clearInterval(taskCheckInterval);
-                    startPlayerBackCountdown(task, buttonElement);
-                }
-            }
-        }
-        
-        // Start countdown when player returns
-        function startPlayerBackCountdown(task, buttonElement) {
-            playerBackSeconds = 5;
-            isPlayerBackCountdown = true;
-            
-            // Update button
-            buttonElement.innerHTML = '<i class="fas fa-clock"></i> Please wait 5 seconds...';
-            
-            // Show player back modal
-            showModal(playerBackModal);
-            playerBackTimer.textContent = playerBackSeconds;
-            
-            // Start countdown
-            playerBackInterval = setInterval(() => {
-                playerBackSeconds--;
-                playerBackTimer.textContent = playerBackSeconds;
-                
-                if (playerBackSeconds <= 0) {
-                    clearInterval(playerBackInterval);
-                    hideModal(playerBackModal);
-                    completeTask(task, buttonElement);
-                    isPlayerBackCountdown = false;
-                    currentPlayerBackTask = null;
-                    taskStarted = false;
-                }
-            }, 1000);
-        }
-        
-        // Complete a task
-        function completeTask(task, buttonElement) {
-            const user = userManager.getCurrentUser();
-            if (!user) return;
-            
-            // Complete task and add reward (150 Pepe)
-            const success = userManager.completeTask(user.id, task.id, task.reward);
-            
-            if (success) {
-                // Update user info
-                updateUserInfo(userManager.getCurrentUser());
-                
-                // Update task statuses
-                updateTaskStatuses();
-                
-                // Reset button based on task type
-                if (buttonElement) {
-                    buttonElement.disabled = true;
-                    if (task.isPepe) {
-                        buttonElement.innerHTML = '<i class="fas fa-check"></i> Completed';
-                    } else if (task.isBlue) {
-                        buttonElement.innerHTML = '<i class="fas fa-check-circle"></i> Done';
                     } else {
-                        buttonElement.innerHTML = '<i class="fas fa-check"></i> Completed';
+                        // SDK not loaded, use fallback
+                        buttonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Starting...';
+                        setTimeout(async () => {
+                            await userManager.completeTask(user.uid, task.id, task.reward);
+                            updateUserInfo(userManager.userData);
+                            updateTaskStatuses();
+                            showModal(successModal, 'Task completed! 150 Pepe has been added to your balance.');
+                        }, 1000);
                     }
-                    buttonElement.parentElement.classList.remove('player-detected');
+                } 
+                // For Task 3: Rewarded popup ad with 12 second warning
+                else if (task.id === 'task3') {
+                    currentTask = task;
+                    taskButtonElement = buttonElement;
+                    taskSecondsRemaining = 12;
+                    warningTimerDisplay.textContent = taskSecondsRemaining;
+                    showModal(timerWarningModal);
                 }
-                
-                // Start cooldown timer
-                const statusElement = document.getElementById(`task-status-${task.id}`);
-                if (statusElement) {
-                    statusElement.style.display = 'block';
-                    statusElement.className = 'task-status countdown';
-                    statusElement.innerHTML = `<i class="fas fa-clock"></i> Available in ${task.cooldown} seconds`;
+                // For Task 4: Link-based tasks with 12 second warning
+                else if (task.id === 'task4') {
+                    currentTask = task;
+                    taskButtonElement = buttonElement;
+                    taskSecondsRemaining = 12;
+                    warningTimerDisplay.textContent = taskSecondsRemaining;
+                    showModal(timerWarningModal);
+                }
+            } catch (error) {
+                console.error("Error starting task:", error);
+                showModal(errorModal, 'Error starting task. Please try again.');
+            }
+        }
+        
+        // Start the 12-second task timer for Task 3 (popup ad) or Task 4 (link-based)
+        async function startTaskTimer() {
+            const user = userManager.currentUser;
+            if (!user || !currentTask || !taskButtonElement) return;
+            
+            try {
+                // For Task 3: Show rewarded popup ad
+                if (currentTask.id === 'task3') {
+                    // Update button text
+                    taskButtonElement.innerHTML = '<i class="fas fa-clock"></i> 12 seconds remaining...';
                     
-                    // Start cooldown countdown
-                    let cooldown = task.cooldown;
-                    const cooldownInterval = setInterval(() => {
-                        cooldown--;
+                    // Start timer
+                    taskStartedTime = Date.now();
+                    taskCompleted = false;
+                    
+                    // Show rewarded popup ad
+                    if (typeof show_10541383 !== 'undefined') {
+                        show_10541383('pop').then(async () => {
+                            // User watched the ad completely
+                            // Start checking for 12 seconds
+                            taskTimerInterval = setInterval(async () => {
+                                // Calculate time elapsed
+                                const timeElapsed = Date.now() - taskStartedTime;
+                                
+                                if (timeElapsed >= 12000) { // 12 seconds
+                                    // 12 seconds completed successfully
+                                    clearInterval(taskTimerInterval);
+                                    taskCompleted = true;
+                                    
+                                    // Give reward
+                                    await userManager.completeTask(user.uid, currentTask.id, currentTask.reward);
+                                    
+                                    // Update UI
+                                    updateUserInfo(userManager.userData);
+                                    updateTaskStatuses();
+                                    
+                                    // Show success message
+                                    showModal(successModal, 'Task completed successfully! You stayed for 12 seconds. 150 Pepe has been added to your balance.');
+                                    
+                                    // Reset variables
+                                    currentTask = null;
+                                    taskButtonElement = null;
+                                } else {
+                                    // Update button text with remaining time
+                                    const remainingSeconds = Math.ceil((12000 - timeElapsed) / 1000);
+                                    taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${remainingSeconds} seconds remaining...`;
+                                }
+                            }, 1000);
+                        }).catch(error => {
+                            // Ad failed to load or user didn't watch
+                            taskButtonElement.disabled = false;
+                            taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                            showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.');
+                            currentTask = null;
+                            taskButtonElement = null;
+                        });
+                    } else {
+                        // SDK not loaded, use fallback
+                        taskButtonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Starting...';
                         
-                        if (cooldown <= 0) {
-                            clearInterval(cooldownInterval);
-                            statusElement.style.display = 'none';
-                            if (buttonElement) {
-                                buttonElement.disabled = false;
-                                buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                        // Start timer for fallback
+                        taskTimerInterval = setInterval(async () => {
+                            const timeElapsed = Date.now() - taskStartedTime;
+                            
+                            if (timeElapsed >= 12000) { // 12 seconds
+                                clearInterval(taskTimerInterval);
+                                taskCompleted = true;
+                                
+                                // Give reward
+                                await userManager.completeTask(user.uid, currentTask.id, currentTask.reward);
+                                
+                                // Update UI
+                                updateUserInfo(userManager.userData);
+                                updateTaskStatuses();
+                                
+                                // Show success message
+                                showModal(successModal, 'Task completed! 150 Pepe has been added to your balance.');
+                                
+                                // Reset variables
+                                currentTask = null;
+                                taskButtonElement = null;
+                            } else {
+                                const remainingSeconds = Math.ceil((12000 - timeElapsed) / 1000);
+                                taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${remainingSeconds} seconds remaining...`;
                             }
+                        }, 1000);
+                    }
+                } 
+                // For Task 4: Open link in new tab
+                else if (currentTask.id === 'task4') {
+                    // Open task link in new tab
+                    taskTab = window.open(currentTask.link, '_blank');
+                    
+                    if (!taskTab) {
+                        showModal(errorModal, 'Please allow pop-ups to start the task.');
+                        taskButtonElement.disabled = false;
+                        taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                        return;
+                    }
+                    
+                    // Update button text
+                    taskButtonElement.innerHTML = '<i class="fas fa-clock"></i> 12 seconds remaining...';
+                    
+                    // Start timer
+                    taskStartedTime = Date.now();
+                    taskCompleted = false;
+                    
+                    taskTimerInterval = setInterval(async () => {
+                        // Calculate time elapsed
+                        const timeElapsed = Date.now() - taskStartedTime;
+                        
+                        if (timeElapsed >= 12000) { // 12 seconds
+                            // 12 seconds completed successfully
+                            clearInterval(taskTimerInterval);
+                            taskCompleted = true;
+                            
+                            // Close the tab
+                            if (taskTab && !taskTab.closed) {
+                                taskTab.close();
+                            }
+                            
+                            // Give reward
+                            await userManager.completeTask(user.uid, currentTask.id, currentTask.reward);
+                            
+                            // Update UI
+                            updateUserInfo(userManager.userData);
+                            updateTaskStatuses();
+                            
+                            // Show success message
+                            showModal(successModal, 'Task completed successfully! You stayed for 12 seconds. 150 Pepe has been added to your balance.');
+                            
+                            // Reset variables
+                            currentTask = null;
+                            taskButtonElement = null;
+                            taskTab = null;
                         } else {
-                            statusElement.innerHTML = `<i class="fas fa-clock"></i> Available in ${cooldown} seconds`;
+                            // Update button text with remaining time
+                            const remainingSeconds = Math.ceil((12000 - timeElapsed) / 1000);
+                            taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${remainingSeconds} seconds remaining...`;
+                            
+                            // Check if user has switched back to our page early
+                            if (document.hasFocus() && timeElapsed < 12000) {
+                                // User returned before 12 seconds
+                                clearInterval(taskTimerInterval);
+                                if (taskTab && !taskTab.closed) {
+                                    taskTab.close();
+                                }
+                                taskButtonElement.disabled = false;
+                                taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                                showModal(errorModal, 'You returned before 12 seconds! No reward given.');
+                                currentTask = null;
+                                taskButtonElement = null;
+                                taskTab = null;
+                            }
                         }
                     }, 1000);
+                    
+                    // Also check if tab was closed
+                    const tabCheckInterval = setInterval(() => {
+                        if (taskCompleted) {
+                            clearInterval(tabCheckInterval);
+                            return;
+                        }
+                        
+                        if (taskTab.closed) {
+                            // Tab was closed before 12 seconds
+                            clearInterval(tabCheckInterval);
+                            clearInterval(taskTimerInterval);
+                            
+                            if (!taskCompleted) {
+                                taskButtonElement.disabled = false;
+                                taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                                showModal(errorModal, 'You closed the tab before 12 seconds! No reward given.');
+                                currentTask = null;
+                                taskButtonElement = null;
+                                taskTab = null;
+                            }
+                        }
+                    }, 500);
                 }
+            } catch (error) {
+                console.error("Error in task timer:", error);
+                showModal(errorModal, 'Error completing task. Please try again.');
+                if (taskButtonElement) {
+                    taskButtonElement.disabled = false;
+                    taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                }
+                currentTask = null;
+                taskButtonElement = null;
             }
         }
         
         // Check withdrawal requirements
-        function checkWithdrawalRequirements(user) {
-            let allRequirementsMet = true;
+        function checkWithdrawalRequirements(userData) {
+            if (!userData) return false;
             
-            // Requirement 1: Minimum balance 1,000,000 Pepe
-            if (user.balance >= 1000000) {
-                req1Status.textContent = 'Met';
-                req1Status.className = 'requirement-status completed';
-                req1Icon.innerHTML = '<i class="fas fa-check"></i>';
-                req1Icon.className = 'requirement-icon completed';
-            } else {
-                req1Status.textContent = `Need ${(1000000 - user.balance).toLocaleString()} more Pepe`;
-                req1Status.className = 'requirement-status';
-                req1Icon.innerHTML = '<i class="fas fa-coins"></i>';
-                req1Icon.className = 'requirement-icon pending';
-                allRequirementsMet = false;
+            try {
+                let allRequirementsMet = true;
+                
+                // Requirement 1: Minimum balance 1,000,000 Pepe
+                if (userData.balance >= 1000000) {
+                    req1Status.textContent = 'Met';
+                    req1Status.className = 'requirement-status completed';
+                    req1Icon.innerHTML = '<i class="fas fa-check"></i>';
+                    req1Icon.className = 'requirement-icon completed';
+                } else {
+                    req1Status.textContent = `Need ${(1000000 - userData.balance).toLocaleString()} more Pepe`;
+                    req1Status.className = 'requirement-status';
+                    req1Icon.innerHTML = '<i class="fas fa-coins"></i>';
+                    req1Icon.className = 'requirement-icon pending';
+                    allRequirementsMet = false;
+                }
+                
+                // Requirement 2: Minimum 3 referrals
+                if ((userData.referrals || []).length >= 3) {
+                    req2Status.textContent = 'Met';
+                    req2Status.className = 'requirement-status completed';
+                    req2Icon.innerHTML = '<i class="fas fa-check"></i>';
+                    req2Icon.className = 'requirement-icon completed';
+                } else {
+                    req2Status.textContent = `Need ${3 - (userData.referrals || []).length} more referrals`;
+                    req2Status.className = 'requirement-status';
+                    req2Icon.innerHTML = '<i class="fas fa-user-friends"></i>';
+                    req2Icon.className = 'requirement-icon pending';
+                    allRequirementsMet = false;
+                }
+                
+                // Requirement 3: No cheating / Fair use verification
+                // For demo, we'll auto-verify if user has at least 1 referral and some balance
+                if ((userData.referrals || []).length >= 1 && userData.balance > 0) {
+                    req3Status.textContent = 'Verified';
+                    req3Status.className = 'requirement-status completed';
+                    req3Icon.innerHTML = '<i class="fas fa-check"></i>';
+                    req3Icon.className = 'requirement-icon completed';
+                } else {
+                    req3Status.textContent = 'Pending verification';
+                    req3Status.className = 'requirement-status';
+                    req3Icon.innerHTML = '<i class="fas fa-shield-alt"></i>';
+                    req3Icon.className = 'requirement-icon pending';
+                    allRequirementsMet = false;
+                }
+                
+                // Show/hide next button based on requirements
+                if (allRequirementsMet) {
+                    nextButton.disabled = false;
+                    nextButton.classList.add('active');
+                } else {
+                    nextButton.disabled = true;
+                    nextButton.classList.remove('active');
+                }
+                
+                return allRequirementsMet;
+            } catch (error) {
+                console.error("Error checking withdrawal requirements:", error);
+                return false;
             }
-            
-            // Requirement 2: Minimum 3 referrals
-            if (user.referrals.length >= 3) {
-                req2Status.textContent = 'Met';
-                req2Status.className = 'requirement-status completed';
-                req2Icon.innerHTML = '<i class="fas fa-check"></i>';
-                req2Icon.className = 'requirement-icon completed';
-            } else {
-                req2Status.textContent = `Need ${3 - user.referrals.length} more referrals`;
-                req2Status.className = 'requirement-status';
-                req2Icon.innerHTML = '<i class="fas fa-user-friends"></i>';
-                req2Icon.className = 'requirement-icon pending';
-                allRequirementsMet = false;
-            }
-            
-            // Requirement 3: No cheating / Fair use verification
-            // For demo, we'll auto-verify if user has at least 1 referral and some balance
-            if (user.referrals.length >= 1 && user.balance > 0) {
-                req3Status.textContent = 'Verified';
-                req3Status.className = 'requirement-status completed';
-                req3Icon.innerHTML = '<i class="fas fa-check"></i>';
-                req3Icon.className = 'requirement-icon completed';
-            } else {
-                req3Status.textContent = 'Pending verification';
-                req3Status.className = 'requirement-status';
-                req3Icon.innerHTML = '<i class="fas fa-shield-alt"></i>';
-                req3Icon.className = 'requirement-icon pending';
-                allRequirementsMet = false;
-            }
-            
-            // Show/hide next button based on requirements
-            if (allRequirementsMet) {
-                nextButton.disabled = false;
-                nextButton.classList.add('active');
-            } else {
-                nextButton.disabled = true;
-                nextButton.classList.remove('active');
-            }
-            
-            return allRequirementsMet;
         }
         
         // Initialize navigation system
         function initNavigation() {
-            // Get all navigation buttons
-            const navButtons = document.querySelectorAll('.nav-btn');
-            const contentSections = document.querySelectorAll('.content-section');
-            
-            // Function to switch between sections
-            function switchSection(targetId) {
-                // Hide all sections
-                contentSections.forEach(section => {
-                    section.classList.remove('active');
-                });
+            try {
+                // Get all navigation buttons
+                const navButtons = document.querySelectorAll('.nav-btn');
+                const contentSections = document.querySelectorAll('.content-section');
                 
-                // Show target section
-                document.getElementById(targetId).classList.add('active');
-                
-                // Update active button
-                navButtons.forEach(button => {
-                    button.classList.remove('active');
-                });
-                
-                // Find and activate the clicked button
-                const activeButton = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
-                if (activeButton) {
-                    activeButton.classList.add('active');
-                }
-                
-                // Hide binance form and success message when switching away from withdraw section
-                if (targetId !== 'withdraw-section') {
-                    binanceForm.classList.remove('active');
-                    successMessage.classList.remove('active');
-                    nextButton.classList.remove('active');
-                } else {
-                    // When switching to withdraw section, check requirements
-                    const user = userManager.getCurrentUser();
-                    if (user) {
-                        checkWithdrawalRequirements(user);
+                // Function to switch between sections
+                function switchSection(targetId) {
+                    // Hide all sections
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show target section
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+                    
+                    // Update active button
+                    navButtons.forEach(button => {
+                        button.classList.remove('active');
+                    });
+                    
+                    // Find and activate the clicked button
+                    const activeButton = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
+                    if (activeButton) {
+                        activeButton.classList.add('active');
+                    }
+                    
+                    // Hide binance form and success message when switching away from withdraw section
+                    if (targetId !== 'withdraw-section') {
+                        binanceForm.classList.remove('active');
+                        successMessage.classList.remove('active');
+                        nextButton.classList.remove('active');
+                    } else {
+                        // When switching to withdraw section, check requirements
+                        const userData = userManager.userData;
+                        if (userData) {
+                            checkWithdrawalRequirements(userData);
+                        }
+                    }
+                    
+                    // Update task statuses when switching to task section
+                    if (targetId === 'task-section') {
+                        updateTaskStatuses();
                     }
                 }
                 
-                // Update task statuses when switching to task section
-                if (targetId === 'task-section') {
-                    updateTaskStatuses();
-                }
-            }
-            
-            // Add click event to all navigation buttons
-            navButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
-                    switchSection(targetId);
+                // Add click event to all navigation buttons
+                navButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const targetId = this.getAttribute('data-target');
+                        switchSection(targetId);
+                    });
                 });
-            });
-            
-            // Initialize with Home section active
-            switchSection('home-section');
+                
+                // Initialize with Home section active
+                switchSection('home-section');
+            } catch (error) {
+                console.error("Error initializing navigation:", error);
+            }
         }
         
         // Show modal
         function showModal(modal, message = '') {
-            if (message) {
-                const messageElement = modal.querySelector('.modal-message');
-                if (messageElement) {
-                    messageElement.innerHTML = message;
+            try {
+                if (message) {
+                    const messageElement = modal.querySelector('.modal-message');
+                    if (messageElement) {
+                        messageElement.innerHTML = message;
+                    }
                 }
+                modal.classList.add('active');
+            } catch (error) {
+                console.error("Error showing modal:", error);
             }
-            modal.classList.add('active');
         }
         
         // Hide modal
         function hideModal(modal) {
-            modal.classList.remove('active');
-        }
-        
-        // Cancel player back countdown
-        function cancelPlayerBackCountdown() {
-            if (playerBackInterval) {
-                clearInterval(playerBackInterval);
+            try {
+                modal.classList.remove('active');
+            } catch (error) {
+                console.error("Error hiding modal:", error);
             }
-            
-            if (taskCheckInterval) {
-                clearInterval(taskCheckInterval);
-            }
-            
-            hideModal(playerBackModal);
-            
-            // Reset task button
-            if (currentPlayerBackTask) {
-                const buttonElement = document.getElementById(`start-task-${currentPlayerBackTask.id}`);
-                if (buttonElement) {
-                    buttonElement.disabled = false;
-                    buttonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                    buttonElement.parentElement.classList.remove('player-detected');
-                }
-            }
-            
-            isPlayerBackCountdown = false;
-            currentPlayerBackTask = null;
-            taskStarted = false;
         }
         
         // Initialize the app
         function initApp() {
-            // Check login status
-            checkLoginStatus();
-            
-            // Event Listeners
-            goToSignup.addEventListener('click', showSignupScreen);
-            goToLogin.addEventListener('click', showLoginScreen);
-            
-            // Login form submission
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
+            try {
+                // Start app initialization with loading screen
+                initializeApp();
                 
-                const email = loginEmail.value.trim();
-                const password = loginPassword.value;
+                // Event Listeners
+                if (goToSignup) goToSignup.addEventListener('click', showSignupScreen);
+                if (goToLogin) goToLogin.addEventListener('click', showLoginScreen);
                 
-                if (!email || !password) {
-                    showModal(errorModal, 'Please fill in all fields');
-                    return;
-                }
-                
-                const result = userManager.loginUser(email, password);
-                
-                if (result.success) {
-                    showMainApp(result.user);
-                } else {
-                    showModal(errorModal, result.message);
-                }
-            });
-            
-            // Signup form submission
-            signupForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = signupEmail.value.trim();
-                const password = signupPassword.value;
-                const confirmPassword = signupConfirmPassword.value;
-                const referral = signupReferral.value.trim().toUpperCase();
-                
-                if (!email || !password || !confirmPassword) {
-                    showModal(errorModal, 'Please fill in all required fields');
-                    return;
-                }
-                
-                if (password !== confirmPassword) {
-                    showModal(errorModal, 'Passwords do not match');
-                    return;
-                }
-                
-                if (password.length < 6) {
-                    showModal(errorModal, 'Password must be at least 6 characters');
-                    return;
-                }
-                
-                // Check if referral code is valid if provided
-                if (referral && !userManager.getUserByReferralCode(referral)) {
-                    showModal(errorModal, 'Invalid referral code');
-                    return;
-                }
-                
-                const result = userManager.createUser(email, password, referral || null);
-                
-                if (result.success) {
-                    // Auto login after signup
-                    const loginResult = userManager.loginUser(email, password);
-                    
-                    if (loginResult.success) {
-                        showMainApp(loginResult.user);
+                // Login form submission
+                if (loginForm) {
+                    loginForm.addEventListener('submit', async function(e) {
+                        e.preventDefault();
                         
-                        // Show referral bonus modal if applicable
-                        if (result.hasReferralBonus) {
-                            setTimeout(() => {
-                                showModal(referralBonusModal, 'Congratulations! You received 500 Pepe referral bonus for signing up with a referral code.');
-                            }, 500);
-                        } else {
-                            showModal(successModal, 'Account created successfully! Welcome to Earn Pepe.');
+                        const email = loginEmail.value.trim();
+                        const password = loginPassword.value;
+                        
+                        if (!email || !password) {
+                            showModal(errorModal, 'Please fill in all fields');
+                            return;
                         }
-                    }
-                } else {
-                    showModal(errorModal, result.message);
-                }
-            });
-            
-            // User profile menu
-            userProfile.addEventListener('click', function() {
-                userMenu.classList.toggle('active');
-            });
-            
-            // Close menu when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!userProfile.contains(e.target) && !userMenu.contains(e.target)) {
-                    userMenu.classList.remove('active');
-                }
-            });
-            
-            // Change Password button
-            changePasswordBtn.addEventListener('click', function() {
-                hideModal(userMenu);
-                showModal(changePasswordModal);
-            });
-            
-            // Change Password form submission
-            changePasswordForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const user = userManager.getCurrentUser();
-                if (!user) return;
-                
-                const currentPass = currentPassword.value;
-                const newPass = newPassword.value;
-                const confirmPass = confirmNewPassword.value;
-                
-                if (!currentPass || !newPass || !confirmPass) {
-                    showModal(errorModal, 'Please fill in all fields');
-                    return;
-                }
-                
-                if (newPass !== confirmPass) {
-                    showModal(errorModal, 'New passwords do not match');
-                    return;
-                }
-                
-                if (newPass.length < 6) {
-                    showModal(errorModal, 'New password must be at least 6 characters');
-                    return;
-                }
-                
-                const result = userManager.changePassword(user.id, currentPass, newPass);
-                
-                if (result.success) {
-                    hideModal(changePasswordModal);
-                    showModal(successModal, 'Password changed successfully!');
-                    
-                    // Clear form fields
-                    currentPassword.value = '';
-                    newPassword.value = '';
-                    confirmNewPassword.value = '';
-                } else {
-                    showModal(errorModal, result.message);
-                }
-            });
-            
-            // Cancel Change Password
-            cancelChangePasswordBtn.addEventListener('click', function() {
-                hideModal(changePasswordModal);
-                
-                // Clear form fields
-                currentPassword.value = '';
-                newPassword.value = '';
-                confirmNewPassword.value = '';
-            });
-            
-            // Copy referral code
-            copyReferralBtn.addEventListener('click', function() {
-                navigator.clipboard.writeText(referralCode.textContent).then(() => {
-                    showModal(successModal, 'Referral code copied to clipboard! Share it with your friends.');
-                });
-            });
-            
-            // Share referral code buttons
-            shareReferralBtn.addEventListener('click', function() {
-                navigator.clipboard.writeText(referralCode.textContent).then(() => {
-                    showModal(successModal, 'Referral code copied! Share it with your friends.');
-                });
-            });
-            
-            zeroShareReferralBtn.addEventListener('click', function() {
-                navigator.clipboard.writeText(referralCode.textContent).then(() => {
-                    showModal(successModal, 'Referral code copied! Share it with your friends.');
-                });
-            });
-            
-            // Cancel player back countdown
-            cancelPlayerBackBtn.addEventListener('click', cancelPlayerBackCountdown);
-            
-            // Chat button
-            const chatBtn = document.getElementById('earnBtn');
-            chatBtn.addEventListener('click', function() {
-                showModal(chatModal);
-            });
-            
-            // Info section chat button
-            infoChatBtn.addEventListener('click', function() {
-                // Open Telegram link
-                window.open('https://t.me/earnforearnsuportteam', '_blank');
-            });
-            
-            // Info section email button
-            infoEmailBtn.addEventListener('click', function() {
-                const email = 'earnforearnsuportteam@gmail.com';
-                navigator.clipboard.writeText(email).then(() => {
-                    showModal(successModal, 'Support email copied to clipboard!');
-                });
-            });
-            
-            // Start chat button
-            startChatBtn.addEventListener('click', function() {
-                // Open Telegram link
-                window.open('https://t.me/earnforearnsuportteam', '_blank');
-                hideModal(chatModal);
-            });
-            
-            // Cancel chat button
-            cancelChatBtn.addEventListener('click', function() {
-                hideModal(chatModal);
-            });
-            
-            // Next button (when all requirements met)
-            nextButton.addEventListener('click', function() {
-                // Show binance form
-                binanceForm.classList.add('active');
-                this.style.display = 'none';
-            });
-            
-            // Submit withdrawal button
-            submitWithdrawBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const user = userManager.getCurrentUser();
-                if (!user) return;
-                
-                const email = binanceEmail.value.trim();
-                const amount = parseInt(withdrawAmount.value);
-                const payId = binancePayId.value.trim();
-                
-                if (!email) {
-                    showModal(errorModal, 'Please enter your Binance email or UID');
-                    return;
-                }
-                
-                if (!amount || amount < 1000000) {
-                    showModal(errorModal, 'Minimum withdrawal amount is 1,000,000 Pepe');
-                    return;
-                }
-                
-                if (amount > user.balance) {
-                    showModal(errorModal, 'Insufficient balance');
-                    return;
-                }
-                
-                // Submit withdrawal request
-                const binanceDetails = {
-                    email: email,
-                    payId: payId,
-                    submittedAt: new Date().toISOString()
-                };
-                
-                const result = userManager.submitWithdrawal(user.id, amount, binanceDetails);
-                
-                if (result.success) {
-                    // Hide binance form and show success message
-                    binanceForm.classList.remove('active');
-                    successMessage.classList.add('active');
-                    
-                    // Update user balance (for demo purposes, in real app admin would approve first)
-                    userManager.updateUser(user.id, {
-                        balance: user.balance - amount
+                        
+                        showLoading('Logging in...');
+                        
+                        const result = await userManager.loginUser(email, password);
+                        
+                        hideLoading();
+                        
+                        if (result.success) {
+                            showMainApp(result.user, result.userData);
+                        } else {
+                            showModal(errorModal, result.message);
+                        }
                     });
-                    
-                    // Update UI
-                    updateUserInfo(userManager.getCurrentUser());
-                    
-                    // Show success message
-                    showModal(successModal, `Withdrawal request submitted! You will receive ${amount.toLocaleString()} Pepe to your Binance account.`);
-                } else {
-                    showModal(errorModal, result.message);
                 }
-            });
-            
-            // Modal close buttons
-            successOkBtn.addEventListener('click', () => hideModal(successModal));
-            errorOkBtn.addEventListener('click', () => hideModal(errorModal));
-            referralBonusOkBtn.addEventListener('click', () => hideModal(referralBonusModal));
-            
-            // Close modals on background click
-            [successModal, errorModal, referralBonusModal, chatModal, playerBackModal, changePasswordModal].forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        hideModal(this);
+                
+                // Signup form submission
+                if (signupForm) {
+                    signupForm.addEventListener('submit', async function(e) {
+                        e.preventDefault();
+                        
+                        const email = signupEmail.value.trim();
+                        const password = signupPassword.value;
+                        const confirmPassword = signupConfirmPassword.value;
+                        const referral = signupReferral.value.trim().toUpperCase();
+                        
+                        if (!email || !password || !confirmPassword) {
+                            showModal(errorModal, 'Please fill in all required fields');
+                            return;
+                        }
+                        
+                        if (password !== confirmPassword) {
+                            showModal(errorModal, 'Passwords do not match');
+                            return;
+                        }
+                        
+                        if (password.length < 6) {
+                            showModal(errorModal, 'Password must be at least 6 characters');
+                            return;
+                        }
+                        
+                        // Check if referral code is valid if provided
+                        if (referral) {
+                            showLoading('Checking referral code...');
+                            const referrer = await userManager.getUserByReferralCode(referral);
+                            hideLoading();
+                            
+                            if (!referrer) {
+                                showModal(errorModal, 'Invalid referral code');
+                                return;
+                            }
+                        }
+                        
+                        showLoading('Creating account...');
+                        
+                        const result = await userManager.createUser(email, password, referral || null);
+                        
+                        hideLoading();
+                        
+                        if (result.success) {
+                            // Show referral bonus modal if applicable
+                            if (result.hasReferralBonus) {
+                                showModal(referralBonusModal, 'Congratulations! You received 500 Pepe referral bonus for signing up with a referral code.');
+                            } else {
+                                showModal(successModal, 'Account created successfully! Welcome to Earn Pepe.');
+                            }
+                            
+                            // Auto login after signup
+                            const loginResult = await userManager.loginUser(email, password);
+                            
+                            if (loginResult.success) {
+                                showMainApp(loginResult.user, loginResult.userData);
+                            }
+                        } else {
+                            showModal(errorModal, result.message);
+                        }
+                    });
+                }
+                
+                // User profile menu
+                if (userProfile) {
+                    userProfile.addEventListener('click', function() {
+                        userMenu.classList.toggle('active');
+                    });
+                }
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (userProfile && !userProfile.contains(e.target) && userMenu && !userMenu.contains(e.target)) {
+                        userMenu.classList.remove('active');
                     }
                 });
-            });
+                
+                // Change Password button
+                if (changePasswordBtn) {
+                    changePasswordBtn.addEventListener('click', function() {
+                        userMenu.classList.remove('active');
+                        showModal(changePasswordModal);
+                    });
+                }
+                
+                // Logout button
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', async function() {
+                        showLoading('Logging out...');
+                        await userManager.logout();
+                        hideLoading();
+                        showLoginScreen();
+                    });
+                }
+                
+                // Change Password form submission
+                if (changePasswordForm) {
+                    changePasswordForm.addEventListener('submit', async function(e) {
+                        e.preventDefault();
+                        
+                        const user = userManager.currentUser;
+                        if (!user) return;
+                        
+                        const currentPass = currentPassword.value;
+                        const newPass = newPassword.value;
+                        const confirmPass = confirmNewPassword.value;
+                        
+                        if (!currentPass || !newPass || !confirmPass) {
+                            showModal(errorModal, 'Please fill in all fields');
+                            return;
+                        }
+                        
+                        if (newPass !== confirmPass) {
+                            showModal(errorModal, 'New passwords do not match');
+                            return;
+                        }
+                        
+                        if (newPass.length < 6) {
+                            showModal(errorModal, 'New password must be at least 6 characters');
+                            return;
+                        }
+                        
+                        showLoading('Changing password...');
+                        
+                        const result = await userManager.changePassword(user.uid, currentPass, newPass);
+                        
+                        hideLoading();
+                        
+                        if (result.success) {
+                            hideModal(changePasswordModal);
+                            showModal(successModal, 'Password changed successfully!');
+                            
+                            // Clear form fields
+                            currentPassword.value = '';
+                            newPassword.value = '';
+                            confirmNewPassword.value = '';
+                        } else {
+                            showModal(errorModal, result.message);
+                        }
+                    });
+                }
+                
+                // Cancel Change Password
+                if (cancelChangePasswordBtn) {
+                    cancelChangePasswordBtn.addEventListener('click', function() {
+                        hideModal(changePasswordModal);
+                        
+                        // Clear form fields
+                        currentPassword.value = '';
+                        newPassword.value = '';
+                        confirmNewPassword.value = '';
+                    });
+                }
+                
+                // Copy referral code
+                if (copyReferralBtn) {
+                    copyReferralBtn.addEventListener('click', function() {
+                        navigator.clipboard.writeText(referralCode.textContent).then(() => {
+                            showModal(successModal, 'Referral code copied to clipboard! Share it with your friends.');
+                        });
+                    });
+                }
+                
+                // Share referral code buttons
+                if (shareReferralBtn) {
+                    shareReferralBtn.addEventListener('click', function() {
+                        navigator.clipboard.writeText(referralCode.textContent).then(() => {
+                            showModal(successModal, 'Referral code copied! Share it with your friends.');
+                        });
+                    });
+                }
+                
+                if (zeroShareReferralBtn) {
+                    zeroShareReferralBtn.addEventListener('click', function() {
+                        navigator.clipboard.writeText(referralCode.textContent).then(() => {
+                            showModal(successModal, 'Referral code copied! Share it with your friends.');
+                        });
+                    });
+                }
+                
+                // Chat button
+                const chatBtn = document.getElementById('earnBtn');
+                if (chatBtn) {
+                    chatBtn.addEventListener('click', function() {
+                        showModal(chatModal);
+                    });
+                }
+                
+                // Info section chat button
+                if (infoChatBtn) {
+                    infoChatBtn.addEventListener('click', function() {
+                        // Open Telegram link
+                        window.open('https://t.me/earnforearnsuportteam', '_blank');
+                    });
+                }
+                
+                // Info section email button
+                if (infoEmailBtn) {
+                    infoEmailBtn.addEventListener('click', function() {
+                        const email = 'earnforearnsuportteam@gmail.com';
+                        navigator.clipboard.writeText(email).then(() => {
+                            showModal(successModal, 'Support email copied to clipboard!');
+                        });
+                    });
+                }
+                
+                // Start chat button
+                if (startChatBtn) {
+                    startChatBtn.addEventListener('click', function() {
+                        // Open Telegram link
+                        window.open('https://t.me/earnforearnsuportteam', '_blank');
+                        hideModal(chatModal);
+                    });
+                }
+                
+                // Cancel chat button
+                if (cancelChatBtn) {
+                    cancelChatBtn.addEventListener('click', function() {
+                        hideModal(chatModal);
+                    });
+                }
+                
+                // Timer Warning Modal OK button
+                if (timerOkBtn) {
+                    timerOkBtn.addEventListener('click', function() {
+                        hideModal(timerWarningModal);
+                        startTaskTimer();
+                    });
+                }
+                
+                // Timer Warning Modal Cancel button
+                if (timerCancelBtn) {
+                    timerCancelBtn.addEventListener('click', function() {
+                        hideModal(timerWarningModal);
+                        if (taskButtonElement) {
+                            taskButtonElement.disabled = false;
+                            taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                            currentTask = null;
+                            taskButtonElement = null;
+                        }
+                    });
+                }
+                
+                // Next button (when all requirements met)
+                if (nextButton) {
+                    nextButton.addEventListener('click', function() {
+                        // Show binance form
+                        binanceForm.classList.add('active');
+                        this.style.display = 'none';
+                    });
+                }
+                
+                // Submit withdrawal button
+                if (submitWithdrawBtn) {
+                    submitWithdrawBtn.addEventListener('click', async function(e) {
+                        e.preventDefault();
+                        
+                        const user = userManager.currentUser;
+                        if (!user) return;
+                        
+                        const email = binanceEmail.value.trim();
+                        const amount = parseInt(withdrawAmount.value);
+                        const payId = binancePayId.value.trim();
+                        
+                        if (!email) {
+                            showModal(errorModal, 'Please enter your Binance email or UID');
+                            return;
+                        }
+                        
+                        if (!amount || amount < 1000000) {
+                            showModal(errorModal, 'Minimum withdrawal amount is 1,000,000 Pepe');
+                            return;
+                        }
+                        
+                        if (amount > userManager.userData.balance) {
+                            showModal(errorModal, 'Insufficient balance');
+                            return;
+                        }
+                        
+                        // Submit withdrawal request
+                        const binanceDetails = {
+                            email: email,
+                            payId: payId,
+                            submittedAt: new Date().toISOString()
+                        };
+                        
+                        showLoading('Submitting withdrawal request...');
+                        
+                        const result = await userManager.submitWithdrawal(user.uid, amount, binanceDetails);
+                        
+                        hideLoading();
+                        
+                        if (result.success) {
+                            // Hide binance form and show success message
+                            binanceForm.classList.remove('active');
+                            successMessage.classList.add('active');
+                            
+                            // Update UI
+                            updateUserInfo(userManager.userData);
+                            
+                            // Show success message
+                            showModal(successModal, `Withdrawal request submitted! You will receive ${amount.toLocaleString()} Pepe to your Binance account.`);
+                        } else {
+                            showModal(errorModal, result.message);
+                        }
+                    });
+                }
+                
+                // Modal close buttons
+                if (successOkBtn) successOkBtn.addEventListener('click', () => hideModal(successModal));
+                if (errorOkBtn) errorOkBtn.addEventListener('click', () => hideModal(errorModal));
+                if (referralBonusOkBtn) referralBonusOkBtn.addEventListener('click', () => hideModal(referralBonusModal));
+                
+                // Close modals on background click
+                [successModal, errorModal, referralBonusModal, chatModal, timerWarningModal, changePasswordModal].forEach(modal => {
+                    if (modal) {
+                        modal.addEventListener('click', function(e) {
+                            if (e.target === this) {
+                                hideModal(this);
+                            }
+                        });
+                    }
+                });
+            } catch (error) {
+                console.error("Error initializing app:", error);
+                // Show simple error message
+                document.body.innerHTML = `
+                    <div style="padding: 40px; text-align: center; color: white; background: black; min-height: 100vh;">
+                        <h1>Earn Pepe</h1>
+                        <p>App initialization error. Please refresh the page.</p>
+                        <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: purple; color: white; border: none; border-radius: 10px; cursor: pointer;">
+                            Refresh Page
+                        </button>
+                    </div>
+                `;
+            }
         }
         
         // Initialize the app when page loads
-        document.addEventListener('DOMContentLoaded', initApp);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
     </script>
 </body>
 </html>
